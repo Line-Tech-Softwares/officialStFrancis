@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Our Structure - Leadership & Organization at St. Francis Church">
+    <title>Our Structure | St. Francis of Assisi Church</title>
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/hamburger.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/components/hero.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+
+    <style>
+        .structure__org-chart {
+            margin-top: var(--spacing-2xl);
+        }
+
+        .structure__level {
+            margin-bottom: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .structure__level h3 {
+            font-size: 1.2rem;
+            color: var(--color-gold);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .structure__members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .structure__member {
+            background-color: var(--color-bg-cream);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--color-gold);
+        }
+
+        .structure__member h4 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1rem;
+        }
+
+        .structure__member p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ HEADER & NAVIGATION ============ -->
+    <header class="header">
+        <div class="header__container">
+            <a href="index.html" class="header__logo">
+                <i class="fas fa-dove"></i> St. Francis Church
+            </a>
+            <nav class="header__nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="structure.html">Our Structure</a></li>
+                <li><a href="ministries.html">Ministries</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="donations.html">Donations</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </nav>
+            <button class="header__menu-toggle" aria-label="Toggle Navigation Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ HERO SECTION ============ -->
+    <section class="hero">
+        <div class="hero__background"></div>
+        <div class="hero__content">
+            <h1 class="hero__title">Our Structure</h1>
+            <p class="hero__subtitle">Leadership, Organization & Governance</p>
+        </div>
+    </section>
+
+    <!-- ============ ORGANIZATIONAL OVERVIEW ============ -->
+    <section class="bg-cream">
+        <div class="container">
+            <h2 class="text-center">Church Leadership & Organization</h2>
+            <p class="text-center" style="max-width: 800px; margin: var(--spacing-lg) auto; color: var(--color-text-secondary);">
+                St. Francis Church is led by a dedicated team of clergy and lay leaders committed to serving our congregation 
+                and fulfilling our mission with integrity, transparency, and Christ-centered values.
+            </p>
+
+            <div class="structure__org-chart">
+                <!-- Clergy -->
+                <div class="structure__level">
+                    <h3><i class="fas fa-cross"></i> Clergy</h3>
+                    <div class="structure__members">
+                        <div class="structure__member">
+                            <h4>Reverend Dr. Samuel Njoko</h4>
+                            <p><strong>Rector</strong></p>
+                            <p>Spiritual leader of the parish with responsibility for worship, pastoral care, and overall ministry.</p>
+                        </div>
+                        <div class="structure__member">
+                            <h4>Reverend Thabo Mthembu</h4>
+                            <p><strong>Associate Priest</strong></p>
+                            <p>Assists with worship services, pastoral visits, and ministry coordination.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parish Council -->
+                <div class="structure__level">
+                    <h3><i class="fas fa-handshake"></i> Wardens & Vestry</h3>
+                    <div class="structure__members">
+                        <div class="structure__member">
+                            <h4>Mr. Jabulani Khumalo</h4>
+                            <p><strong>Senior Warden</strong></p>
+                            <p>Oversees church property and finances in partnership with the Rector.</p>
+                        </div>
+                        <div class="structure__member">
+                            <h4>Mrs. Nomsa Dlamini</h4>
+                            <p><strong>Junior Warden</strong></p>
+                            <p>Assists with property matters and coordinates lay ministry initiatives.</p>
+                        </div>
+                        <div class="structure__member">
+                            <h4>Mr. David Phakamani</h4>
+                            <p><strong>Treasurer</strong></p>
+                            <p>Manages finances, budgets, and financial accountability.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ministry Leaders -->
+                <div class="structure__level">
+                    <h3><i class="fas fa-people-group"></i> Ministry Leaders</h3>
+                    <div class="structure__members">
+                        <div class="structure__member">
+                            <h4>Mrs. Grace Okonkwo</h4>
+                            <p><strong>Director of Music & Choir</strong></p>
+                            <p>Leads the choir ministry and oversees all music programs.</p>
+                        </div>
+                        <div class="structure__member">
+                            <h4>Mr. Sipho Nkosi</h4>
+                            <p><strong>Youth Ministry Coordinator</strong></p>
+                            <p>Develops and leads programs for young people ages 13-25.</p>
+                        </div>
+                        <div class="structure__member">
+                            <h4>Mrs. Martha Mokoena</h4>
+                            <p><strong>Community Outreach Director</strong></p>
+                            <p>Coordinates charitable programs and community service.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ GOVERNANCE PRINCIPLES ============ -->
+    <section style="background-color: var(--color-white);">
+        <div class="container">
+            <h2 class="text-center">Our Governance Principles</h2>
+            <div class="card-grid" style="margin-top: var(--spacing-2xl);">
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title text-center"><i class="fas fa-gavel card__icon"></i> Transparency</h3>
+                        <p class="card__description">We operate with openness and accountability in all financial and administrative matters.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title text-center"><i class="fas fa-users card__icon"></i> Inclusivity</h3>
+                        <p class="card__description">All voices are valued; we make decisions together as a faith community.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title text-center"><i class="fas fa-balance-scale card__icon"></i> Justice</h3>
+                        <p class="card__description">We uphold fairness, equity, and Christian principles in all governance decisions.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title text-center"><i class="fas fa-book card__icon"></i> Tradition</h3>
+                        <p class="card__description">We honor Anglican heritage while remaining responsive to contemporary needs.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title text-center"><i class="fas fa-lightbulb card__icon"></i> Vision</h3>
+                        <p class="card__description">We plan strategically to fulfill our mission and serve future generations.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title text-center"><i class="fas fa-heart card__icon"></i> Service</h3>
+                        <p class="card__description">Everything we do is guided by Christ's call to love and serve one another.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3><i class="fas fa-phone"></i> Contact Us</h3>
+                    <div class="footer__address">
+                        <p>St. Francis of Assisi Anglican Church</p>
+                        <p>Near Kubone Dr / Sekhukune</p>
+                        <p>Mamelodi West, Pretoria</p>
+                        <p>Phone: <a href="tel:+27123456789">(+27) 12 3456 789</a></p>
+                        <p>Email: <a href="mailto:info@stfrancischurch.org">info@stfrancischurch.org</a></p>
+                    </div>
+                </div>
+
+                <div class="footer__section">
+                    <h3><i class="fas fa-link"></i> Quick Links</h3>
+                    <ul class="footer__links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="ministries.html">Ministries</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="donations.html">Donations</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                    <div class="footer__map-wrapper">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.849144822222!2d28.348811443136736!3d-25.709418299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e955f79dce83f6f%3A0x3321b562a4b58e79!2sSt%20Francis%20Anglican%20Church!5e0!3m2!1sen!2sza!4v1750436045217!5m2!1sen!2sza" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="St. Francis Anglican Church Location"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2026 St. Francis of Assisi Mamelodi West. All rights reserved.
+                </p>
+                <p class="footer__credit">
+                    Website made by <a href="https://linetechsoftwares.co.za/" target="_blank" rel="noopener noreferrer">Line Tech Softwares</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/security.js"></script>
+    <script src="js/vpn_pig.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

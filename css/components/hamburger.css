@@ -1,0 +1,106 @@
+/**
+ * Custom Hamburger Menu - Sacred & Elegant
+ * SVG-based morphing hamburger icon
+ */
+
+.header__menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    z-index: 1001;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+/* Show hamburger on mobile */
+@media (max-width: 768px) {
+    .header__menu-toggle {
+        display: flex;
+    }
+}
+
+/* Hamburger SVG Icon */
+.header__menu-toggle svg {
+    width: 24px;
+    height: 24px;
+    color: var(--color-primary);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+/* Active state - transform icon */
+.header__menu-toggle.active svg {
+    transform: rotate(90deg);
+}
+
+.header__menu-toggle:hover svg {
+    color: var(--color-gold);
+}
+
+/* Accessibility */
+.header__menu-toggle:focus {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Menu Animation - Slide in from right */
+@media (max-width: 768px) {
+    .header__nav {
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(0, 51, 102, 0.98) 0%, rgba(0, 51, 102, 0.95) 100%);
+        flex-direction: column;
+        padding: 0;
+        transition: max-height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        list-style: none;
+        margin: 0;
+        z-index: 999;
+        box-shadow: 0 8px 32px rgba(0, 51, 102, 0.3);
+        
+        /* Subtle background pattern */
+        background-image: 
+            radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.02) 1px, transparent 1px),
+            linear-gradient(135deg, rgba(0, 51, 102, 0.98) 0%, rgba(0, 51, 102, 0.95) 100%);
+        background-size: 40px 40px, 100% 100%;
+    }
+    
+    .header__nav.active {
+        max-height: 500px;
+        box-shadow: 0 8px 32px rgba(0, 51, 102, 0.5);
+    }
+    
+    .header__nav li {
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    
+    .header__nav li:last-child {
+        border-bottom: none;
+    }
+    
+    .header__nav a {
+        display: block;
+        padding: 1rem 1.5rem;
+        color: #fcfaf6;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease-out;
+        border-left: 4px solid transparent;
+    }
+    
+    .header__nav a:hover {
+        background-color: rgba(212, 175, 55, 0.1);
+        color: var(--color-gold);
+        border-left-color: var(--color-gold);
+        padding-left: 1.75rem;
+    }
+}

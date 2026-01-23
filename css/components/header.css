@@ -1,0 +1,130 @@
+/* ================================================
+   HEADER & NAVIGATION
+   Sticky, responsive, sacred design
+   ================================================ */
+
+.header {
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    transition: var(--transition-fade);
+}
+
+.header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header__logo {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+}
+
+.header__logo i {
+    color: var(--color-gold);
+    margin-right: var(--spacing-sm);
+}
+
+/* Navigation Menu */
+.header__nav {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-lg);
+}
+
+.header__nav a {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    text-decoration: none;
+    position: relative;
+    transition: var(--transition-fade);
+}
+
+.header__nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-gold);
+    transition: width 0.3s ease;
+}
+
+.header__nav a:hover {
+    color: var(--color-gold);
+}
+
+.header__nav a:hover::after {
+    width: 100%;
+}
+
+/* Mobile Menu Toggle */
+.header__menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+}
+
+/* ================================================
+   MOBILE RESPONSIVE NAVIGATION
+   ================================================ */
+
+@media (max-width: 768px) {
+    .header__menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header__nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--color-white);
+        flex-direction: column;
+        gap: 0;
+        list-style: none;
+        padding: var(--spacing-md);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .header__nav.active {
+        max-height: 500px;
+    }
+    
+    .header__nav li {
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid var(--color-bg-light);
+    }
+    
+    .header__nav a {
+        display: block;
+    }
+    
+    .header__nav a::after {
+        display: none;
+    }
+    
+    .header__nav a:hover {
+        color: var(--color-gold);
+    }
+}

@@ -56,51 +56,74 @@
         top: 60px;
         right: 0;
         width: 100%;
-        max-height: 0;
-        overflow: hidden;
         background: linear-gradient(135deg, rgba(0, 51, 102, 0.98) 0%, rgba(0, 51, 102, 0.95) 100%);
         flex-direction: column;
-        padding: 0;
-        transition: max-height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        padding: 0.5rem 0;
         list-style: none;
         margin: 0;
         z-index: 999;
         box-shadow: 0 8px 32px rgba(0, 51, 102, 0.3);
-        
-        /* Subtle background pattern */
-        background-image: 
-            radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.02) 1px, transparent 1px),
-            linear-gradient(135deg, rgba(0, 51, 102, 0.98) 0%, rgba(0, 51, 102, 0.95) 100%);
-        background-size: 40px 40px, 100% 100%;
+        transform-origin: top right;
+        transform: scale(0.9);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.25s ease-out, opacity 0.25s ease-out;
     }
-    
+
     .header__nav.active {
-        max-height: 500px;
+        transform: scale(1);
+        opacity: 1;
+        pointer-events: auto;
         box-shadow: 0 8px 32px rgba(0, 51, 102, 0.5);
     }
-    
+
     .header__nav li {
-        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-    }
-    
-    .header__nav li:last-child {
         border-bottom: none;
     }
-    
+
+    .header__nav li + li {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
     .header__nav a {
         display: block;
-        padding: 1rem 1.5rem;
-        color: #fcfaf6;
+        padding: 0.9rem 1.2rem;
+        color: #ffffff;
+        font-weight: 700;
         text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease-out;
-        border-left: 4px solid transparent;
+        -webkit-font-smoothing: antialiased;
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.9);
+        transition: color 0.2s ease, padding 0.2s ease, background 0.2s ease;
+        margin: 0 0.6rem;
+        border-radius: 8px;
     }
-    
-    .header__nav a:hover {
-        background-color: rgba(212, 175, 55, 0.1);
+
+    .header__nav a::before {
+        content: "\f105"; /* Font Awesome angle-right */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        margin-right: 0.6rem;
         color: var(--color-gold);
-        border-left-color: var(--color-gold);
-        padding-left: 1.75rem;
     }
+
+    .header__nav a:hover {
+        color: var(--color-gold);
+        padding-left: 1.35rem;
+        background: rgba(255, 255, 255, 0.06);
+    }
+}
+
+/* Remove SVG-specific styles and use Font Awesome icon */
+.header__menu-toggle i {
+    font-size: 24px;
+    color: #000000;
+    transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+.header__menu-toggle.active i {
+    transform: rotate(180deg);
+}
+
+.header__menu-toggle:hover i {
+    color: var(--color-gold);
 }

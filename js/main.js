@@ -30,38 +30,33 @@ function applyiOS26Enhancements() {
 function initMobileMenu() {
     const menuToggle = document.querySelector('.header__menu-toggle');
     const nav = document.querySelector('.header__nav');
-    
-    if (menuToggle) {
-        // Create custom SVG hamburger icon
-        if (!menuToggle.querySelector('svg')) {
-            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.setAttribute('viewBox', '0 0 24 24');
-            svg.setAttribute('fill', 'none');
-            svg.setAttribute('stroke', 'currentColor');
-            svg.setAttribute('stroke-width', '2');
-            svg.setAttribute('stroke-linecap', 'round');
-            svg.setAttribute('stroke-linejoin', 'round');
-            
-            // Hamburger lines (will transform to X)
-            svg.innerHTML = `
-                <line x1="3" y1="6" x2="21" y2="6" class="hamburger-line" style="transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);"/>
-                <line x1="3" y1="12" x2="21" y2="12" class="hamburger-line" style="transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);"/>
-                <line x1="3" y1="18" x2="21" y2="18" class="hamburger-line" style="transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);"/>
-            `;
-            menuToggle.appendChild(svg);
-        }
-        
-        // Toggle menu open/close
+
+    if (menuToggle && nav) {
+        const icon = menuToggle.querySelector('i');
+        menuToggle.setAttribute('aria-expanded', 'false');
+
+        // Toggle menu open/close with icon morph (bars ↔ times)
         menuToggle.addEventListener('click', () => {
-            nav.classList.toggle('active');
+            const isActive = nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
+
+            if (icon) {
+                icon.classList.toggle('fa-bars', !isActive);
+                icon.classList.toggle('fa-times', isActive);
+            }
+            menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         });
-        
+
         // Close menu when a link is clicked
         nav.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 nav.classList.remove('active');
                 menuToggle.classList.remove('active');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+                menuToggle.setAttribute('aria-expanded', 'false');
             });
         });
     }

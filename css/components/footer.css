@@ -7,7 +7,7 @@
     background-color: var(--color-primary);
     color: var(--color-white);
     padding: var(--spacing-2xl) 0 var(--spacing-lg);
-    margin-top: var(--spacing-2xl);
+    margin-top: 0;
 }
 
 .footer__container {

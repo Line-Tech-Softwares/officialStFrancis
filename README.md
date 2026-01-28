@@ -1,5 +1,3 @@
-# St. Francis Anglican Church Website
-
 ## Project Description
 Traditional multi-page church website built with pure HTML, CSS, and JavaScript for St. Francis of Assisi Anglican Church in Mamelodi West.
 
@@ -37,3 +35,4 @@ Traditional multi-page church website built with pure HTML, CSS, and JavaScript 
 
 # Attribution
 Website developed by [Line Tech Softwares](https://linetechsoftwares.co.za/)
+- **Lead Developer**: Kabelo Samkelo Kgosana

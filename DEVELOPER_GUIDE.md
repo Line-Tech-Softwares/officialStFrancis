@@ -293,6 +293,16 @@ st-francis-church/
 | - | - | Enhanced form validation (Gmail + SA phone) |
 | - | - | Implemented rate limiting & security helpers |
 | - | - | Fixed iOS form zoom & gloss effect |
+| 2026-01-28 | 1.1 | Branding, layout, and UX refinements across pages |
+| - | - | Header: dark black (#000000) text for logo, nav links, and menu toggle; gold border-bottom; z-index 1000 for stickiness |
+| - | - | Logo: replaced dove icon with scalable Assets/LOGO/st.png site-wide; added `.header__logo-image` with responsive sizing |
+| - | - | Mobile menu: top-right scale-in animation; improved interior spacing and dividers; angle-right indicators; icon color tuned; readability improved |
+| - | - | Hero: background-size `cover`; centered; no-repeat; removed overlays/filters; fills side-to-side while maintaining quality |
+| - | - | Headings: global `h2`/`h3` reset to remove blur and enforce contrast; white `h2` in dark sections |
+| - | - | Font Awesome: CDN added to all pages for icon support |
+| - | - | Donations: improved verse citation contrast and intro paragraph readability; leveraged forms/cards components |
+| - | - | Footer: removed gap above footer (`margin-top: 0`) |
+| - | - | Accessibility/JS: maintained `aria-expanded` toggling; active icon rotation; link hover/focus enhancements |
 
 ---
 
@@ -316,6 +326,6 @@ st-francis-church/
 
 ---
 
-**Last Updated**: 2026-01-23  
+**Last Updated**: 2026-01-28  
 **Status**: ✅ Ready for Development  
 **Questions?** See REFINEMENTS_SUMMARY.md for detailed documentation

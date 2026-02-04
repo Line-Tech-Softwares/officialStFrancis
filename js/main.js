@@ -25,41 +25,67 @@ function applyiOS26Enhancements() {
 }
 
 /**
- * Mobile Menu Toggle with Custom SVG Icon
+ * Mobile Menu Toggle with Custom SVG Icon + Overlay
  */
 function initMobileMenu() {
     const menuToggle = document.querySelector('.header__menu-toggle');
     const nav = document.querySelector('.header__nav');
 
-    if (menuToggle && nav) {
-        const icon = menuToggle.querySelector('i');
+    if (!menuToggle || !nav) return;
+
+    const icon = menuToggle.querySelector('i');
+    menuToggle.setAttribute('aria-expanded', 'false');
+
+    const closeMenu = () => {
+        nav.classList.remove('active');
+        menuToggle.classList.remove('active');
+        if (icon) {
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-xmark');
+        }
         menuToggle.setAttribute('aria-expanded', 'false');
+    };
 
-        // Toggle menu open/close with icon morph (bars ↔ times)
-        menuToggle.addEventListener('click', () => {
-            const isActive = nav.classList.toggle('active');
-            menuToggle.classList.toggle('active');
+    const openMenu = () => {
+        nav.classList.add('active');
+        menuToggle.classList.add('active');
+        if (icon) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        }
+        menuToggle.setAttribute('aria-expanded', 'true');
+    };
 
-            if (icon) {
-                icon.classList.toggle('fa-bars', !isActive);
-                icon.classList.toggle('fa-times', isActive);
-            }
-            menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-        });
+    menuToggle.addEventListener('click', () => {
+        const isActive = nav.classList.contains('active');
+        if (isActive) closeMenu(); else openMenu();
+    });
 
-        // Close menu when a link is clicked
-        nav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                nav.classList.remove('active');
-                menuToggle.classList.remove('active');
-                if (icon) {
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-times');
-                }
-                menuToggle.setAttribute('aria-expanded', 'false');
-            });
-        });
-    }
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+    });
+
+    // Ensure mobile-only links exist if missing
+   // const pagesToEnsure = [
+    //    { href: 'privacy.html', text: 'Privacy Policy' },
+    //    { href: 'terms.html', text: 'Terms of Use' }
+  //  ];
+    pagesToEnsure.forEach(({ href, text }) => {
+        const exists = Array.from(nav.querySelectorAll('a')).some(a => a.getAttribute('href') === href);
+        if (!exists) {
+            const li = document.createElement('li');
+            li.classList.add('mobile-only');
+            const a = document.createElement('a');
+            a.setAttribute('href', href);
+            a.textContent = text;
+            li.appendChild(a);
+            nav.appendChild(li);
+        }
+    });
 }
 
 /**
@@ -100,6 +126,25 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initScrollAnimations();
     enhanceScrollBehavior();
+
+    // Cookie Settings: reopen cookie banner on demand
+    const cookieSettingsLink = document.getElementById('cookie-settings');
+    if (cookieSettingsLink) {
+        cookieSettingsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            // If banner already exists, ignore; else create and attach
+            const existingBanner = document.getElementById('cookie-banner');
+            if (!existingBanner) {
+                // If consent previously accepted, clear to force banner display
+                try {
+                    document.cookie = `${CookieBanner.config.COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
+                    localStorage.removeItem(CookieBanner.config.STORAGE_KEY);
+                } catch (_) {}
+                CookieBanner.createBanner();
+                CookieBanner.attachEventListeners();
+            }
+        });
+    }
 });
 
 /**
@@ -109,10 +154,20 @@ function setActiveNavLink() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.header__nav a').forEach(link => {
         const href = link.getAttribute('href');
-        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+        const isActive = href === currentPage || (currentPage === '' && href === 'index.html');
+        if (isActive) {
             link.style.color = 'var(--color-gold)';
+            link.setAttribute('aria-current', 'page');
+        } else {
+            link.style.color = '';
+            link.removeAttribute('aria-current');
         }
     });
 }
 
 document.addEventListener('DOMContentLoaded', setActiveNavLink);
+
+// Hamburger menu toggle legacy block disabled to avoid conflicts with header.css responsive nav.
+(function(){
+  // Intentionally left blank: using initMobileMenu() as the single source of truth.
+})();

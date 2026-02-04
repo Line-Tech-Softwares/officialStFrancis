@@ -273,6 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all forms on the page
     const contactForm = document.getElementById('contactForm');
     const donationForm = document.getElementById('donationForm');
+    const pledgeForm = document.getElementById('pledgeForm');
     
     if (contactForm) {
         new FormValidator('contactForm');
@@ -280,6 +281,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (donationForm) {
         new FormValidator('donationForm');
+    }
+
+    if (pledgeForm) {
+        new FormValidator('pledgeForm');
     }
 });
 

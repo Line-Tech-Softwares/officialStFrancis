@@ -1,6 +1,6 @@
 /* ================================================
    HEADER & NAVIGATION
-   Sticky, responsive, sacred design
+   Responsive sacred church design
    ================================================ */
 
 .header {
@@ -11,66 +11,126 @@
     z-index: var(--z-nav);
     transition: var(--transition-fade);
     border-bottom: 3px solid #D4AF37;
-    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.98);
 }
 
 .header__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-md);
-    max-width: 1200px;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 4vw, 2rem);
+    max-width: 1440px;
     margin: 0 auto;
+    width: 100%;
 }
 
-.header__logo {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #000000;
-    text-decoration: none;
-    letter-spacing: 0.05em;
+/* Logo Section */
+.header__logo-link {
     display: inline-flex;
     align-items: center;
+    text-decoration: none;
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+    padding: 0.25rem 0;
 }
 
-.header__logo i {
-    color: var(--color-gold);
-    margin-right: var(--spacing-sm);
+.header__logo-image {
+    height: clamp(36px, 4.5vw, 52px);
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.header__logo-link:hover .header__logo-image {
+    transform: scale(1.05);
+}
+
+.header__logo-text {
+    /* Church-inspired font with elegant serif */
+    font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    font-style: normal;
+}
+
+.header__logo-icon {
+    color: #000000; /* Black instead of gold */
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
 }
 
 /* Navigation Menu */
 .header__nav {
     display: flex;
     list-style: none;
-    gap: var(--spacing-lg);
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    margin: 0;
+    padding: 0;
 }
 
-.header__nav a {
-    color: #000000;
+.header__nav-item {
+    position: relative;
+}
+
+.header__nav-link {
+    /* Church-style navigation font */
+    font-family: 'Crimson Text', 'Georgia', 'Times New Roman', serif;
+    color: #000000; /* Always black by default */
     font-weight: 500;
     text-decoration: none;
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    padding: 0.5rem 0.25rem;
+    transition: color 0.3s ease;
     position: relative;
-    transition: var(--transition-fade);
+    display: inline-block;
+    letter-spacing: 0.03em;
 }
 
-.header__nav a::after {
+/* Underline effect */
+.header__nav-link::before {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: 0;
     left: 0;
     width: 0;
     height: 2px;
     background-color: var(--color-gold);
-    transition: width 0.3s ease;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.header__nav a:hover {
+/* Hover state - text turns gold */
+.header__nav-link:hover {
     color: var(--color-gold);
 }
 
-.header__nav a:hover::after {
+.header__nav-link:hover::before {
     width: 100%;
+}
+
+/* Active/Current page state - text stays gold */
+.header__nav-link.active {
+    color: var(--color-gold);
+    font-weight: 600;
+}
+
+.header__nav-link.active::before {
+    width: 100%;
+    background-color: var(--color-gold);
+    height: 2px;
+}
+
+/* Gold accent on active page indicator */
+.header__nav-link.active::after {
+    content: '•';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-gold);
+    font-size: 0.8rem;
 }
 
 /* Mobile Menu Toggle */
@@ -78,16 +138,60 @@
     display: none;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: clamp(1.6rem, 2.5vw, 1.8rem);
     color: #000000;
     cursor: pointer;
-    padding: var(--spacing-sm);
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    font-family: 'Crimson Text', serif;
+}
+
+.header__menu-toggle:hover {
+    background-color: rgba(212, 175, 55, 0.1);
+    color: var(--color-gold);
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
 }
 
 /* ================================================
-   MOBILE RESPONSIVE NAVIGATION
+   RESPONSIVE BREAKPOINTS
    ================================================ */
 
+/* Tablet & Small Laptop (769px - 1024px) */
+@media (max-width: 1024px) {
+    .header__nav {
+        gap: clamp(1rem, 1.5vw, 1.5rem);
+    }
+    
+    .header__nav-link {
+        font-size: clamp(1rem, 1.2vw, 1.1rem);
+        font-family: 'Crimson Text', 'Georgia', serif;
+    }
+    
+    .header__logo-text {
+        font-family: 'Cormorant Garamond', Garamond, serif;
+    }
+}
+
+/* Large Mobile & Small Tablet (481px - 768px) */
 @media (max-width: 768px) {
     .header__menu-toggle {
         display: flex;
@@ -95,50 +199,167 @@
         justify-content: center;
     }
     
-    .header__nav {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: var(--color-white);
-        flex-direction: column;
-        gap: 0;
-        list-style: none;
-        padding: var(--spacing-md);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-        box-shadow: var(--shadow-md);
-    }
-    
-    .header__nav.active {
-        max-height: 500px;
-    }
-    
-    .header__nav li {
-        padding: var(--spacing-sm) 0;
-        border-bottom: 1px solid var(--color-bg-light);
-        /* remove conflicting borders */
-        border-bottom: none;
-    }
-    
-    .header__nav a {
+    .mobile-menu-overlay {
         display: block;
     }
     
-    .header__nav a::after {
+    .header__nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(320px, 85vw);
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.98);
+        flex-direction: column;
+        gap: 0;
+        margin: 0;
+        padding: calc(clamp(3rem, 8vw, 4rem) + 1rem) 1.5rem 2rem;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        overflow-y: auto;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header__nav.active {
+        right: 0;
+    }
+    
+    .header__nav-item {
+        width: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    .header__nav-link {
+        display: block;
+        padding: 1rem 0;
+        font-size: 1.2rem;
+        width: 100%;
+        font-family: 'Crimson Text', 'Georgia', serif;
+        color: #000000;
+    }
+    
+    .header__nav-link::before {
         display: none;
     }
     
-    .header__nav a:hover {
+    .header__nav-link:hover {
         color: var(--color-gold);
+        background-color: rgba(212, 175, 55, 0.05);
+        padding-left: 0.75rem;
+    }
+    
+    .header__nav-link.active {
+        color: var(--color-gold);
+        background-color: rgba(212, 175, 55, 0.08);
+        padding-left: 0.75rem;
+        border-left: 3px solid var(--color-gold);
+    }
+    
+    .header__nav-link.active::after {
+        display: none;
+    }
+    
+    .header__logo-text {
+        font-family: 'Cormorant Garamond', Garamond, serif;
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
     }
 }
 
-.header__logo-image {
-    height: clamp(28px, 5vw, 44px);
-    width: auto;
-    display: inline-block;
-    margin-right: var(--spacing-sm);
-    object-fit: contain;
+/* Small Mobile (320px - 480px) */
+@media (max-width: 480px) {
+    .header__container {
+        padding: 0.75rem 1rem;
+    }
+    
+    .header__nav {
+        width: min(280px, 90vw);
+        padding: calc(clamp(2.5rem, 10vw, 3.5rem) + 1rem) 1rem 1.5rem;
+    }
+    
+    .header__logo-image {
+        height: clamp(32px, 6vw, 40px);
+    }
+    
+    .header__logo-text {
+        font-family: 'Cormorant Garamond', Garamond, serif;
+        font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+    }
+    
+    .header__menu-toggle {
+        padding: 0.375rem;
+        font-size: 1.5rem;
+    }
+    
+    .header__nav-link {
+        font-family: 'Crimson Text', 'Georgia', serif;
+        font-size: 1.15rem;
+    }
+}
+
+/* Desktop Large Screens (1440px+) */
+@media (min-width: 1440px) {
+    .header__container {
+        padding: 1rem 3rem;
+    }
+    
+    .header__nav {
+        gap: 3rem;
+    }
+    
+    .header__nav-link {
+        font-family: 'Crimson Text', 'Georgia', serif;
+        font-size: 1.2rem;
+    }
+    
+    .header__logo-text {
+        font-family: 'Cormorant Garamond', Garamond, serif;
+        font-size: 2.1rem;
+    }
+}
+
+/* High-DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .header {
+        border-bottom-width: 2px;
+    }
+    
+    .header__nav-link {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header {
+        position: static;
+        box-shadow: none;
+        border-bottom: 1px solid #000000;
+    }
+    
+    .header__menu-toggle,
+    .mobile-menu-overlay {
+        display: none !important;
+    }
+    
+    .header__nav-link {
+        color: #000000 !important;
+        font-family: 'Times New Roman', serif;
+    }
+    
+    .header__logo-text {
+        font-family: 'Times New Roman', serif;
+    }
+}
+
+/* Font loading optimization */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Crimson+Text:wght@400;500;600;700&display=swap');
+
+/* Fallback for when fonts don't load */
+.fonts-loaded .header__logo-text {
+    font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+}
+
+.fonts-loaded .header__nav-link {
+    font-family: 'Crimson Text', 'Georgia', 'Times New Roman', serif;
 }

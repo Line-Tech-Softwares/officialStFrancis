@@ -15,28 +15,26 @@ const CookieBanner = {
     CURRENT_VERSION: '1.0',
     EXPIRY_DAYS: 183, // 6 months
     ANIMATION_DURATION: 300, // ms
-    STORAGE_KEY: 'cookieConsent'
+    STORAGE_KEY: 'cookieConsent',
+    COOKIE_NAME: 'cookieConsent'
   },
 
   messages: {
-    banner_text: 'St. Francis of Assisi uses necessary cookies for site security and functionality. We do not use tracking cookies for analytics or advertising.',
-    ok_button: 'OK',
-    view_button: 'View Cookies',
-    policy_link: 'privacy.html#cookie-policy'
+    banner_text: "This website uses only essential cookies for operation. By clicking 'OK,' you acknowledge this use.",
+    ok_button: 'OK'
   },
 
   /**
    * Initialize cookie banner on page load
    */
   init() {
-    console.log('🍪 Cookie Banner initialized');
-    
-    // Check if consent is required
+    // Log the visit for frequent-visitor logic
+    this.logVisit();
+
+    // If consent is required, show banner; otherwise, do nothing
     if (this.shouldShowBanner()) {
       this.createBanner();
       this.attachEventListeners();
-    } else {
-      console.log('✓ Cookie consent already given within 6 months');
     }
   },
 
@@ -45,31 +43,24 @@ const CookieBanner = {
    * Checks: existence, version match, and 6-month expiry
    */
   shouldShowBanner() {
+    // If cookie is present (and not expired), do not show banner
+    const cookieValue = this.getCookie(this.config.COOKIE_NAME);
+    if (cookieValue === 'accepted') {
+      return false;
+    }
+
+    // Check prior consent stored in localStorage
     const stored = this.getConsentData();
-    
-    // If no stored data, show banner
-    if (!stored) {
-      console.log('🍪 No cookie consent found - showing banner');
-      return true;
+
+    // If user is a frequent visitor and previously consented, silently renew at expiry
+    if (stored && stored.accepted && this.isFrequentVisitor()) {
+      this.setCookie(this.config.COOKIE_NAME, 'accepted', this.config.EXPIRY_DAYS);
+      this.setConsentData(true);
+      return false;
     }
 
-    // If version mismatch, show banner
-    if (stored.version !== this.config.CURRENT_VERSION) {
-      console.log(`🍪 Version mismatch (stored: ${stored.version}, current: ${this.config.CURRENT_VERSION}) - showing banner`);
-      return true;
-    }
-
-    // If older than 6 months, show banner
-    const acceptedDate = new Date(stored.date);
-    const currentDate = new Date();
-    const daysDifference = Math.floor((currentDate - acceptedDate) / (1000 * 60 * 60 * 24));
-    
-    if (daysDifference >= this.config.EXPIRY_DAYS) {
-      console.log(`🍪 Consent expired (${daysDifference} days old) - showing banner`);
-      return true;
-    }
-
-    return false;
+    // Otherwise, show banner to obtain consent
+    return true;
   },
 
   /**
@@ -106,32 +97,40 @@ const CookieBanner = {
    * Create and insert cookie banner into DOM
    */
   createBanner() {
-    // Create container
     const banner = document.createElement('div');
     banner.id = 'cookie-banner';
     banner.className = 'cookie-banner';
-    
-    // Create content
+
     banner.innerHTML = `
-      <div class="cookie-banner__content">
+      <div class="cookie-banner__content" role="region" aria-label="Cookie Consent">
         <div class="cookie-banner__message">
-          <p>${this.messages.banner_text}</p>
+          <h4 style="margin:0 0 8px; font-size:1rem; font-weight:700; color:var(--color-white, #fff)">Cookie Notice</h4>
+          <p style="margin:0 0 8px;">${this.messages.banner_text}</p>
+          <p style="margin:0; font-size:0.9rem;">See our <a href="privacy.html" style="color:var(--color-gold,#d4af37)">Privacy Policy</a> and <a href="terms.html" style="color:var(--color-gold,#d4af37)">Terms of Use</a>.</p>
         </div>
         <div class="cookie-banner__actions">
-          <a href="${this.messages.policy_link}" class="cookie-banner__link">
-            ${this.messages.view_button}
-          </a>
-          <button class="cookie-banner__button" id="cookie-accept">
+          <button class="cookie-banner__button" id="cookie-accept" style="background:var(--color-gold,#d4af37); color:#111; padding:10px 16px; border:none; border-radius:6px; font-weight:600; cursor:pointer">
             ${this.messages.ok_button}
           </button>
         </div>
       </div>
     `;
 
-    // Insert at end of body
+    // High-visibility fixed-bottom styling using CSS variables where available
+    banner.style.position = 'fixed';
+    banner.style.bottom = '0';
+    banner.style.left = '0';
+    banner.style.right = '0';
+    banner.style.width = '100%';
+    banner.style.background = 'var(--color-primary, #0b1d3a)';
+    banner.style.color = 'var(--color-white, #fff)';
+    banner.style.borderTop = '3px solid var(--color-gold, #d4af37)';
+    banner.style.padding = 'var(--spacing-md, 16px)';
+    banner.style.zIndex = '99999';
+    banner.style.boxShadow = '0 -6px 20px rgba(0,0,0,0.25)';
+
     document.body.appendChild(banner);
 
-    // Trigger animation
     setTimeout(() => {
       banner.classList.add('cookie-banner--visible');
     }, 100);
@@ -162,19 +161,14 @@ const CookieBanner = {
    * Handle acceptance and dismiss banner
    */
   acceptCookies(banner) {
-    // Save consent
+    // Save consent locally and via cookie
     this.setConsentData(true);
+    this.setCookie(this.config.COOKIE_NAME, 'accepted', this.config.EXPIRY_DAYS);
 
-    // Animate out
     if (banner) {
       banner.classList.add('cookie-banner--hidden');
-      
-      // Remove from DOM after animation
       setTimeout(() => {
         banner.remove();
-        console.log('🍪 Cookie banner dismissed');
-        
-        // Notify other scripts that cookie consent is now accepted
         window.dispatchEvent(new CustomEvent('cookieConsented'));
       }, this.config.ANIMATION_DURATION);
     }
@@ -185,8 +179,65 @@ const CookieBanner = {
    * Use this in other scripts (e.g., vpn_pig.js, forms.js)
    */
   hasConsented() {
+    const cookieValue = this.getCookie(this.config.COOKIE_NAME);
+    if (cookieValue === 'accepted') return true;
     const stored = this.getConsentData();
-    return stored && stored.accepted && !this.shouldShowBanner();
+    return !!(stored && stored.accepted);
+  },
+
+  // Helpers: Cookies
+  setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    const expires = '; expires=' + date.toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/; SameSite=Lax';
+  },
+
+  getCookie(name) {
+    const nameEQ = name + '=';
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i].trim();
+      if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+    }
+    return null;
+  },
+
+  // Helpers: Visit Logging & Frequent Visitor Detection
+  logVisit() {
+    try {
+      const key = 'visitorVisits';
+      const now = new Date().toISOString();
+      const raw = localStorage.getItem(key);
+      const visits = raw ? JSON.parse(raw) : [];
+
+      // Keep only the last 18 months to bound storage
+      const cutoff = new Date();
+      cutoff.setMonth(cutoff.getMonth() - 18);
+      const filtered = visits.filter(ts => new Date(ts) >= cutoff);
+      filtered.push(now);
+      localStorage.setItem(key, JSON.stringify(filtered));
+    } catch (e) {
+      // fail silently
+    }
+  },
+
+  isFrequentVisitor() {
+    try {
+      const key = 'visitorVisits';
+      const raw = localStorage.getItem(key);
+      const visits = raw ? JSON.parse(raw) : [];
+      if (visits.length < 2) return false;
+
+      // Compute months spanned from first to last visit
+      const first = new Date(visits[0]);
+      const last = new Date(visits[visits.length - 1]);
+      const monthsSpanned = Math.max(1, (last.getFullYear() - first.getFullYear()) * 12 + (last.getMonth() - first.getMonth()) + 1);
+      const averagePerMonth = visits.length / monthsSpanned;
+      return averagePerMonth > 1; // more than once per month on average
+    } catch (e) {
+      return false;
+    }
   }
 };
 

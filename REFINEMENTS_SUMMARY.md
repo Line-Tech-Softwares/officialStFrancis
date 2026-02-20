@@ -268,6 +268,8 @@ This document outlines all refinements and security enhancements implemented to 
    - Added `vpn_pig.js` script tag
    - Added `forms.js` script tag (for contact & donations pages)
    - Script loading order: security → vpn_pig → forms → main
+   ---
+   -Added a new page called: `pledge.html` bringing the total pages to 8.
 
 ---
 
@@ -282,7 +284,7 @@ user-facing protection but MUST be complemented by server-side security.
 
 ### **What Still Needs Server-Side Implementation**:
 1. **Email Validation**: Backend verification (confirmation email)
-2. **Phone Validation**: Backend verification via SMS OTP
+2. **Phone Validation**: Backend verification via SMS OTP (if/ when neccessary)
 3. **Rate Limiting**: Server-side API throttling
 4. **Geo-Blocking**: Cloudflare Firewall Rules or backend middleware
 5. **VPN Detection**: MaxMind GeoIP2 or similar service on backend
@@ -305,36 +307,38 @@ user-facing protection but MUST be complemented by server-side security.
 ## ✨ **TESTING CHECKLIST**
 
 ### **Design & UX**:
-- [ ] Forms appear with soft off-white background (not harsh white)
-- [ ] Input focus state shows soft gold outline (not sharp border)
-- [ ] Hamburger menu slides in smoothly on mobile (≤768px)
-- [ ] Menu closes when link is clicked
-- [ ] Gold and blue colors consistent across all pages
-- [ ] Spacing feels balanced and airy
+- [*] Forms appear with soft off-white background (not harsh white)
+- [*] Input focus state shows soft gold outline (not sharp border)
+- [*] Hamburger menu slides in smoothly on mobile (≤768px)
+- [*] Menu closes when link is clicked
+- [*] Gold and blue colors consistent across all pages
+- [*] Spacing feels balanced and airy
+- Everything works well :)
 
 ### **Form Validation**:
-- [ ] Gmail email accepted: user@gmail.com ✅
-- [ ] Non-Gmail rejected: user@yahoo.com ❌
-- [ ] Business email rejected: user@company.co.za ❌
-- [ ] South African phone accepted: +27 12 345 6789 ✅
-- [ ] Invalid phone rejected: +1 (US number) ❌
-- [ ] Error messages display below field with icon
-- [ ] Lockout message appears after 3 failures
-- [ ] Form disabled during 5-minute lockout
-- [ ] Success message appears and auto-dismisses after 5s
+- [*] Gmail email accepted: user@gmail.com ✅
+- [*] Non-Gmail rejected: user@yahoo.com ❌
+- [*] Business email rejected: user@company.co.za ❌
+- [*] South African phone accepted: +27 12 345 6789 ✅
+- [*] Invalid phone rejected: +1 (US number) ❌
+- [*] Error messages display below field with icon
+- [*] Lockout message appears after 3 failures
+- [*] Form disabled during 5-minute lockout
+- [*] Success message appears and auto-dismisses after 5s
+- Everything works well :)
 
 ### **Security**:
-- [ ] Browser console shows security initialization messages
-- [ ] No JavaScript errors in developer console
-- [ ] CSRF tokens generated for each form
-- [ ] Suspicious input patterns logged to console
-- [ ] Rate limiting counters visible in sessionStorage
+- [*] Browser console shows security initialization messages
+- [*] No JavaScript errors in developer console
+- [] CSRF tokens generated for each form
+- [] Suspicious input patterns logged to console
+- [*] Rate limiting counters visible in sessionStorage
 
 ### **iOS Specific**:
-- [ ] Form inputs do not zoom on focus (iOS)
-- [ ] iOS 26+ gloss effect applies to buttons/cards
-- [ ] Hamburger menu works on mobile Safari
-- [ ] Touch actions manipulated correctly
+- [*] Form inputs do not zoom on focus (iOS)
+- [*] iOS 26+ gloss effect applies to buttons/cards
+- [*] Hamburger menu works on mobile Safari
+- [*] Touch actions manipulated correctly
 
 ---
 
@@ -385,11 +389,13 @@ user-facing protection but MUST be complemented by server-side security.
    - Cross-browser/device testing
 
 ---
-
+## Changes to the doc:
+- removed images (static images)
+- added payment animations
 ## 📞 **SUPPORT NOTES**
 
-All security implementations include detailed comments and warnings about their client-side limitations. Team members should review `security.js` and `vpn_pig.js` code comments before deployment to understand what server-side components are still required.
+All security implementations include detailed comments and warnings about their client-side limitations. Team members should review `security.js` and `vpn_pig.js` code comments before deployment to understand what server-side components are still required or are completed.
 
-**Prepared by**: AI Assistant  
+**Prepared by**: Kabelo Kgosana  
 **Date**: 2026-01-23  
 **Version**: 1.0

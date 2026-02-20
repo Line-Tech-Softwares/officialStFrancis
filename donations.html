@@ -92,115 +92,288 @@
         </div>
     </section>
 
-    <!-- ============ DONATION FORM ============ -->
-    <section style="background-color: var(--color-white);">
-        <div class="container">
-            <h2 class="text-center">Make a Donation</h2>
-            
-            <div class="form-container">
-                <form onsubmit="handleDonationSubmit(event)">
-                    <!-- Donation Type -->
-                    <div class="form-group">
-                        <label for="donation-type">Donation Type</label>
-                        <select id="donation-type" name="donationType" required>
-                            <option value="">Select a donation type...</option>
-                            <option value="one-time">One-Time Gift</option>
-                            <option value="monthly">Monthly Pledge</option>
-                            <option value="special">Special Project Support</option>
-                        </select>
-                    </div>
-
-                    <!-- Amount -->
-                    <div class="form-group">
-                        <label for="amount">Amount (ZAR)</label>
-                        <input type="number" id="amount" name="amount" placeholder="Enter amount" min="1" step="0.01" required>
-                    </div>
-
-                    <!-- Donor Information -->
-                    <div class="form-group">
-                        <label for="fullname">Full Name</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="Your full name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone">Phone Number (Optional)</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(+27) 12 345 6789">
-                    </div>
-
-                    <!-- Message -->
-                    <div class="form-group">
-                        <label for="message">Message (Optional)</label>
-                        <textarea id="message" name="message" placeholder="Share why you're giving or any special intentions..."></textarea>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="form-button">
-                        <i class="fas fa-heart" style="margin-right: 0.5rem;"></i> Proceed with Donation
-                    </button>
-
-                    <p style="text-align: center; color: var(--color-text-light); font-size: 0.9rem; margin-top: var(--spacing-md);">
-                        Secure payment processing. Your information is protected.
-                    </p>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ DONATION METHODS ============ -->
-    <section class="bg-pale-gold">
-        <div class="container">
-            <h2 class="text-center">Other Ways to Give</h2>
-            
-            <div class="donation__methods">
-                <!-- Direct Giving -->
-                <div class="card">
-                    <div class="card__content">
-                        <h3 class="card__title text-center"><i class="fas fa-hand-holding-heart card__icon"></i> Direct Giving</h3>
-                        <p class="card__description">
-                            Give during our Sunday services in the collection plate. 
-                            All gifts are tax-deductible.
-                        </p>
-                        <p style="font-size: 0.9rem; color: var(--color-text-light); margin-top: var(--spacing-md);">
-                            <strong>Tax Registration:</strong> [To be confirmed]
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Bank Transfer -->
-                <div class="card">
-                    <div class="card__content">
-                        <h3 class="card__title text-center"><i class="fas fa-university card__icon"></i> Bank Transfer</h3>
-                        <p class="card__description">
-                            Transfer funds directly to our church bank account for secure, convenient giving.
-                        </p>
-                        <div style="background-color: var(--color-bg-light); padding: var(--spacing-md); border-radius: var(--radius-md); margin-top: var(--spacing-md); font-size: 0.9rem;">
-                            <p style="margin: 0; color: var(--color-text-primary);"><strong>Account Details:</strong></p>
-                            <p style="margin: 0.5rem 0 0; color: var(--color-text-light);">[Account details to be confirmed]</p>
+  <!-- ============ DONATION METHODS ============ -->
+<section class="bg-pale-gold">
+    <div class="container">
+        <h2 class="text-center">Other Ways to Give</h2>
+        
+        <!-- Online Payment Form (Primary) -->
+        <div class="card" style="max-width: 600px; margin: 0 auto var(--spacing-2xl) auto;">
+            <div class="card__content">
+                <h3 class="card__title text-center"><i class="fas fa-credit-card card__icon"></i> Online Payment</h3>
+                <p class="card__description text-center">
+                    Give securely online using your credit or debit card. Quick, easy, and immediate.
+                </p>
+                
+                <!-- Online Payment Form -->
+                <div class="donation-payment-form" style="margin-top: var(--spacing-lg);">
+                    <form id="onlineGivingForm" novalidate>
+                        <div class="form-group">
+                            <label for="onlineAmount">Amount (ZAR)</label>
+                            <input type="number" id="onlineAmount" name="onlineAmount" placeholder="e.g., 500" min="1" step="1">
                         </div>
-                    </div>
-                </div>
+                        
+                        <div class="form-group">
+                            <label for="givingType">Giving Type</label>
+                            <select id="givingType" name="givingType">
+                                <option value="general">General Donation</option>
+                                <option value="sponsorship">Sponsorship</option>
+                                <option value="tithe">Tithe</option>
+                                <option value="offering">Offering</option>
+                            </select>
+                        </div>
+                        
+                        <!-- PAYMENT METHOD SECTION (Initially Hidden) -->
+                        <div class="donation-payment-section" id="onlinePaymentSection" style="display: none;">
+                            <h4 style="margin-bottom: var(--spacing-md); color: var(--color-primary); font-size: 1rem;">Payment Method</h4>
+                            <p style="margin-bottom: var(--spacing-md); color: var(--color-text-secondary); font-style: italic; font-size: 0.9rem;">Test mode - Card validation is disabled for testing</p>
+                            
+                            <div class="form-group">
+                                <label for="onlineCardNumber">Card Number</label>
+                                <div style="position: relative;">
+                                    <input type="text" id="onlineCardNumber" placeholder="1234 5678 9012 3456">
+                                    <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px;">
+                                        <i class="fab fa-cc-visa" style="font-size: 20px; color: #1A1F71;"></i>
+                                        <i class="fab fa-cc-mastercard" style="font-size: 20px; color: #EB001B;"></i>
+                                    </div>
+                                </div>
+                            </div>
 
-                <!-- Sponsorship -->
-                <div class="card">
-                    <div class="card__content">
-                        <h3 class="card__title text-center"><i class="fas fa-star card__icon"></i> Sponsorship</h3>
-                        <p class="card__description">
-                            Sponsor a specific ministry, event, or special project. Contact us to discuss options.
-                        </p>
-                        <p style="font-size: 0.9rem; color: var(--color-text-light); margin-top: var(--spacing-md);">
-                            <a href="contact.html" style="color: var(--color-gold);">Learn about sponsorship opportunities →</a>
-                        </p>
-                    </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-sm);">
+                                <div class="form-group">
+                                    <label for="onlineExpiry">Expiry Date</label>
+                                    <input type="text" id="onlineExpiry" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="onlineCvv">CVV</label>
+                                    <input type="text" id="onlineCvv" placeholder="123">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="onlineCardholderName">Cardholder Name</label>
+                                <input type="text" id="onlineCardholderName" placeholder="Name as on card">
+                            </div>
+                        </div>
+
+                        <!-- ANIMATION CONTAINER -->
+                        <div class="donation-animation-container" id="onlineAnimationContainer" style="display: none; text-align: center; margin: var(--spacing-md) 0;">
+                            <!-- WebM animations will be displayed here -->
+                        </div>
+
+                        <!-- MESSAGE DISPLAY -->
+                        <div class="donation-message" id="onlineMessage" style="margin-top: var(--spacing-md); text-align: center; font-weight: 500; min-height: 40px;"></div>
+
+                        <!-- SUBMIT BUTTON -->
+                        <button type="button" class="btn donation-submit-btn" id="onlineSubmitBtn" style="width: 100%; margin-top: var(--spacing-md);">Proceed with payment</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
 
+        <!-- Bank Transfer Details (Separate section below the form) -->
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+                <i class="fas fa-university" style="font-size: 2rem; color: var(--color-gold); margin-bottom: var(--spacing-sm);"></i>
+                <h3 style="color: var(--color-primary);">Prefer Bank Transfer?</h3>
+                <p style="color: var(--color-text-secondary);">Use our church bank account details below</p>
+            </div>
+            
+            <div style="background-color: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                <div style="display: grid; gap: var(--spacing-md);">
+                    <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                        <span style="font-weight: 600; color: var(--color-primary);">Bank:</span>
+                        <span style="float: right; color: var(--color-text-light);">[Bank Name]</span>
+                    </div>
+                    <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                        <span style="font-weight: 600; color: var(--color-primary);">Account Name:</span>
+                        <span style="float: right; color: var(--color-text-light);">[Church Name]</span>
+                    </div>
+                    <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                        <span style="font-weight: 600; color: var(--color-primary);">Account Number:</span>
+                        <span style="float: right; color: var(--color-text-light);">[To be confirmed]</span>
+                    </div>
+                    <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                        <span style="font-weight: 600; color: var(--color-primary);">Branch Code:</span>
+                        <span style="float: right; color: var(--color-text-light);">[To be confirmed]</span>
+                    </div>
+                    <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                        <span style="font-weight: 600; color: var(--color-primary);">Reference:</span>
+                        <span style="float: right; color: var(--color-text-light);">Your Name + "Donation"</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: var(--spacing-lg); padding: var(--spacing-md); background-color: var(--color-bg-light); border-radius: var(--radius-md);">
+                    <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.9rem; font-style: italic;">
+                        <i class="fas fa-info-circle" style="color: var(--color-gold); margin-right: var(--spacing-xs);"></i>
+                        Please email proof of payment to finance@church.org for receipting purposes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .donation-payment-section {
+        background-color: rgba(0,0,0,0.02);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        margin-top: var(--spacing-md);
+    }
+    
+    .donation-message.success {
+        color: #10b981;
+    }
+    
+    .donation-message.error {
+        color: #ef4444;
+    }
+    
+    .donation-submit-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+</style>
+
+<script>
+// Format card number
+function formatCardNumber(input) {
+    let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    let formattedValue = '';
+    for (let i = 0; i < value.length; i++) {
+        if (i > 0 && i % 4 === 0) {
+            formattedValue += ' ';
+        }
+        formattedValue += value[i];
+    }
+    input.value = formattedValue;
+}
+
+// Format expiry date
+function formatExpiry(input) {
+    let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    if (value.length >= 2) {
+        input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+    } else {
+        input.value = value;
+    }
+}
+
+// Set up online payment
+document.addEventListener('DOMContentLoaded', function() {
+    const submitBtn = document.getElementById('onlineSubmitBtn');
+    const paymentSection = document.getElementById('onlinePaymentSection');
+    const animationContainer = document.getElementById('onlineAnimationContainer');
+    const messageDiv = document.getElementById('onlineMessage');
+    const amountInput = document.getElementById('onlineAmount');
+    
+    // Set up input formatting
+    document.getElementById('onlineCardNumber')?.addEventListener('input', function() {
+        formatCardNumber(this);
+    });
+    
+    document.getElementById('onlineExpiry')?.addEventListener('input', function() {
+        formatExpiry(this);
+    });
+    
+    submitBtn.addEventListener('click', function() {
+        // Check if we're in initial step or payment step
+        if (paymentSection.style.display === 'none') {
+            // Check if amount is entered
+            if (!amountInput.value) {
+                messageDiv.innerHTML = 'Please enter an amount';
+                messageDiv.className = 'donation-message error';
+                return;
+            }
+            
+            // Show payment section
+            messageDiv.innerHTML = '';
+            paymentSection.style.display = 'block';
+            submitBtn.textContent = 'Complete Payment';
+            
+            // Smooth scroll to payment section
+            paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+        } else {
+            // Payment step - process payment
+            submitBtn.disabled = true;
+            messageDiv.innerHTML = '';
+            
+            // Show Money Transfer animation (processing)
+            animationContainer.style.display = 'block';
+            animationContainer.innerHTML = `
+                <video width="150" height="112" autoplay loop muted>
+                    <source src="Assets/Payment_animations/Money Transfer.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+                <p style="margin-top: var(--spacing-sm); font-size: 0.9rem; color: var(--color-text-secondary);">Processing your payment...</p>
+            `;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                const paymentSuccessful = Math.random() > 0.2; // 80% success rate
+                
+                if (paymentSuccessful) {
+                    // Show Payment Successful animation
+                    animationContainer.innerHTML = `
+                        <video width="150" height="112" autoplay loop muted>
+                            <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                    
+                    messageDiv.innerHTML = 'Payment successful! Thank you for your donation.';
+                    messageDiv.className = 'donation-message success';
+                    
+                    // After 2 seconds, show Handshake animation
+                    setTimeout(() => {
+                        animationContainer.innerHTML = `
+                            <video width="150" height="112" autoplay loop muted>
+                                <source src="Assets/Payment_animations/Handshake.webm" type="video/webm">
+                                Your browser does not support the video tag.
+                            </video>
+                            <p style="margin-top: var(--spacing-sm); color: var(--color-primary); font-weight: 600; font-size: 0.9rem;">Thank you for your generosity!</p>
+                        `;
+                    }, 2000);
+                    
+                    // Reset amount field and giving type but KEEP animations and messages
+                    setTimeout(() => {
+                        amountInput.value = '';
+                        document.getElementById('givingType').value = 'general';
+                        // Reset UI state but KEEP animations and messages visible
+                        paymentSection.style.display = 'none';
+                        submitBtn.textContent = 'Proceed with payment';
+                        submitBtn.disabled = false;
+                        // DON'T clear animationContainer or messageDiv
+                    }, 7000);
+                    
+                } else {
+                    // Show Payment Failed animation
+                    animationContainer.innerHTML = `
+                        <video width="150" height="112" autoplay loop muted>
+                            <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                    
+                    messageDiv.innerHTML = 'Payment failed. Please try again.';
+                    messageDiv.className = 'donation-message error';
+                    
+                    // Re-enable submit button but KEEP animation visible
+                    submitBtn.disabled = false;
+                }
+            }, 3000);
+        }
+    });
+    
+    // Prevent form submission
+    document.getElementById('onlineGivingForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        return false;
+    });
+});
+</script>
     <!-- ============ IMPACT SECTION ============ -->
     <section style="background-color: var(--color-white);">
         <div class="container">
@@ -256,16 +429,7 @@
     <footer class="footer">
         <div class="footer__container">
             <div class="footer__content">
-                <div class="footer__section">
-                    <h3><i class="fas fa-phone"></i> Contact Us</h3>
-                    <div class="footer__address">
-                        <p>St. Francis of Assisi Anglican Church</p>
-                        <p>Near Kubone Dr / Sekhukune</p>
-                        <p>Mamelodi West, Pretoria</p>
-                        <p>Phone: <a href="tel:+27123456789">(+27) 12 3456 789</a></p>
-                        <p>Email: <a href="mailto:info@stfrancischurch.org">info@stfrancischurch.org</a></p>
-                    </div>
-                </div>
+                
 
                 <div class="footer__section">
                     <h3><i class="fas fa-life-ring"></i> Help</h3>

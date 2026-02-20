@@ -15,48 +15,71 @@
     <link rel="stylesheet" href="css/components/cards.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        .structure__org-chart {
-            margin-top: var(--spacing-2xl);
-        }
+ <style>
+    .structure__org-chart {
+        margin-top: var(--spacing-2xl);
+    }
 
-        .structure__level {
-            margin-bottom: var(--spacing-2xl);
-            text-align: center;
-        }
+    .structure__level {
+        margin-bottom: var(--spacing-2xl);
+        text-align: center;
+    }
 
-        .structure__level h3 {
-            font-size: 1.2rem;
-            color: var(--color-gold);
-            margin-bottom: var(--spacing-md);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
+    .structure__level h3 {
+        font-size: 1.2rem;
+        color: var(--color-gold);
+        margin-bottom: var(--spacing-md);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
 
-        .structure__members {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--spacing-lg);
-        }
+    .structure__members {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-lg);
+    }
 
-        .structure__member {
-            background-color: var(--color-bg-cream);
-            padding: var(--spacing-lg);
-            border-radius: var(--radius-md);
-            border-left: 4px solid var(--color-gold);
-        }
+    .structure__member {
+        background-color: var(--color-bg-cream);
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-md);
+        border-left: 4px solid var(--color-gold);
+        text-align: center;
+    }
 
-        .structure__member h4 {
-            color: var(--color-primary);
-            margin-bottom: var(--spacing-sm);
-            font-size: 1.1rem;
-        }
+    .member-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto var(--spacing-md) auto;
+        border: 3px solid var(--color-gold);
+    }
 
-        .structure__member p {
-            color: var(--color-text-secondary);
-            font-size: 0.95rem;
-        }
-    </style>
+    .member-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .structure__member h4 {
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-sm);
+        font-size: 1.1rem;
+    }
+
+    .structure__member p {
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .structure__member strong {
+        color: var(--color-gold);
+    }
+</style>
+
+
 </head>
 <body>
     <!-- ============ HEADER & NAVIGATION ============ -->
@@ -99,84 +122,161 @@
                 and fulfilling our mission with integrity, transparency, and Christ-centered values.
             </p>
 
-            <div class="structure__org-chart">
-                <!-- Clergy -->
-                <div class="structure__level">
-                    <h3><i class="fas fa-cross"></i> Clergy</h3>
-                    <div class="structure__members">
-                        <div class="structure__member">
-                            <h4>Reverend Dr. Samuel Njoko</h4>
-                            <p><strong>Rector</strong></p>
-                            <p>Spiritual leader of the parish with responsibility for worship, pastoral care, and overall ministry.</p>
-                        </div>
-                        <div class="structure__member">
-                            <h4>Reverend Thabo Mthembu</h4>
-                            <p><strong>Associate Priest</strong></p>
-                            <p>Assists with worship services, pastoral visits, and ministry coordination.</p>
-                        </div>
-                    </div>
+           <div class="structure__org-chart">
+    <!-- Clergy -->
+    <div class="structure__level">
+        <h3><i class="fas fa-cross"></i> Clergy</h3>
+        <div class="structure__members">
+            <div class="structure__member">
+                <div class="member-photo">
+                <!--    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Revd Canon Benjamin Moleko">-->
                 </div>
-
-                <!-- Parish Council -->
-                <div class="structure__level">
-                    <h3><i class="fas fa-handshake"></i> Wardens & Vestry</h3>
-                    <div class="structure__members">
-                        <div class="structure__member">
-                            <h4>Mr. Jabulani Khumalo</h4>
-                            <p><strong>Senior Warden</strong></p>
-                            <p>Oversees church property and finances in partnership with the Rector.</p>
-                        </div>
-                        <div class="structure__member">
-                            <h4>Mrs. Nomsa Dlamini</h4>
-                            <p><strong>Junior Warden</strong></p>
-                            <p>Assists with property matters and coordinates lay ministry initiatives.</p>
-                        </div>
-                        <div class="structure__member">
-                            <h4>Mr. David Phakamani</h4>
-                            <p><strong>Treasurer</strong></p>
-                            <p>Manages finances, budgets, and financial accountability.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ministry Leaders -->
-                <div class="structure__level">
-                    <h3><i class="fas fa-people-group"></i> Ministry Coordinators</h3>
-                    <div class="structure__members">
-                        <div class="structure__member">
-                            <h4>Mrs. Grace Okonkwo</h4>
-                            <p><strong>Director of Music & Choir</strong></p>
-                            <p>Leads the choir ministry and oversees all music programs.</p>
-                        </div>
-                        <div class="structure__member">
-                            <h4>Mr. Sipho Nkosi</h4>
-                            <p><strong>Youth Ministry Coordinator</strong></p>
-                            <p>Develops and leads programs for young people ages 13-25.</p>
-                        </div>
-                        <div class="structure__member">
-                            <h4>Mrs. Martha Mokoena</h4>
-                            <p><strong>Community Outreach Coordinator</strong></p>
-                            <p>Coordinates charitable programs and community service.</p>
-                        </div>
-                        <!-- Added Coordinators -->
-                        <div class="structure__member">
-                            <h4>Ms. Lerato Khosa</h4>
-                            <p><strong>Sunday School Coordinator</strong></p>
-                            <p>Leads children's formation and curriculum for ages 5–12.</p>
-                        </div>
-                        <div class="structure__member">
-                            <h4>Mrs. Zanele Mtshali</h4>
-                            <p><strong>Altar Guild Coordinator</strong></p>
-                            <p>Oversees preparation of the sanctuary, vessels, and vestments.</p>
-                        </div>
-                        <div class="structure__member">
-                            <h4>Mr. Themba Dube</h4>
-                            <p><strong>Communications Coordinator</strong></p>
-                            <p>Manages announcements, newsletters, and parish communications.</p>
-                        </div>
-                    </div>
-                </div>
+                <h4>Revd Canon Benjamin Moleko</h4>
+                <p><strong>Rector</strong></p>
+                <p>Spiritual leader of the parish with responsibility for worship, pastoral care, and overall ministry. 
+                   Provides guidance and sacramental leadership to our community.</p>
             </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                   <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Deacon Charles Moeng">-->
+                </div>
+                <h4>Deacon Charles Moeng</h4>
+                <p><strong>Associate Priest</strong></p>
+                <p>Assists with worship services, pastoral visits, and ministry coordination. 
+                   Focuses on youth engagement and community outreach initiatives.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wardens & Vestry -->
+    <div class="structure__level">
+        <h3><i class="fas fa-handshake"></i> Wardens & Vestry</h3>
+        <div class="structure__members">
+            <div class="structure__member">
+                <div class="member-photo">
+                  <!----<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Motlatsi Mabena">-->
+                </div>
+                <h4>Mr. Motlatsi Mabena</h4>
+                <p><strong>Senior Warden</strong></p>
+                <p>Oversees church property and finances in partnership with the Rector. 
+                   Manages maintenance projects and long-term facility planning.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                  <!---<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Sophie Mampuru">-->
+                </div>
+                <h4>Mrs. Sophie Mampuru</h4>
+                <p><strong>Junior Warden</strong></p>
+                <p>Assists with property matters and coordinates lay ministry initiatives. 
+                   Oversees volunteer scheduling and event coordination.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                    <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Mr. David Phakamani">-->
+                </div>
+                <h4>Mr. David Phakamani</h4>
+                <p><strong>Treasurer</strong></p>
+                <p>Manages finances, budgets, and financial accountability. 
+                   Ensures transparent financial reporting and responsible stewardship of resources.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                    <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Mr. Michael Modise">-->
+                </div>
+                <h4>Mr. Michael Modise</h4>
+                <p><strong>Alternate Warden</strong></p>
+                <p>Supports both Senior and Junior Wardens in their duties. 
+                   Acts as a liaison between the vestry and various ministry committees.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ministry Leaders -->
+    <div class="structure__level">
+        <h3><i class="fas fa-people-group"></i> Ministry Leaders</h3>
+        <div class="structure__members">
+            <div class="structure__member">
+                <div class="member-photo">
+                    <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Mrs. Peggy Kambule">-->
+                </div>
+                <h4>Mrs. Peggy Kambule</h4>
+                <p><strong>Stewardship Coordinator</strong></p>
+                <p>Leads the church's stewardship program, encouraging generous giving of time, talent, and treasure. 
+                   Organizes annual pledge campaigns and educates members on biblical giving principles.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                   <!----<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Ms. Ruth Masbaba">-->
+                </div>
+                <h4>Ms. Ruth Masbaba</h4>
+                <p><strong>Social Development Coordinator</strong></p>
+                <p>Oversees programs addressing community needs such as food security, counseling services, 
+                   and skills development workshops for vulnerable members of our community.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                    <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Mr. William Makgatho">-->
+                </div>
+                <h4>Mr. William Makgatho</h4>
+                <p><strong>Caretaker</strong></p>
+                <p>Ensures our church facilities are clean, safe, and well-maintained. 
+                   Coordinates repairs, manages supplies, and prepares spaces for worship services and events.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                    <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Mrs. Martha Mokoena">-->
+                </div>
+                <h4>Mrs. Martha Mokoena</h4>
+                <p><strong>Community Outreach Coordinator</strong></p>
+                <p>Coordinates charitable programs and community service initiatives, 
+                   building bridges between the church and the wider Mamelodi West community.</p>
+            </div>
+            <!-- Remaining Coordinators (without Youth & Music/Choir) -->
+             <!--I should ask about the structure below, i will make a comment-->
+             <!--
+            <div class="structure__member">
+                <div class="member-photo">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Ms. Lerato Khosa">
+                </div>
+                <h4>Ms. Lerato Khosa</h4>
+                <p><strong>Sunday School Coordinator</strong></p>
+                <p>Leads children's formation and curriculum for ages 5–12, creating engaging biblical lessons 
+                   and activities that nurture young faith.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Mrs. Zanele Mtshali">
+                </div>
+                <h4>Mrs. Zanele Mtshali</h4>
+                <p><strong>Altar Guild Coordinator</strong></p>
+                <p>Oversees preparation of the sanctuary, vessels, and vestments, 
+                   ensuring everything is reverently arranged for worship services.</p>
+            </div>
+            <div class="structure__member">
+                <div class="member-photo">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9xOElr-JZiZEAsccIWXR5ShKmnrzBGgzYGQ&s" 
+                         alt="Mr. Themba Dube">
+                </div>
+                <h4>Mr. Themba Dube</h4>
+                <p><strong>Communications Coordinator</strong></p>
+                <p>Manages announcements, newsletters, and parish communications, 
+                   keeping our congregation informed and connected.</p>
+            </div>-->
+        </div>
+    </div>
+</div>
         </div>
     </section>
 

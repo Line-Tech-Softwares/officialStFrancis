@@ -10,7 +10,8 @@
  * - Web Application Firewalls (WAF)
  * 
  * This script provides a user-facing layer that shows good intent but is NOT a 
- * substitute for server-side security. Do NOT rely on this for security decisions.
+ * substitute for server-side security. Do NOT rely on this for security decisions as this is still a development phase!.
+ * Although it can help deter casual VPN users and provide a better user experience, it can be easily bypassed by tech-savvy users. we should implement robust server-side controls for true security.
  */
 
 const GRIFFIN = {
@@ -53,7 +54,7 @@ const GRIFFIN = {
       }
     } catch (error) {
       console.warn(this.messages.griffin_triggered_alert, error.message);
-      // On error, allow through but log. In production, you might want stricter behavior.
+      // On error, allow through but log. In production, we will implement stricter behavior.
       console.log('Note: Geolocation service unavailable. Connection allowed.');
     }
   },
@@ -128,7 +129,7 @@ const GRIFFIN = {
     }
   },
 
-  // NOTE: This overlay blocks access but can be bypassed by user. Server-side blocking is essential.
+  // NOTE: This overlay blocks access but can be bypassed by user.
   showBlockMessage(reason) {
     setTimeout(() => {
       const overlay = document.createElement('div');

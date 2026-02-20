@@ -112,25 +112,27 @@
         </div>
     </section>
 
-    <!-- ============ PLEDGE INTENT FORM ============ -->
-    <section class="bg-pale-gold">
-        <div class="container">
-            <h2 class="text-center">Pledge Intent Form</h2>
-            <p class="text-center" style="max-width: 800px; margin: var(--spacing-lg) auto; color: var(--color-text-secondary);">
-                Please complete the form below to share your pledge intentions. This helps us plan ministries responsibly and prayerfully.
-            </p>
+<!-- ============ PLEDGE INTENT FORM ============ -->
+<section class="bg-pale-gold">
+    <div class="container">
+        <h2 class="text-center">Pledge Intent Form</h2>
+        <p class="text-center" style="max-width: 800px; margin: var(--spacing-lg) auto; color: var(--color-text-secondary);">
+            Please complete the form below to share your pledge intentions. This helps us plan ministries responsibly and prayerfully.
+        </p>
 
-            <div class="card" style="max-width: 800px; margin: var(--spacing-2xl) auto;">
-                <div class="card__content">
-                    <form id="pledgeForm" novalidate>
+        <div class="card" style="max-width: 800px; margin: var(--spacing-2xl) auto;">
+            <div class="card__content">
+                <form id="pledgeForm" novalidate>
+                    <!-- INITIAL FORM FIELDS -->
+                    <div id="initialFormFields">
                         <div class="form-group">
                             <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
+                            <input type="text" id="fullName" name="fullName" placeholder="Your full name">
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email (Gmail only)</label>
-                            <input type="email" id="email" name="email" placeholder="yourname@gmail.com" required>
+                            <input type="email" id="email" name="email" placeholder="yourname@gmail.com">
                         </div>
 
                         <div class="form-group">
@@ -140,12 +142,12 @@
 
                         <div class="form-group">
                             <label for="amount">Pledge Amount (ZAR)</label>
-                            <input type="number" id="amount" name="amount" placeholder="e.g., 250" min="1" step="1" required>
+                            <input type="number" id="amount" name="amount" placeholder="e.g., 250" min="1" step="1">
                         </div>
 
                         <div class="form-group">
                             <label for="frequency">Frequency</label>
-                            <select id="frequency" name="frequency" required>
+                            <select id="frequency" name="frequency">
                                 <option value="">Select frequency</option>
                                 <option value="one-time">One-time</option>
                                 <option value="weekly">Weekly</option>
@@ -163,13 +165,232 @@
                             <label for="message">Message (optional)</label>
                             <textarea id="message" name="message" rows="4" placeholder="Share any notes or prayer requests"></textarea>
                         </div>
+                    </div>
 
-                        <button type="submit" class="btn">Submit Pledge Intent</button>
-                    </form>
-                </div>
+                    <!-- PAYMENT METHOD SECTION (Initially Hidden) -->
+                    <div id="paymentSection" style="display: none;">
+                        <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-primary);">Payment Method</h3>
+                        <p style="margin-bottom: var(--spacing-md); color: var(--color-text-secondary); font-style: italic;">Test mode - Card validation is disabled for testing</p>
+                        
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <div style="position: relative;">
+                                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
+                                <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px;">
+                                    <i class="fab fa-cc-visa" style="font-size: 24px; color: #1A1F71;"></i>
+                                    <i class="fab fa-cc-mastercard" style="font-size: 24px; color: #EB001B;"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardholderName">Cardholder Name</label>
+                            <input type="text" id="cardholderName" placeholder="Name as on card">
+                        </div>
+                    </div>
+
+                    <!-- ANIMATION CONTAINER -->
+                    <div id="animationContainer" style="display: none; text-align: center; margin: var(--spacing-lg) 0;">
+                        <!-- WebM animations will be displayed here -->
+                    </div>
+
+                    <!-- MESSAGE DISPLAY -->
+                    <div id="formMessage" style="margin-top: var(--spacing-md); text-align: center; font-weight: 500;"></div>
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="button" class="btn" id="submitButton">Proceed with payment</button>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<style>
+    .payment-icons {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 8px;
+    }
+    
+    #paymentSection {
+        border-top: 2px solid var(--color-pale-gold);
+        padding-top: var(--spacing-xl);
+        margin-top: var(--spacing-xl);
+    }
+    
+    #paymentSection h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+    
+    #formMessage {
+        min-height: 60px;
+    }
+    
+    #formMessage.success {
+        color: #10b981;
+    }
+    
+    #formMessage.error {
+        color: #ef4444;
+    }
+    
+    #formMessage.info {
+        color: #3b82f6;
+    }
+</style>
+
+<script>
+document.getElementById('submitButton').addEventListener('click', function() {
+    const submitButton = document.getElementById('submitButton');
+    const paymentSection = document.getElementById('paymentSection');
+    const animationContainer = document.getElementById('animationContainer');
+    const formMessage = document.getElementById('formMessage');
+    const pledgeForm = document.getElementById('pledgeForm');
+    
+    // Check if we're in initial form step or payment step
+    if (paymentSection.style.display === 'none') {
+        // Just show payment section without validation
+        formMessage.innerHTML = '';
+        paymentSection.style.display = 'block';
+        submitButton.textContent = 'Complete Payment';
+        
+        // Smooth scroll to payment section
+        paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+    } else {
+        // Payment step - process payment
+        // Disable submit button and show processing animation
+        submitButton.disabled = true;
+        submitButton.style.opacity = '0.5';
+        formMessage.innerHTML = '';
+        
+        // Show Money Transfer animation (processing)
+        animationContainer.style.display = 'block';
+        animationContainer.innerHTML = `
+            <video width="200" height="150" autoplay loop muted>
+                <source src="Assets/Payment_animations/Money Transfer.webm" type="video/webm">
+                Your browser does not support the video tag.
+            </video>
+            <p style="margin-top: var(--spacing-sm); color: var(--color-text-secondary);">Processing your payment...</p>
+        `;
+        
+        // Simulate payment processing
+        setTimeout(() => {
+            // For testing, we'll simulate a successful payment
+            const paymentSuccessful = Math.random() > 0.2; // 80% success rate for testing
+            
+            if (paymentSuccessful) {
+                // Show Payment Successful animation
+                animationContainer.innerHTML = `
+                    <video width="200" height="150" autoplay loop muted>
+                        <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                
+                formMessage.innerHTML = 'Payment successful! Thank you for your pledge.';
+                formMessage.className = 'success';
+                
+                // After 2 seconds, show Handshake animation (APPEND, don't replace)
+                setTimeout(() => {
+                    // Add Handshake animation BELOW the success animation
+                    const handshakeHTML = `
+                        <div style="margin-top: var(--spacing-md);">
+                            <video width="200" height="150" autoplay loop muted>
+                                <source src="Assets/Payment_animations/Handshake.webm" type="video/webm">
+                                Your browser does not support the video tag.
+                            </video>
+                            <p style="margin-top: var(--spacing-sm); color: var(--color-primary); font-weight: 600;">Thank you for your partnership!</p>
+                        </div>
+                    `;
+                    
+                    // Append handshake to existing animation container
+                    animationContainer.innerHTML += handshakeHTML;
+                }, 2000);
+                
+                // Reset form fields but KEEP animations and messages
+                setTimeout(() => {
+                    // Reset all form fields
+                    pledgeForm.reset();
+                    
+                    // Reset UI state but KEEP animations and messages visible
+                    paymentSection.style.display = 'none';
+                    submitButton.textContent = 'Proceed with payment';
+                    submitButton.disabled = false;
+                    submitButton.style.opacity = '1';
+                    
+                    // DO NOT clear animationContainer or formMessage
+                    // They stay visible with their content
+                    
+                }, 7000);
+                
+            } else {
+                // Show Payment Failed animation
+                animationContainer.innerHTML = `
+                    <video width="200" height="150" autoplay loop muted>
+                        <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                
+                formMessage.innerHTML = 'Payment failed. Please try again.';
+                formMessage.className = 'error';
+                
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.style.opacity = '1';
+                
+                // DO NOT clear animations on failure - they stay visible
+                // User can try again with the failed animation still showing
+            }
+        }, 3000); // 3 second processing time
+    }
+});
+
+// Format card number input
+document.getElementById('cardNumber')?.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    let formattedValue = '';
+    for (let i = 0; i < value.length; i++) {
+        if (i > 0 && i % 4 === 0) {
+            formattedValue += ' ';
+        }
+        formattedValue += value[i];
+    }
+    e.target.value = formattedValue;
+});
+
+// Format expiry date
+document.getElementById('expiry')?.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    if (value.length >= 2) {
+        e.target.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+    } else {
+        e.target.value = value;
+    }
+});
+
+// Prevent form submission (since we're using button type="button")
+document.getElementById('pledgeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    return false;
+});
+</script>
 
     <!-- ============ TESTIMONIES ============ -->
     <section style="background-color: var(--color-white);">

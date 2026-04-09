@@ -12,6 +12,7 @@
     text-align: center;
     color: var(--color-white);
     overflow: hidden;
+    contain: layout style paint;
 }
 
 .hero__background {
@@ -24,7 +25,10 @@
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
+    will-change: transform;
     animation: heroParallax 0.5s ease-out;
+    content-visibility: auto;
 }
 
 @keyframes heroParallax {
@@ -50,6 +54,8 @@
     font-size: clamp(2.5rem, 8vw, 5rem);
     margin-bottom: var(--spacing-md);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    will-change: opacity;
+    font-display: swap;
 }
 
 .hero__subtitle {

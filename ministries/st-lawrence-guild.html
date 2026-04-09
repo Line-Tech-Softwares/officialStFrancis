@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WZLG6BZG');</script>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-924W70T70S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-924W70T70S');
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="St. Lawrence Guild - Fellowship & Service for Men">
+    <title>St. Lawrence Guild | St. Francis of Assisi Church</title>
+    
+    <link rel="icon" href="../Assets/LOGO/st.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- TikTok-style Ministries Template -->
+    <link rel="stylesheet" href="../css/components/ministries.css">
+</head>
+<body>
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZLG6BZG" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header__container">
+            <a href="../index.html" class="header__logo">
+                <img src="../Assets/LOGO/st.png" alt="St. Francis Logo" class="header__logo-image"> 
+                <span>St. Francis of Assisi</span>
+            </a>
+            <nav class="header__nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About Us</a></li>
+                <li><a href="../services.html">Sacraments &amp; Worship</a></li>
+                <li><a href="../ministries.html">Ministries</a></li>
+                <li><a href="../structure.html">Structure</a></li>
+                <li><a href="../pledge.html">Pledge</a></li>
+                <li><a href="../donations.html">Donations</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </nav>
+            <button class="header__menu-toggle" aria-label="Toggle Navigation Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- TIKTOK-STYLE PROFILE HEADER -->
+    <div class="ministry__cover-section">
+        <div class="ministry__cover" data-image="https://lh3.googleusercontent.com/gps-cs-s/AHVAweodH38tZH1wtYaqhn2jGYoeUHm3T12hjUts3dfyW40RoWpBaTaUaP2rdsxEXY0fCMt7pPC9g1r63G6qyw8xT3VOy7dzl9O16Jch-pirMx_IHCFaV1br8h8XRxzWc4QH52Sv2Ng=s1360-w1360-h1020-rw"></div>
+        <div class="ministry__profile" data-image="">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT SECTION -->
+    <div class="container">
+        <!-- Back Button (Top) -->
+        <a href="../ministries.html" class="ministry__back-button" style="display: block; margin-top: var(--spacing-2xl); margin-bottom: var(--spacing-xl);">
+            <i class="fas fa-arrow-left"></i> Back to Ministries
+        </a>
+
+        <!-- Header with Title & CTA Button -->
+        <div class="ministry__header" style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+            <div class="ministry__header-info" style="flex: 1;">
+                <h1 class="ministry__title">St. Lawrence Guild</h1>
+                <p class="ministry__bio">A guild of altar servers dedicated to reverence, discipline, and faithful service at the altar, inspired by St. Lawrence's devotion and martyrdom.</p>
+            </div>
+            <a href="../contact.html" class="ministry__action-button" style="align-self: flex-start;">Get Involved</a>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="ministry__tabs" style="margin: var(--spacing-2xl) 0 var(--spacing-xl); border-bottom: 2px solid var(--color-gold); display: flex; gap: var(--spacing-md);">
+            <button class="ministry__tab active" data-tab="about" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-primary); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--color-gold); margin-bottom: -2px;">
+                <i class="fas fa-info-circle"></i> About
+            </button>
+            <button class="ministry__tab" data-tab="gallery" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
+                <i class="fas fa-images"></i> Gallery
+            </button>
+            <button class="ministry__tab" data-tab="songs" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
+                <i class="fas fa-music"></i> Songs
+            </button>
+            <button class="ministry__tab" data-tab="events" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
+                <i class="fas fa-calendar"></i> Events
+            </button>
+        </div>
+
+        <!-- TAB CONTENTS -->
+
+        <!-- ABOUT TAB (Active) -->
+        <div id="tab-about" class="ministry__tab-content active" style="margin-bottom: var(--spacing-2xl);">
+            <div class="ministry__about" style="background-color: var(--color-cream); padding: var(--spacing-lg); border-radius: var(--radius-md); line-height: 1.8;">
+                <p style="margin-bottom: var(--spacing-md); color: var(--color-primary);">The St. Lawrence Guild honors the legacy of Saint Lawrence through fellowship and dedicated service. Like Saint Lawrence who gave himself in service to Christ, we gather as men committed to supporting one another and serving our community with strength and compassion.</p>
+                <p style="margin-bottom: var(--spacing-md); color: var(--color-primary);">Our guild of altar servers maintains reverence and discipline in our sacred duties at the altar, blending tradition with spiritual devotion. We serve with humility and dedication, inspired by St. Lawrence's example of selfless martyrdom and unwavering faith.</p>
+                <p style="margin-bottom: 0; color: var(--color-primary);"><strong>Through regular meetings, spiritual study, charitable work, and brotherhood, we live out our faith together. All men are welcome to join this fellowship.</strong></p>
+            </div>
+        </div>
+
+        <!-- GALLERY TAB -->
+        <div id="tab-gallery" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">
+            <div style="text-align: center; padding: var(--spacing-2xl); background-color: var(--color-cream); border-radius: var(--radius-md);">
+                <i class="fas fa-images" style="font-size: 3rem; color: var(--color-gold); margin-bottom: var(--spacing-md);"></i>
+                <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);">Gallery Coming Soon</h3>
+                <p style="color: var(--color-text-secondary);">Content coming soon. I will add them in due time.</p>
+            </div>
+            <div class="ministry__gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-lg);">
+                <div class="gallery__item" style="aspect-ratio: 9/16; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center; color: white;"><i class="fas fa-camera" style="font-size: 2rem; margin-bottom: var(--spacing-sm);"></i><p>Photo Gallery</p></div>
+                </div>
+                <div class="gallery__item" style="aspect-ratio: 9/16; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center; color: white;"><i class="fas fa-image" style="font-size: 2rem; margin-bottom: var(--spacing-sm);"></i><p>Events & Activities</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SONGS TAB -->
+        <div id="tab-songs" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">
+            <div style="text-align: center; padding: var(--spacing-2xl); background-color: var(--color-cream); border-radius: var(--radius-md);">
+                <i class="fas fa-music" style="font-size: 3rem; color: var(--color-gold); margin-bottom: var(--spacing-md);"></i>
+                <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);">Songs Coming Soon</h3>
+                <p style="color: var(--color-text-secondary);">Content coming soon. I will add them in due time.</p>
+            </div>
+            <div class="songs__list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-lg);">
+                <div class="song__card" style="background: linear-gradient(135deg, var(--color-cream), white); padding: var(--spacing-lg); border-radius: var(--radius-md); border-left: 4px solid var(--color-gold); transition: var(--transition-smooth);">
+                    <h4 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);"><i class="fas fa-music"></i> Hymn of Service</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Coming soon</p>
+                </div>
+                <div class="song__card" style="background: linear-gradient(135deg, var(--color-cream), white); padding: var(--spacing-lg); border-radius: var(--radius-md); border-left: 4px solid var(--color-gold); transition: var(--transition-smooth);">
+                    <h4 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);"><i class="fas fa-music"></i> In Christ There Is No East or West</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Coming soon</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVENTS TAB -->
+        <div id="tab-events" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">
+            <!-- Subscription Section -->
+            <div class="ministry__subscription-banner">
+                <h3>Stay Updated</h3>
+                <p>Get notified about upcoming guild events and activities.</p>
+                <div class="ministry__subscription-buttons">
+                    <button onclick="openSubscriptionModal('subscribe')" class="ministry__subscription-btn primary">
+                        <i class="fas fa-bell"></i> Get Notified
+                    </button>
+                    <button onclick="openSubscriptionModal('unsubscribe')" class="ministry__subscription-btn secondary">
+                        Unsubscribe
+                    </button>
+                </div>
+            </div>
+
+            <!-- Event Cards -->
+            <div class="ministry__events-container">
+                <h3>Upcoming Events</h3>
+                <div class="ministry__event-cards">
+                    <div class="ministry__event-card">
+                        <div class="ministry__event-card-date">
+                            <i class="fas fa-calendar-alt"></i> Coming Soon
+                        </div>
+                        <h4>Guild Meeting</h4>
+                        <p>Details to be announced. Stay tuned for updates.</p>
+                    </div>
+                    <div class="ministry__event-card">
+                        <div class="ministry__event-card-date">
+                            <i class="fas fa-calendar-alt"></i> Coming Soon
+                        </div>
+                        <h4>Volunteer Service</h4>
+                        <p>Details to be announced. Join us in community service.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder Message -->
+            <div style="text-align: center; padding: var(--spacing-2xl); background-color: var(--color-cream); border-radius: var(--radius-md);">
+                <i class="fas fa-calendar" style="font-size: 3rem; color: var(--color-gold); margin-bottom: var(--spacing-md);"></i>
+                <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);">Events Coming Soon</h3>
+                <p style="color: var(--color-text-secondary);">Content coming soon. I will add them in due time.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3><i class="fas fa-phone"></i> Contact Us</h3>
+                    <div class="footer__address">
+                        <p>St. Francis of Assisi Anglican Church</p>
+                        <p>330 Kubone Dr, Mamelodi - RD5, Pretoria, 0122</p>
+                        <p>Phone: <a href="tel:+27123456789">(+27) 12 3456 789</a></p>
+                        <p>Email: <a href="mailto:info@sfmw.co.za">info@sfmw.co.za</a></p>
+                    </div>
+                </div>
+                <div class="footer__section">
+                    <h3><i class="fas fa-life-ring"></i> Help</h3>
+                    <ul class="footer__links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../about.html">About Us</a></li>
+                        <li><a href="../ministries.html">Ministries</a></li>
+                        <li><a href="../services.html">Sacraments &amp; Worship</a></li>
+                        <li><a href="../structure.html">Structure</a></li>
+                        <li><a href="../pledge.html">Pledge</a></li>
+                        <li><a href="../donations.html">Donations</a></li>
+                        <li><a href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h3><i class="fas fa-scale-balanced"></i> Legal</h3>
+                    <ul class="footer__links">
+                        <li><a href="#" id="cookie-settings">Cookie Settings</a></li>
+                        <li><a href="../privacy.html">Privacy Policy</a></li>
+                        <li><a href="../terms.html">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+                    <ul class="footer__links">
+                        <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                        <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                        <li><a href="https://wa.me/27123456789" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p class="footer__copyright">© 2026 St. Francis of Assisi Mamelodi West. All rights reserved.</p>
+                <p class="footer__credit">Website made by <a href="https://linetechsoftwares.co.za/" target="_blank" rel="noopener noreferrer">Line Tech Softwares</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SUBSCRIPTION MODAL -->
+    <div id="subscriptionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: var(--spacing-2xl); border-radius: var(--radius-md); max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+                <h2 id="modalTitle" style="color: var(--color-primary); margin: 0;">Get Notified</h2>
+                <button onclick="closeSubscriptionModal()" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-secondary);">✕</button>
+            </div>
+
+            <!-- Subscribe Form -->
+            <form id="subscribeForm" action="https://formcarry.com/s/e3UYj1M1ygt" method="POST" style="display: none; margin-bottom: var(--spacing-xl);">
+                <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-lg);">Subscribe to receive notifications about upcoming events.</p>
+                
+                <div class="form-group" style="margin-bottom: var(--spacing-md);">
+                    <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: 600; color: var(--color-primary);">Name</label>
+                    <input type="text" name="name" placeholder="Your name" required style="width: 100%; padding: var(--spacing-sm); border: 2px solid var(--color-primary); border-radius: var(--radius-sm); font-size: 1rem;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: var(--spacing-lg);">
+                    <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: 600; color: var(--color-primary);">Email</label>
+                    <input type="email" name="email" placeholder="your@email.com" required style="width: 100%; padding: var(--spacing-sm); border: 2px solid var(--color-primary); border-radius: var(--radius-sm); font-size: 1rem;">
+                </div>
+
+                <input type="hidden" name="type" value="subscribe">
+                <input type="hidden" name="ministry" value="St. Lawrence Guild">
+
+                <button type="submit" style="width: 100%; padding: var(--spacing-md); background-color: var(--color-gold); color: var(--color-primary); font-weight: 700; border: none; border-radius: var(--radius-sm); cursor: pointer; font-size: 1rem; margin-bottom: var(--spacing-sm);">
+                    Subscribe Now
+                </button>
+
+                <p style="text-align: center; color: var(--color-text-secondary); font-size: 0.85rem;">We respect your privacy. You can unsubscribe anytime.</p>
+            </form>
+
+            <!-- Unsubscribe Form -->
+            <form id="unsubscribeForm" action="https://formcarry.com/s/e3UYj1M1ygt" method="POST" style="display: none;">
+                <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-lg);">Enter your email to unsubscribe from event notifications.</p>
+                
+                <div class="form-group" style="margin-bottom: var(--spacing-lg);">
+                    <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: 600; color: var(--color-primary);">Email</label>
+                    <input type="email" name="email" placeholder="your@email.com" required style="width: 100%; padding: var(--spacing-sm); border: 2px solid var(--color-primary); border-radius: var(--radius-sm); font-size: 1rem;">
+                </div>
+
+                <div style="background-color: rgba(220, 53, 69, 0.1); padding: var(--spacing-md); border-radius: var(--radius-sm); margin-bottom: var(--spacing-lg); color: #c3212b; font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> You will stop receiving updates. Your information will be removed within 3 days.
+                </div>
+
+                <input type="hidden" name="type" value="unsubscribe">
+                <input type="hidden" name="ministry" value="St. Lawrence Guild">
+
+                <button type="submit" style="width: 100%; padding: var(--spacing-md); background-color: #c3212b; color: white; font-weight: 700; border: none; border-radius: var(--radius-sm); cursor: pointer; font-size: 1rem;">
+                    Confirm Unsubscribe
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL AND TAB SWITCHING SCRIPTS -->
+    <script src="../js/ministry-debug.js"></script>
+    <script>
+        // Modal Functions
+        function openSubscriptionModal(type) {
+            document.getElementById('subscriptionModal').style.display = 'flex';
+            const ministry = document.querySelector('.ministry__title').textContent;
+            
+            document.querySelectorAll('input[name="ministry"]').forEach(input => {
+                input.value = ministry;
+            });
+
+            if (type === 'subscribe') {
+                document.getElementById('subscribeForm').style.display = 'block';
+                document.getElementById('unsubscribeForm').style.display = 'none';
+                document.getElementById('modalTitle').textContent = 'Subscribe to Updates';
+            } else {
+                document.getElementById('subscribeForm').style.display = 'none';
+                document.getElementById('unsubscribeForm').style.display = 'block';
+                document.getElementById('modalTitle').textContent = 'Unsubscribe';
+            }
+        }
+
+        function closeSubscriptionModal() {
+            document.getElementById('subscriptionModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('subscriptionModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSubscriptionModal();
+        });
+
+        // Tab Switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.ministry__tab');
+            const contents = document.querySelectorAll('.ministry__tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = 'tab-' + this.getAttribute('data-tab');
+                    
+                    // Hide all contents
+                    contents.forEach(content => {
+                        content.style.display = 'none';
+                        content.classList.remove('active');
+                    });
+                    
+                    // Remove active from all tabs
+                    tabs.forEach(t => {
+                        t.style.color = 'var(--color-text-secondary)';
+                        t.style.borderBottom = 'none';
+                        t.style.marginBottom = '0';
+                    });
+                    
+                    // Show selected content
+                    const selectedContent = document.getElementById(tabId);
+                    if (selectedContent) {
+                        selectedContent.style.display = 'block';
+                        selectedContent.classList.add('active');
+                    }
+                    
+                    // Style active tab
+                    this.style.color = 'var(--color-primary)';
+                    this.style.borderBottom = '3px solid var(--color-gold)';
+                    this.style.marginBottom = '-2px';
+                });
+            });
+
+            // Keyboard navigation for tabs
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('keydown', function(e) {
+                    let nextTab = null;
+                    if (e.key === 'ArrowRight') {
+                        nextTab = tabs[index + 1] || tabs[0];
+                    } else if (e.key === 'ArrowLeft') {
+                        nextTab = tabs[index - 1] || tabs[tabs.length - 1];
+                    }
+                    
+                    if (nextTab) {
+                        nextTab.focus();
+                        nextTab.click();
+                    }
+                });
+            });
+        });
+    </script>

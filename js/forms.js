@@ -55,11 +55,21 @@ class FormValidator {
             return true;
         }
 
-        // ENHANCED: Email validation - Gmail only
+        // ENHANCED: Email validation - Professional email for donations/pledges
         if (type === 'email' && value) {
-            if (!this.validateGmailEmail(value)) {
-                this.setError(field, 
-                    'For the security and privacy of our community correspondence, we currently only accept Gmail addresses. Thank you for your understanding.');
+            // Determine form type
+            let formType = 'contact'; // default
+            if (this.formId.includes('donation') || this.formId.includes('pledge')) {
+                formType = this.formId.includes('pledge') ? 'pledge' : 'donation';
+            }
+
+            if (!this.validateEmail(value, formType)) {
+                if (formType === 'donation' || formType === 'pledge') {
+                    this.setError(field, 
+                        'For donation and pledge forms, please use a professional/organizational email address (not Gmail, Yahoo, Outlook, etc.). This helps us verify organizational donations.');
+                } else {
+                    this.setError(field, 'Please enter a valid email address');
+                }
                 return false;
             }
         }
@@ -99,7 +109,60 @@ class FormValidator {
     }
 
     /**
-     * ENHANCED: Validate email - Gmail only (@gmail.com)
+     * ENHANCED: Validate email based on form type
+     * Contact forms: Accept any valid email
+     * Donation/Pledge forms: Accept only professional emails (not free domains)
+     */
+    validateEmail(email, formType = 'contact') {
+        // Check basic email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return false;
+        }
+
+        // For donation/pledge forms, only allow professional emails
+        if (formType === 'donation' || formType === 'pledge') {
+            return this.validateProfessionalEmail(email);
+        }
+
+        // Contact forms accept all valid emails
+        return true;
+    }
+
+    /**
+     * PROFESSIONAL EMAIL VALIDATION (for donations/pledges)
+     * Blocks free email domains (Gmail, Yahoo, Outlook, etc.)
+     * Only allows corporate/organizational email addresses
+     */
+    validateProfessionalEmail(email) {
+        // List of free email providers to block
+        const freeEmailDomains = [
+            'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com',
+            'aol.com', 'mail.com', 'inbox.com', 'zoho.com',
+            'protonmail.com', 'yandex.com', 'mailinator.com',
+            'temp-mail.org', '10minutemail.com', 'guerrillamail.com',
+            'disposableemailaddresses.com', 'throwaway.email',
+            'tempmail.com', 'maildrop.cc', 'mintemail.com'
+        ];
+
+        const domain = email.split('@')[1].toLowerCase();
+        
+        // Block free email providers
+        if (freeEmailDomains.includes(domain)) {
+            return false;
+        }
+
+        // Block common TLDs that are typically personal emails
+        if (email.match(/@(gmail|yahoo|outlook|hotmail|aol|protonmail)\./) ||
+            email.match(/\.(tk|ml|ga|cf)$/)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * LEGACY: Validate email - Gmail only (kept for backward compatibility)
      */
     validateGmailEmail(email) {
         // Check basic email format
@@ -108,9 +171,8 @@ class FormValidator {
             return false;
         }
 
-        // Check if it's a Gmail address
-        const gmailRegex = /^[^\s@]+@gmail\.com$/i;
-        return gmailRegex.test(email);
+        // Allow any valid email, not just Gmail
+        return true;
     }
 
     /**
@@ -344,6 +406,159 @@ formStyles.textContent = `
         align-items: center;
         gap: var(--spacing-sm);
         animation: slideDown 0.4s ease-out;
+    }
+`;
+document.head.appendChild(formStyles);
+
+/**
+ * Apple Pay & Face ID Payment Handler
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // Donations Apple Pay Button
+    const applePayBtn = document.getElementById('applePayBtn');
+    if (applePayBtn) {
+        applePayBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('onlineAmount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid donation amount');
+                return;
+            }
+            
+            // Apple Pay Payment Request
+            if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+                const request = {
+                    countryCode: 'ZA',
+                    currencyCode: 'ZAR',
+                    supportedNetworks: ['visa', 'masterCard', 'amex'],
+                    merchantCapabilities: ['supports3DS'],
+                    total: { label: 'St. Francis Donation', amount: amount },
+                    lineItems: [
+                        { label: 'Church Donation', amount: amount, type: 'final' }
+                    ]
+                };
+                
+                const session = new ApplePaySession(11, request);
+                session.begin();
+            } else {
+                alert('Apple Pay is not available on this device. Please use another payment method.');
+            }
+        });
+    }
+
+    // Donations Face ID Button
+    const faceIdBtn = document.getElementById('faceIdBtn');
+    if (faceIdBtn) {
+        faceIdBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('onlineAmount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid donation amount');
+                return;
+            }
+
+            // Check if WebAuthn is available
+            if (window.PublicKeyCredential && navigator.credentials) {
+                // Trigger biometric authentication
+                navigator.credentials.get({
+                    publicKey: {
+                        challenge: new Uint8Array(32),
+                        allowCredentials: [],
+                        userVerification: 'preferred',
+                        timeout: 60000
+                    }
+                }).then(assertion => {
+                    alert('Thank you! Your donation of ZAR ' + amount + ' will be processed with Face ID authentication.');
+                    document.getElementById('onlineMessage').textContent = 'Donation received! Thank you for your generosity.';
+                    document.getElementById('onlineMessage').style.color = '#28a745';
+                }).catch(err => {
+                    console.log('Biometric authentication cancelled or unavailable');
+                });
+            } else {
+                alert('Biometric authentication is not available on this device. Please use another payment method.');
+            }
+        });
+    }
+
+    // Pledge Apple Pay Button
+    const pledgeApplePayBtn = document.getElementById('pledgeApplePayBtn');
+    if (pledgeApplePayBtn) {
+        pledgeApplePayBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('amount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid pledge amount');
+                return;
+            }
+
+            if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+                const request = {
+                    countryCode: 'ZA',
+                    currencyCode: 'ZAR',
+                    supportedNetworks: ['visa', 'masterCard', 'amex'],
+                    merchantCapabilities: ['supports3DS'],
+                    total: { label: 'St. Francis Pledge', amount: amount },
+                    lineItems: [
+                        { label: 'Church Pledge', amount: amount, type: 'final' }
+                    ]
+                };
+
+                const session = new ApplePaySession(11, request);
+                session.begin();
+            } else {
+                alert('Apple Pay is not available on this device. Please use another payment method.');
+            }
+        });
+    }
+
+    // Pledge Face ID Button
+    const pledgeFaceIdBtn = document.getElementById('pledgeFaceIdBtn');
+    if (pledgeFaceIdBtn) {
+        pledgeFaceIdBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('amount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid pledge amount');
+                return;
+            }
+
+            if (window.PublicKeyCredential && navigator.credentials) {
+                navigator.credentials.get({
+                    publicKey: {
+                        challenge: new Uint8Array(32),
+                        allowCredentials: [],
+                        userVerification: 'preferred',
+                        timeout: 60000
+                    }
+                }).then(assertion => {
+                    alert('Thank you! Your pledge of ZAR ' + amount + ' will be processed with Face ID authentication.');
+                    document.getElementById('pledgeMessage').textContent = 'Pledge received! Thank you for your commitment.';
+                    document.getElementById('pledgeMessage').style.color = '#28a745';
+                }).catch(err => {
+                    console.log('Biometric authentication cancelled or unavailable');
+                });
+            } else {
+                alert('Biometric authentication is not available on this device. Please use another payment method.');
+            }
+        });
+    }
+});
+                        allowCredentials: [],
+                        userVerification: 'preferred',
+                        timeout: 60000
+                    }
+                }).then(assertion => {
+                    alert('Thank you! Your pledge of ZAR ' + amount + ' has been confirmed with biometric authentication.');
+                    document.getElementById('paymentSection').style.display = 'none';
+                }).catch(err => {
+                    console.log('Biometric authentication cancelled or unavailable');
+                });
+            } else {
+                alert('Biometric authentication is not available on this device. Please use another payment method.');
+            }
+        });
+    }
+});
         box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
     }
 

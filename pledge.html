@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WZLG6BZG');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-924W70T70S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-924W70T70S');
+    </script>
+    <!-- End Google Analytics 4 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="description" content="Pledge Your Support - Stewardship, Impact, and Testimonies at St. Francis Church">
     <title>Pledge | St. Francis of Assisi Church</title>
+    <link rel="icon" href="Assets/LOGO/st.ico" type="image/x-icon">
     
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/style.css">
@@ -17,6 +34,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZLG6BZG"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- ============ HEADER & NAVIGATION ============ -->
     <header class="header">
         <div class="header__container">
@@ -169,7 +190,27 @@
 
                     <!-- PAYMENT METHOD SECTION (Initially Hidden) -->
                     <div id="paymentSection" style="display: none;">
-                        <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-primary);">Payment Method</h3>
+                        <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-primary);">Choose Your Payment Method</h3>
+                        
+                        <!-- Quick Payment Methods -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
+                            <!-- Apple Pay -->
+                            <button type="button" class="pledge-payment-method" id="pledgeApplePayBtn" style="padding: var(--spacing-md); border: 2px solid #000; background: #000; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Apple Pay">
+                                <i class="fab fa-apple" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
+                                <span style="color: white; font-weight: 700; font-size: 0.9rem;">Apple Pay</span>
+                            </button>
+                            
+                            <!-- Face ID / Biometric -->
+                            <button type="button" class="pledge-payment-method" id="pledgeFaceIdBtn" style="padding: var(--spacing-md); border: 2px solid #0071E3; background: #0071E3; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Face ID or Touch ID">
+                                <i class="fas fa-face-id" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
+                                <span style="font-size: 0.9rem;">Biometric</span>
+                            </button>
+                        </div>
+
+                        <div style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--color-text-secondary);">
+                            <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Or enter card details below</p>
+                        </div>
+                        
                         <p style="margin-bottom: var(--spacing-md); color: var(--color-text-secondary); font-style: italic;">Test mode - Card validation is disabled for testing</p>
                         
                         <div class="form-group">
@@ -212,6 +253,44 @@
                     <button type="button" class="btn" id="submitButton">Proceed with payment</button>
                 </form>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ PLEDGE INQUIRY FORM ============ -->
+<section class="bg-white">
+    <div class="container">
+        <h2 class="text-center">Questions About Your Pledge?</h2>
+        <p class="text-center" style="max-width: 700px; margin: var(--spacing-lg) auto; color: var(--color-text-secondary);">
+            If you have questions about pledging or would like to discuss alternative commitment options, please reach out to us.
+        </p>
+        
+        <div class="form-container">
+            <form action="https://formspree.io/f/xvzvnlzz" method="POST">
+                <div class="form-group">
+                    <label for="pledge-name">Full Name *</label>
+                    <input type="text" id="pledge-name" name="name" placeholder="Your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pledge-email">Email Address *</label>
+                    <input type="email" id="pledge-email" name="email" placeholder="your.email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pledge-phone">Phone Number</label>
+                    <input type="tel" id="pledge-phone" name="phone" placeholder="(+27) 12 345 6789">
+                </div>
+
+                <div class="form-group">
+                    <label for="pledge-inquiry">Your Question or Inquiry *</label>
+                    <textarea id="pledge-inquiry" name="message" placeholder="Tell us how we can help..." required></textarea>
+                </div>
+
+                <button type="submit" class="form-button">
+                    <i class="fas fa-envelope"></i> Send Inquiry
+                </button>
+            </form>
         </div>
     </div>
 </section>
@@ -476,10 +555,12 @@ document.getElementById('pledgeForm').addEventListener('submit', function(e) {
         </div>
     </footer>
 
+    <script src="js/hero-background.js"></script>
     <script src="js/security.js"></script>
     <script src="js/vpn_pig.js"></script>
     <script src="js/cookie-banner.js"></script>
     <script src="js/forms.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/debug-lcp.js"></script>
 </body>
 </html>

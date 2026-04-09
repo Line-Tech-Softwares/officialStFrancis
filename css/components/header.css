@@ -3,6 +3,9 @@
    Responsive sacred church design
    ================================================ */
 
+/* Font loading optimization - MUST BE AT TOP */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Crimson+Text:wght@400;500;600;700&display=swap');
+
 .header {
     background-color: var(--color-white);
     box-shadow: var(--shadow-sm);
@@ -351,9 +354,6 @@
         font-family: 'Times New Roman', serif;
     }
 }
-
-/* Font loading optimization */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Crimson+Text:wght@400;500;600;700&display=swap');
 
 /* Fallback for when fonts don't load */
 .fonts-loaded .header__logo-text {

@@ -296,8 +296,9 @@
         </div>
     </div>
 
-    <!-- MODAL AND TAB SWITCHING SCRIPTS -->
+    <!-- SCRIPTS -->
     <script src="../js/ministry-debug.js"></script>
+    <script src="../js/ministry-tabs.js"></script>
     <script>
         // Modal Functions
         function openSubscriptionModal(type) {
@@ -326,59 +327,5 @@
         // Close modal when clicking outside
         document.getElementById('subscriptionModal').addEventListener('click', function(e) {
             if (e.target === this) closeSubscriptionModal();
-        });
-
-        // Tab Switching
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabs = document.querySelectorAll('.ministry__tab');
-            const contents = document.querySelectorAll('.ministry__tab-content');
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = 'tab-' + this.getAttribute('data-tab');
-                    
-                    // Hide all contents
-                    contents.forEach(content => {
-                        content.style.display = 'none';
-                        content.classList.remove('active');
-                    });
-                    
-                    // Remove active from all tabs
-                    tabs.forEach(t => {
-                        t.style.color = 'var(--color-text-secondary)';
-                        t.style.borderBottom = 'none';
-                        t.style.marginBottom = '0';
-                    });
-                    
-                    // Show selected content
-                    const selectedContent = document.getElementById(tabId);
-                    if (selectedContent) {
-                        selectedContent.style.display = 'block';
-                        selectedContent.classList.add('active');
-                    }
-                    
-                    // Style active tab
-                    this.style.color = 'var(--color-primary)';
-                    this.style.borderBottom = '3px solid var(--color-gold)';
-                    this.style.marginBottom = '-2px';
-                });
-            });
-
-            // Keyboard navigation for tabs
-            tabs.forEach((tab, index) => {
-                tab.addEventListener('keydown', function(e) {
-                    let nextTab = null;
-                    if (e.key === 'ArrowRight') {
-                        nextTab = tabs[index + 1] || tabs[0];
-                    } else if (e.key === 'ArrowLeft') {
-                        nextTab = tabs[index - 1] || tabs[tabs.length - 1];
-                    }
-                    
-                    if (nextTab) {
-                        nextTab.focus();
-                        nextTab.click();
-                    }
-                });
-            });
         });
     </script>

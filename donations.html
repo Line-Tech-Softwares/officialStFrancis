@@ -133,6 +133,25 @@
                 <div class="donation-payment-form" style="margin-top: var(--spacing-lg);">
                     <form id="onlineGivingForm" novalidate>
                         <div class="form-group">
+                            <label for="donorType">Donor Type *</label>
+                            <select id="donorType" name="donorType" required onchange="updateDonationForm()">
+                                <option value="">Select donor type</option>
+                                <option value="personal">Personal Donation</option>
+                                <option value="organization">Organization/Business</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="orgEmailGroup" style="display: none;">
+                            <label for="orgEmail">Business Email Address *</label>
+                            <input type="email" id="orgEmail" name="orgEmail" placeholder="your.business@company.com">
+                        </div>
+                        
+                        <div class="form-group" id="personalEmailGroup">
+                            <label for="personalEmail">Email Address</label>
+                            <input type="email" id="personalEmail" name="personalEmail" placeholder="your.email@example.com">
+                        </div>
+
+                        <div class="form-group">
                             <label for="onlineAmount">Amount (ZAR)</label>
                             <input type="number" id="onlineAmount" name="onlineAmount" placeholder="e.g., 500" min="1" step="1">
                         </div>
@@ -152,7 +171,7 @@
                             <h4 style="margin-bottom: var(--spacing-md); color: var(--color-primary); font-size: 1rem;">Choose Your Payment Method</h4>
                             
                             <!-- Quick Payment Methods -->
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
                                 <!-- Apple Pay -->
                                 <button type="button" class="donation-payment-method" id="applePayBtn" style="padding: var(--spacing-md); border: 2px solid #000; background: #000; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Apple Pay">
                                     <i class="fab fa-apple" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
@@ -163,6 +182,12 @@
                                 <button type="button" class="donation-payment-method" id="faceIdBtn" style="padding: var(--spacing-md); border: 2px solid #0071E3; background: #0071E3; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Face ID or Touch ID">
                                     <i class="fas fa-face-id" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
                                     <span style="font-size: 0.9rem;">Biometric</span>
+                                </button>
+
+                                <!-- Wallet/Digital Pay -->
+                                <button type="button" class="donation-payment-method" id="walletBtn" style="padding: var(--spacing-md); border: 2px solid #10a856; background: #10a856; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Digital Wallet">
+                                    <i class="fas fa-wallet" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
+                                    <span style="font-size: 0.9rem;">Wallet</span>
                                 </button>
                             </div>
 
@@ -224,22 +249,27 @@
             </div>
             
             <div style="background-color: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                <h4 style="margin-bottom: var(--spacing-lg); color: var(--color-primary);">General Donations & Offerings</h4>
                 <div style="display: grid; gap: var(--spacing-md);">
                     <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
                         <span style="font-weight: 600; color: var(--color-primary);">Bank:</span>
-                        <span style="float: right; color: var(--color-text-light);">[Bank Name]</span>
+                        <span style="float: right; color: var(--color-text-light);">Standard Bank</span>
                     </div>
                     <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
                         <span style="font-weight: 600; color: var(--color-primary);">Account Name:</span>
-                        <span style="float: right; color: var(--color-text-light);">[Church Name]</span>
+                        <span style="float: right; color: var(--color-text-light);">St. Francis Church Mamelodi West</span>
                     </div>
                     <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
                         <span style="font-weight: 600; color: var(--color-primary);">Account Number:</span>
-                        <span style="float: right; color: var(--color-text-light);">[To be confirmed]</span>
+                        <span style="float: right; color: var(--color-text-light);">4202 333 26</span>
+                    </div>
+                    <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                        <span style="font-weight: 600; color: var(--color-primary);">Branch:</span>
+                        <span style="float: right; color: var(--color-text-light);">Menlyn</span>
                     </div>
                     <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
                         <span style="font-weight: 600; color: var(--color-primary);">Branch Code:</span>
-                        <span style="float: right; color: var(--color-text-light);">[To be confirmed]</span>
+                        <span style="float: right; color: var(--color-text-light);">012345</span>
                     </div>
                     <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
                         <span style="font-weight: 600; color: var(--color-primary);">Reference:</span>

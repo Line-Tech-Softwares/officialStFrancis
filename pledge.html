@@ -203,7 +203,7 @@
                         <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-primary);">Choose Your Payment Method</h3>
                         
                         <!-- Quick Payment Methods -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
                             <!-- Apple Pay -->
                             <button type="button" class="pledge-payment-method" id="pledgeApplePayBtn" style="padding: var(--spacing-md); border: 2px solid #000; background: #000; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Apple Pay">
                                 <i class="fab fa-apple" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
@@ -214,6 +214,12 @@
                             <button type="button" class="pledge-payment-method" id="pledgeFaceIdBtn" style="padding: var(--spacing-md); border: 2px solid #0071E3; background: #0071E3; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Face ID or Touch ID">
                                 <i class="fas fa-face-id" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
                                 <span style="font-size: 0.9rem;">Biometric</span>
+                            </button>
+
+                            <!-- Wallet/Digital Pay -->
+                            <button type="button" class="pledge-payment-method" id="pledgeWalletBtn" style="padding: var(--spacing-md); border: 2px solid #10a856; background: #10a856; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Digital Wallet">
+                                <i class="fas fa-wallet" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
+                                <span style="font-size: 0.9rem;">Wallet</span>
                             </button>
                         </div>
 
@@ -262,6 +268,45 @@
                     <!-- SUBMIT BUTTON -->
                     <button type="button" class="btn" id="submitButton">Proceed with payment</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ BANK TRANSFER DETAILS FOR PLEDGES ============ -->
+<section class="bg-pale-gold">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+            <i class="fas fa-university" style="font-size: 2rem; color: var(--color-primary); margin-bottom: var(--spacing-sm);"></i>
+            <h3 style="color: var(--color-primary);">Transactional Cheque Account</h3>
+            <p style="color: var(--color-text-secondary);">For regular pledge payments by cheque or standing order</p>
+        </div>
+        
+        <div style="background-color: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); max-width: 600px; margin: 0 auto;">
+            <div style="display: grid; gap: var(--spacing-md);">
+                <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                    <span style="font-weight: 600; color: var(--color-primary);">Account Name:</span>
+                    <span style="float: right; color: var(--color-text-light);">St. Francis of Assisi Mamelodi</span>
+                </div>
+                <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                    <span style="font-weight: 600; color: var(--color-primary);">Bank:</span>
+                    <span style="float: right; color: var(--color-text-light);">Standard Bank</span>
+                </div>
+                <div style="padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--color-pale-gold);">
+                    <span style="font-weight: 600; color: var(--color-primary);">Account Number:</span>
+                    <span style="float: right; color: var(--color-text-light);">012379697</span>
+                </div>
+                <div style="padding-bottom: var(--spacing-sm);">
+                    <span style="font-weight: 600; color: var(--color-primary);">Reference:</span>
+                    <span style="float: right; color: var(--color-text-light);">Your Name + "Pledge"</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: var(--spacing-lg); padding: var(--spacing-md); background-color: var(--color-bg-light); border-radius: var(--radius-md);">
+                <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.9rem; font-style: italic;">
+                    <i class="fas fa-info-circle" style="color: var(--color-gold); margin-right: var(--spacing-xs);"></i>
+                    For cheque payments, please write your full name on the cheque. For standing orders, please contact our finance team.
+                </p>
             </div>
         </div>
     </div>

@@ -542,4 +542,159 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // ============ WALLET PAYMENT HANDLERS ============
+    // Donations Wallet Button
+    const walletBtn = document.getElementById('walletBtn');
+    if (walletBtn) {
+        walletBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('onlineAmount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid donation amount');
+                return;
+            }
+
+            // Simulate wallet payment
+            const messageDiv = document.getElementById('onlineMessage');
+            const animationContainer = document.getElementById('onlineAnimationContainer');
+            
+            messageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing wallet payment...';
+            messageDiv.style.color = '#3b82f6';
+            
+            setTimeout(() => {
+                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Wallet payment of ZAR ' + amount + ' successful!';
+                messageDiv.style.color = '#10b981';
+                
+                // Show success animation
+                animationContainer.style.display = 'block';
+                animationContainer.innerHTML = `
+                    <video width="200" height="150" autoplay muted>
+                        <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+            }, 2000);
+        });
+    }
+
+    // Pledge Wallet Button
+    const pledgeWalletBtn = document.getElementById('pledgeWalletBtn');
+    if (pledgeWalletBtn) {
+        pledgeWalletBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('amount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid pledge amount');
+                return;
+            }
+
+            // Simulate wallet payment
+            const messageDiv = document.getElementById('formMessage');
+            const animationContainer = document.getElementById('animationContainer');
+            
+            messageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing wallet payment...';
+            messageDiv.style.color = '#3b82f6';
+            
+            setTimeout(() => {
+                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Wallet payment of ZAR ' + amount + ' successful!';
+                messageDiv.style.color = '#10b981';
+                
+                // Show success animation
+                animationContainer.style.display = 'block';
+                animationContainer.innerHTML = `
+                    <video width="200" height="150" autoplay muted>
+                        <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+            }, 2000);
+        });
+    }
+
+    // ============ DONATION FORM TYPE HANDLER ============
+    window.updateDonationForm = function() {
+        const donorType = document.getElementById('donorType').value;
+        const orgEmailGroup = document.getElementById('orgEmailGroup');
+        const personalEmailGroup = document.getElementById('personalEmailGroup');
+        
+        if (donorType === 'organization') {
+            orgEmailGroup.style.display = 'block';
+            personalEmailGroup.style.display = 'none';
+            document.getElementById('orgEmail').required = true;
+            document.getElementById('personalEmail').required = false;
+        } else if (donorType === 'personal') {
+            orgEmailGroup.style.display = 'none';
+            personalEmailGroup.style.display = 'block';
+            document.getElementById('orgEmail').required = false;
+            document.getElementById('personalEmail').required = false;
+        } else {
+            orgEmailGroup.style.display = 'none';
+            personalEmailGroup.style.display = 'block';
+        }
+    };
+
+    // ============ PAYMENT FAILURE/CANCELLATION HANDLING ============
+    // Helper function to show payment failed animation
+    window.showPaymentFailed = function(containerId, messageId) {
+        const animationContainer = document.getElementById(containerId);
+        const messageDiv = document.getElementById(messageId);
+        
+        animationContainer.style.display = 'block';
+        animationContainer.innerHTML = `
+            <video width="200" height="150" autoplay loop muted>
+                <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
+                Your browser does not support the video tag.
+            </video>
+        `;
+        
+        messageDiv.innerHTML = '<i class="fas fa-times-circle"></i> Payment was cancelled or failed. Please try again.';
+        messageDiv.style.color = '#ef4444';
+    };
 });
+
+// ============ MINISTRY NAVIGATION STATE TRACKING ============
+/**
+ * Track ministry navigation state using mpho_bookmark_this variable
+ * Remembers where user came from and restores focus on ministry tabs
+ */
+(function() {
+    // Save current page before navigating to a ministry
+    const ministryLinks = document.querySelectorAll('a[href*="/ministries/"]');
+    ministryLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Save the referring page
+            window.mpho_bookmark_this = {
+                referrer: document.location.pathname,
+                timestamp: new Date().getTime()
+            };
+            sessionStorage.setItem('mpho_bookmark_this', JSON.stringify(window.mpho_bookmark_this));
+            
+            // Save which ministry link was clicked (if it's a specific ministry)
+            const ministryName = this.getAttribute('data-ministry');
+            if (ministryName) {
+                sessionStorage.setItem('mpho_last_ministry', ministryName);
+            }
+        });
+    });
+
+    // On page load, restore the bookmarked state
+    window.addEventListener('load', function() {
+        const savedBookmark = sessionStorage.getItem('mpho_bookmark_this');
+        if (savedBookmark) {
+            window.mpho_bookmark_this = JSON.parse(savedBookmark);
+        }
+    });
+
+    // Handle back button to ministries
+    window.addEventListener('popstate', function(event) {
+        const savedBookmark = sessionStorage.getItem('mpho_bookmark_this');
+        if (savedBookmark) {
+            const bookmark = JSON.parse(savedBookmark);
+            // If we're back on the ministries page, remove the bookmark
+            if (document.location.pathname.includes('ministries')) {
+                sessionStorage.removeItem('mpho_bookmark_this');
+            }
+        }
+    });
+})();

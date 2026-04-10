@@ -411,170 +411,359 @@ formStyles.textContent = `
 document.head.appendChild(formStyles);
 
 /**
+ * HTML Alert System - Display alerts without browser alert()
+ */
+window.showHTMLAlert = function(title, message, type = 'info') {
+    // Remove existing alert if present
+    const existingAlert = document.getElementById('html-alert-container');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+
+    // Create alert container
+    const alertContainer = document.createElement('div');
+    alertContainer.id = 'html-alert-container';
+    alertContainer.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        max-width: 400px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 10000;
+        animation: slideInRight 0.3s ease-out;
+        border-left: 4px solid ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#0071E3'};
+    `;
+
+    // Color scheme based on type
+    const colors = {
+        success: { bg: '#d4edda', text: '#155724', icon: 'fa-check-circle' },
+        error: { bg: '#f8d7da', text: '#721c24', icon: 'fa-exclamation-circle' },
+        warning: { bg: '#fff3cd', text: '#856404', icon: 'fa-exclamation-triangle' },
+        info: { bg: '#d1ecf1', text: '#0c5460', icon: 'fa-info-circle' }
+    };
+
+    const colorScheme = colors[type] || colors.info;
+
+    alertContainer.innerHTML = `
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <i class="fas ${colorScheme.icon}" style="color: ${colorScheme.text}; margin-top: 2px; font-size: 20px;"></i>
+            <div style="flex: 1;">
+                <strong style="color: ${colorScheme.text}; display: block; margin-bottom: 4px;">${title}</strong>
+                <p style="color: ${colorScheme.text}; margin: 0; font-size: 14px; line-height: 1.5;">${message}</p>
+            </div>
+            <button onclick="document.getElementById('html-alert-container').remove()" style="background: none; border: none; color: ${colorScheme.text}; cursor: pointer; font-size: 20px; padding: 0; line-height: 1;">×</button>
+        </div>
+    `;
+
+    document.body.appendChild(alertContainer);
+
+    // Auto-remove after 6 seconds for success/info, 8 seconds for errors
+    const timeout = (type === 'error' || type === 'warning') ? 8000 : 6000;
+    setTimeout(() => {
+        if (alertContainer.parentNode) {
+            alertContainer.style.animation = 'slideOutRight 0.3s ease-out forwards';
+            setTimeout(() => alertContainer.remove(), 300);
+        }
+    }, timeout);
+};
+
+/**
+ * Add animation styles for alerts
+ */
+const alertStyles = document.createElement('style');
+alertStyles.textContent = `
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(400px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideOutRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(400px);
+        }
+    }
+`;
+document.head.appendChild(alertStyles);
+
+/**
+ * Payment Processing System
+ * Handles Apple Pay, Biometric (Face ID), and Digital Wallet payments
+ */
+const PaymentProcessor = {
+    /**
+     * Process Apple Pay payment
+     */
+    processApplePay: function(amount, formType = 'donation') {
+        if (!amount || amount <= 0) {
+            window.showHTMLAlert('Invalid Amount', 'Please enter a valid ' + (formType === 'pledge' ? 'pledge' : 'donation') + ' amount.', 'error');
+            return;
+        }
+
+        // Check if Apple Pay is available
+        if (!window.ApplePaySession || !ApplePaySession.canMakePayments()) {
+            window.showHTMLAlert('Apple Pay Unavailable', 'Apple Pay is not available on this device. Please use another payment method.', 'warning');
+            return;
+        }
+
+        // Create Apple Pay request
+        const request = {
+            countryCode: 'ZA',
+            currencyCode: 'ZAR',
+            supportedNetworks: ['visa', 'masterCard', 'amex'],
+            merchantCapabilities: ['supports3DS'],
+            total: {
+                label: 'St. Francis ' + (formType === 'pledge' ? 'Pledge' : 'Donation'),
+                amount: amount.toString()
+            },
+            lineItems: [
+                {
+                    label: 'Church ' + (formType === 'pledge' ? 'Pledge' : 'Donation'),
+                    amount: amount.toString(),
+                    type: 'final'
+                }
+            ]
+        };
+
+        try {
+            const session = new ApplePaySession(11, request);
+
+            session.onvalidatemerchant = (event) => {
+                // In production, validate merchant with Apple
+                // For now, just continue
+                session.completeMerchantValidation({});
+            };
+
+            session.onpaymentauthorized = (event) => {
+                // Payment authorized - process it
+                const paymentData = event.payment;
+                PaymentProcessor.completePayment(amount, 'Apple Pay', formType, session);
+            };
+
+            session.oncancel = () => {
+                window.showHTMLAlert('Payment Cancelled', 'Your ' + (formType === 'pledge' ? 'pledge' : 'donation') + ' has been cancelled.', 'warning');
+            };
+
+            session.begin();
+        } catch (error) {
+            window.showHTMLAlert('Payment Error', 'An error occurred while initiating Apple Pay. Please try again.', 'error');
+            console.error('Apple Pay error:', error);
+        }
+    },
+
+    /**
+     * Process Biometric (Face ID / Touch ID) payment
+     */
+    processBiometric: function(amount, formType = 'donation') {
+        if (!amount || amount <= 0) {
+            window.showHTMLAlert('Invalid Amount', 'Please enter a valid ' + (formType === 'pledge' ? 'pledge' : 'donation') + ' amount.', 'error');
+            return;
+        }
+
+        // Check if WebAuthn/Biometric is available
+        if (!window.PublicKeyCredential || !navigator.credentials) {
+            window.showHTMLAlert('Biometric Unavailable', 'Biometric authentication is not available on this device. Please use another payment method.', 'warning');
+            return;
+        }
+
+        // Show processing message
+        window.showHTMLAlert('Processing', 'Please authenticate using Face ID or Touch ID...', 'info');
+
+        // Request biometric authentication
+        navigator.credentials.get({
+            publicKey: {
+                challenge: crypto.getRandomValues(new Uint8Array(32)),
+                allowCredentials: [],
+                userVerification: 'preferred',
+                timeout: 60000
+            }
+        }).then(assertion => {
+            // Biometric authentication successful
+            PaymentProcessor.completePayment(amount, 'Biometric', formType, null);
+        }).catch(err => {
+            if (err.name === 'NotAllowedError') {
+                window.showHTMLAlert('Authentication Cancelled', 'Biometric authentication was cancelled. Please try again.', 'warning');
+            } else if (err.name === 'InvalidStateError') {
+                window.showHTMLAlert('No Credentials Registered', 'No biometric credentials found. Please use another payment method.', 'error');
+            } else {
+                window.showHTMLAlert('Authentication Error', 'An error occurred during biometric authentication: ' + err.message, 'error');
+            }
+        });
+    },
+
+    /**
+     * Process Digital Wallet payment
+     */
+    processWallet: function(amount, formType = 'donation') {
+        if (!amount || amount <= 0) {
+            window.showHTMLAlert('Invalid Amount', 'Please enter a valid ' + (formType === 'pledge' ? 'pledge' : 'donation') + ' amount.', 'error');
+            return;
+        }
+
+        // Get message and animation containers based on form type
+        const messageElementId = formType === 'pledge' ? 'formMessage' : 'onlineMessage';
+        const animationElementId = formType === 'pledge' ? 'animationContainer' : 'onlineAnimationContainer';
+        
+        const messageDiv = document.getElementById(messageElementId);
+        const animationContainer = document.getElementById(animationElementId);
+
+        // Show processing state
+        if (messageDiv) {
+            messageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing digital wallet payment...';
+            messageDiv.style.color = '#3b82f6';
+        }
+
+        window.showHTMLAlert('Processing', 'Connecting to payment gateway...', 'info');
+
+        // Simulate payment processing (3-5 seconds)
+        setTimeout(() => {
+            // Complete the payment
+            PaymentProcessor.completePayment(amount, 'Digital Wallet', formType, null);
+        }, 3000);
+    },
+
+    /**
+     * Complete payment and show success message
+     */
+    completePayment: function(amount, method, formType = 'donation', applePaySession = null) {
+        // Get the appropriate message and animation containers
+        const messageElementId = formType === 'pledge' ? 'formMessage' : 'onlineMessage';
+        const animationElementId = formType === 'pledge' ? 'animationContainer' : 'onlineAnimationContainer';
+        
+        const messageDiv = document.getElementById(messageElementId);
+        const animationContainer = document.getElementById(animationElementId);
+
+        // Update message
+        if (messageDiv) {
+            messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + method + ' payment of ZAR ' + amount + ' successful!';
+            messageDiv.style.color = '#28a745';
+        }
+
+        // Show success animation
+        if (animationContainer) {
+            animationContainer.style.display = 'block';
+            animationContainer.innerHTML = `
+                <video width="200" height="150" autoplay muted playsinline>
+                    <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
+                    <source src="Assets/Payment_animations/Payment Successful.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+        }
+
+        // Show HTML alert
+        const successMsg = 'Your ' + (formType === 'pledge' ? 'pledge' : 'donation') + ' of ZAR ' + amount + ' has been processed successfully using ' + method + '. Thank you for your generosity!';
+        window.showHTMLAlert('Payment Successful', successMsg, 'success');
+
+        // If Apple Pay session exists, complete it
+        if (applePaySession) {
+            applePaySession.completePayment(ApplePaySession.STATUS_SUCCESS);
+        }
+
+        // Log payment for analytics
+        console.log('✓ Payment processed:', {
+            method: method,
+            amount: amount,
+            formType: formType,
+            timestamp: new Date().toISOString()
+        });
+    },
+
+    /**
+     * Handle payment failure
+     */
+    handlePaymentFailure: function(formType = 'donation', reason = 'Unknown error') {
+        const messageElementId = formType === 'pledge' ? 'formMessage' : 'onlineMessage';
+        const animationElementId = formType === 'pledge' ? 'animationContainer' : 'onlineAnimationContainer';
+        
+        const messageDiv = document.getElementById(messageElementId);
+        const animationContainer = document.getElementById(animationElementId);
+
+        // Update message
+        if (messageDiv) {
+            messageDiv.innerHTML = '<i class="fas fa-times-circle"></i> Payment failed. Please try again.';
+            messageDiv.style.color = '#ef4444';
+        }
+
+        // Show failure animation
+        if (animationContainer) {
+            animationContainer.style.display = 'block';
+            animationContainer.innerHTML = `
+                <video width="200" height="150" autoplay muted playsinline>
+                    <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
+                    <source src="Assets/Payment_animations/Payment Failed.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+        }
+
+        window.showHTMLAlert('Payment Failed', 'Your payment could not be processed. ' + reason + ' Please try again or use a different payment method.', 'error');
+    }
+};
+
+/**
  * Apple Pay & Face ID Payment Handler
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // ============ DONATIONS PAYMENT HANDLERS ============
+    
     // Donations Apple Pay Button
     const applePayBtn = document.getElementById('applePayBtn');
     if (applePayBtn) {
         applePayBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const amount = document.getElementById('onlineAmount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid donation amount');
-                return;
-            }
-            
-            // Apple Pay Payment Request
-            if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
-                const request = {
-                    countryCode: 'ZA',
-                    currencyCode: 'ZAR',
-                    supportedNetworks: ['visa', 'masterCard', 'amex'],
-                    merchantCapabilities: ['supports3DS'],
-                    total: { label: 'St. Francis Donation', amount: amount },
-                    lineItems: [
-                        { label: 'Church Donation', amount: amount, type: 'final' }
-                    ]
-                };
-                
-                const session = new ApplePaySession(11, request);
-                session.begin();
-            } else {
-                alert('Apple Pay is not available on this device. Please use another payment method.');
-            }
+            PaymentProcessor.processApplePay(document.getElementById('onlineAmount').value, 'donation');
         });
     }
 
-    // Donations Face ID Button
+    // Donations Face ID Button (Biometric)
     const faceIdBtn = document.getElementById('faceIdBtn');
     if (faceIdBtn) {
         faceIdBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const amount = document.getElementById('onlineAmount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid donation amount');
-                return;
-            }
-
-            // Check if WebAuthn is available
-            if (window.PublicKeyCredential && navigator.credentials) {
-                // Trigger biometric authentication
-                navigator.credentials.get({
-                    publicKey: {
-                        challenge: new Uint8Array(32),
-                        allowCredentials: [],
-                        userVerification: 'preferred',
-                        timeout: 60000
-                    }
-                }).then(assertion => {
-                    alert('Thank you! Your donation of ZAR ' + amount + ' will be processed with Face ID authentication.');
-                    document.getElementById('onlineMessage').textContent = 'Donation received! Thank you for your generosity.';
-                    document.getElementById('onlineMessage').style.color = '#28a745';
-                }).catch(err => {
-                    console.log('Biometric authentication cancelled or unavailable');
-                });
-            } else {
-                alert('Biometric authentication is not available on this device. Please use another payment method.');
-            }
+            PaymentProcessor.processBiometric(document.getElementById('onlineAmount').value, 'donation');
         });
     }
 
-    // Pledge Apple Pay Button
-    const pledgeApplePayBtn = document.getElementById('pledgeApplePayBtn');
-    if (pledgeApplePayBtn) {
-        pledgeApplePayBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const amount = document.getElementById('amount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid pledge amount');
-                return;
-            }
-
-            if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
-                const request = {
-                    countryCode: 'ZA',
-                    currencyCode: 'ZAR',
-                    supportedNetworks: ['visa', 'masterCard', 'amex'],
-                    merchantCapabilities: ['supports3DS'],
-                    total: { label: 'St. Francis Pledge', amount: amount },
-                    lineItems: [
-                        { label: 'Church Pledge', amount: amount, type: 'final' }
-                    ]
-                };
-
-                const session = new ApplePaySession(11, request);
-                session.begin();
-            } else {
-                alert('Apple Pay is not available on this device. Please use another payment method.');
-            }
-        });
-    }
-
-    // Pledge Face ID Button
-    const pledgeFaceIdBtn = document.getElementById('pledgeFaceIdBtn');
-    if (pledgeFaceIdBtn) {
-        pledgeFaceIdBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const amount = document.getElementById('amount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid pledge amount');
-                return;
-            }
-
-            if (window.PublicKeyCredential && navigator.credentials) {
-                navigator.credentials.get({
-                    publicKey: {
-                        challenge: new Uint8Array(32),
-                        allowCredentials: [],
-                        userVerification: 'preferred',
-                        timeout: 60000
-                    }
-                }).then(assertion => {
-                    alert('Thank you! Your pledge of ZAR ' + amount + ' will be processed with Face ID authentication.');
-                    document.getElementById('pledgeMessage').textContent = 'Pledge received! Thank you for your commitment.';
-                    document.getElementById('pledgeMessage').style.color = '#28a745';
-                }).catch(err => {
-                    console.log('Biometric authentication cancelled or unavailable');
-                });
-            } else {
-                alert('Biometric authentication is not available on this device. Please use another payment method.');
-            }
-        });
-    }
-
-    // ============ WALLET PAYMENT HANDLERS ============
     // Donations Wallet Button
     const walletBtn = document.getElementById('walletBtn');
     if (walletBtn) {
         walletBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const amount = document.getElementById('onlineAmount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid donation amount');
-                return;
-            }
+            PaymentProcessor.processWallet(document.getElementById('onlineAmount').value, 'donation');
+        });
+    }
 
-            // Simulate wallet payment
-            const messageDiv = document.getElementById('onlineMessage');
-            const animationContainer = document.getElementById('onlineAnimationContainer');
-            
-            messageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing wallet payment...';
-            messageDiv.style.color = '#3b82f6';
-            
-            setTimeout(() => {
-                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Wallet payment of ZAR ' + amount + ' successful!';
-                messageDiv.style.color = '#10b981';
-                
-                // Show success animation
-                animationContainer.style.display = 'block';
-                animationContainer.innerHTML = `
-                    <video width="200" height="150" autoplay muted>
-                        <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
-                        Your browser does not support the video tag.
-                    </video>
-                `;
-            }, 2000);
+    // ============ PLEDGES PAYMENT HANDLERS ============
+    
+    // Pledge Apple Pay Button
+    const pledgeApplePayBtn = document.getElementById('pledgeApplePayBtn');
+    if (pledgeApplePayBtn) {
+        pledgeApplePayBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            PaymentProcessor.processApplePay(document.getElementById('amount').value, 'pledge');
+        });
+    }
+
+    // Pledge Face ID Button (Biometric)
+    const pledgeFaceIdBtn = document.getElementById('pledgeFaceIdBtn');
+    if (pledgeFaceIdBtn) {
+        pledgeFaceIdBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            PaymentProcessor.processBiometric(document.getElementById('amount').value, 'pledge');
         });
     }
 
@@ -583,32 +772,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pledgeWalletBtn) {
         pledgeWalletBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const amount = document.getElementById('amount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid pledge amount');
-                return;
-            }
-
-            // Simulate wallet payment
-            const messageDiv = document.getElementById('formMessage');
-            const animationContainer = document.getElementById('animationContainer');
-            
-            messageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing wallet payment...';
-            messageDiv.style.color = '#3b82f6';
-            
-            setTimeout(() => {
-                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Wallet payment of ZAR ' + amount + ' successful!';
-                messageDiv.style.color = '#10b981';
-                
-                // Show success animation
-                animationContainer.style.display = 'block';
-                animationContainer.innerHTML = `
-                    <video width="200" height="150" autoplay muted>
-                        <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
-                        Your browser does not support the video tag.
-                    </video>
-                `;
-            }, 2000);
+            PaymentProcessor.processWallet(document.getElementById('amount').value, 'pledge');
         });
     }
 

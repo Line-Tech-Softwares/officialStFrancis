@@ -294,12 +294,47 @@
             </div>
         </div>
     </footer>
+   <script>
+        // Save state before navigating to a ministry
+        document.querySelectorAll('.ministry__card, .ministry__card-link, a[href*="ministry"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Save current scroll position and any filters
+                sessionStorage.setItem('mpho_scroll_position', window.scrollY);
+                sessionStorage.setItem('mpho_referrer_page', window.location.href);
+                
+                // Save active filters if you have them
+                const activeFilters = document.querySelectorAll('.filter.active, .filter-btn.active');
+                if (activeFilters.length) {
+                    const filterValues = Array.from(activeFilters).map(f => f.dataset.filter || f.textContent.trim());
+                    sessionStorage.setItem('mpho_active_filters', JSON.stringify(filterValues));
+                }
+            });
+        });
+        
+        // Restore filters and scroll position when returning to ministries.html
+        window.addEventListener('load', function() {
+            const savedFilters = sessionStorage.getItem('mpho_active_filters');
+            if (savedFilters) {
+                const filters = JSON.parse(savedFilters);
+                // Apply your filter logic here
+                filters.forEach(filterValue => {
+                    const filterBtn = document.querySelector(`[data-filter="${filterValue}"]`);
+                    if (filterBtn) filterBtn.classList.add('active');
+                });
+                sessionStorage.removeItem('mpho_active_filters');
+            }
+        });
+    </script>
 
+</body>
+</html>
     <script src="js/hero-background.js"></script>
     <script src="js/security.js"></script>
     <script src="js/vpn_pig.js"></script>
     <script src="js/cookie-banner.js"></script>
     <script src="js/main.js"></script>
     <script src="js/debug-lcp.js"></script>
+    <script src="js/ministry-tabs.js"></script>
+    <script src="js/ministries.js"></script>
 </body>
 </html>

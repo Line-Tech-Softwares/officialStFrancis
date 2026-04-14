@@ -69,12 +69,7 @@
     </div>
 
     <!-- MAIN CONTENT SECTION -->
-    <div class="container">
-        <!-- Back Button (Top) -->
-        <a href="../ministries.html" class="ministry__back-button" style="display: block; margin-top: var(--spacing-2xl); margin-bottom: var(--spacing-xl);" onclick="return handleMinistryBackButton(event)">
-            <i class="fas fa-arrow-left"></i> Back to Ministries
-        </a>
-
+    <div class="container ministry__container">
         <!-- Header with Title & CTA Button -->
         <div class="ministry__header" style="display: flex; flex-direction: column; gap: var(--spacing-md);">
             <div class="ministry__header-info" style="flex: 1;">
@@ -105,28 +100,36 @@
         <!-- ABOUT TAB (Active) -->
         <div id="tab-about" class="ministry__tab-content active" style="margin-bottom: var(--spacing-2xl);">
             <div class="ministry__about" style="background-color: var(--color-cream); padding: var(--spacing-lg); border-radius: var(--radius-md); line-height: 1.8; color: var(--color-primary);">
-                <p style="margin-bottom: var(--spacing-md);">The St. Agnes Guild honors the legacy of Saint Lawrence through fellowship and dedicated service. Like Saint Lawrence who gave himself in service to Christ, we gather as men committed to supporting one another and serving our community with strength and compassion.</p>
-                <p style="margin-bottom: var(--spacing-md);">Our guild of altar servers maintains reverence and discipline in our sacred duties at the altar, blending tradition with spiritual devotion. We serve with humility and dedication, inspired by St. Lawrence's example of selfless martyrdom and unwavering faith.</p>
-                <p style="margin-bottom: 0;"><strong>Through regular meetings, spiritual study, charitable work, and brotherhood, we live out our faith together. All men are welcome to join this fellowship.</strong></p>
+                <p style="margin-bottom: var(--spacing-md);">St. Agnes Guild nurtures young girls in Christian values, leadership development, and meaningful service. Named after Saint Agnes, a symbol of purity and courage, our guild creates a safe space where girls can explore their faith, develop confidence, and discover their unique purpose.</p>
+                <p style="margin-bottom: var(--spacing-md);">Through age-appropriate activities, mentoring from supportive leaders, and engagement in community service, we help young girls grow into strong, compassionate Christian women of faith. We celebrate each girl's individual journey while building genuine sisterhood.</p>
+                <p style="margin-bottom: 0;"><strong>We welcome all young girls to join us in a joy-filled community dedicated to faith, friendship, growth, and service.</strong></p>
             </div>
         </div>
 
-        <!-- GALLERY TAB -->
-        <div id="tab-gallery" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">
-            <div style="text-align: center; padding: var(--spacing-2xl); background-color: var(--color-cream); border-radius: var(--radius-md);">
-                <i class="fas fa-images" style="font-size: 3rem; color: var(--color-gold); margin-bottom: var(--spacing-md);"></i>
-                <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);">Gallery Coming Soon</h3>
-                <p style="color: var(--color-text-secondary);">Content coming soon. I will add them in due time.</p>
-            </div>
-            <div class="ministry__gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-lg);">
-                <div class="gallery__item" style="aspect-ratio: 9/16; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center; color: white;"><i class="fas fa-camera" style="font-size: 2rem; margin-bottom: var(--spacing-sm);"></i><p>Photo Gallery</p></div>
-                </div>
-                <div class="gallery__item" style="aspect-ratio: 9/16; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center; color: white;"><i class="fas fa-image" style="font-size: 2rem; margin-bottom: var(--spacing-sm);"></i><p>Events & Activities</p></div>
-                </div>
+  <!-- GALLERY TAB -->
+<div id="tab-gallery" class="ministry__tab-content" style="display: none;">
+    <div class="gallery__coming-soon">
+        <i class="fas fa-images gallery__coming-icon"></i>
+        <h3 class="gallery__coming-title">Gallery Coming Soon</h3>
+        <p class="gallery__coming-text">Content coming soon. I will add them in due time.</p>
+    </div>
+    
+    <div class="ministry__gallery">
+        <div class="gallery__item" role="button" tabindex="0" aria-label="View Photo Gallery">
+            <div class="gallery__placeholder">
+                <i class="fas fa-camera gallery__icon"></i>
+                <span class="gallery__label">Photo Gallery</span>
             </div>
         </div>
+        
+        <div class="gallery__item" role="button" tabindex="0" aria-label="View Events & Activities">
+            <div class="gallery__placeholder">
+                <i class="fas fa-image gallery__icon"></i>
+                <span class="gallery__label">Events & Activities</span>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- SONGS TAB -->
         <div id="tab-songs" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">

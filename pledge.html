@@ -151,123 +151,149 @@
             Please complete the form below to share your pledge intentions. This helps us plan ministries responsibly and prayerfully.
         </p>
 
-        <div class="card" style="max-width: 800px; margin: var(--spacing-2xl) auto;">
-            <div class="card__content">
-                <form id="pledgeForm" novalidate>
-                    <!-- INITIAL FORM FIELDS -->
-                    <div id="initialFormFields">
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" name="fullName" placeholder="Your full name">
-                        </div>
+        <!-- Pledge Form -->
+        <div style="max-width: 900px; margin: var(--spacing-2xl) auto;">
+            <div class="card">
+                <div class="card__content">
+                    <form id="pledgeForm" novalidate>
+                        <!-- STEP 1: INITIAL PLEDGE DETAILS -->
+                        <div id="pledgeStep1">
+                            <h3 class="card__title" style="margin-bottom: var(--spacing-lg);">Your Details</h3>
 
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="pledgeFullName">Full Name *</label>
+                                <input type="text" id="pledgeFullName" name="fullName" placeholder="Your full name" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="phone">Phone (South Africa)</label>
-                            <input type="tel" id="phone" name="phone" placeholder="e.g., +27 12 345 6789">
-                        </div>
+                            <div class="form-group">
+                                <label for="pledgeEmail">Personal Email Address *</label>
+                                <input type="email" id="pledgeEmail" name="email" placeholder="yourpersonalemail@example.com" required>
+                                <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-top: var(--spacing-xs);">
+                                    <i class="fas fa-info-circle"></i> Pledges must use a personal email (Gmail, Yahoo, etc.)
+                                </p>
+                                <div id="pledgeEmailError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="amount">Pledge Amount (ZAR)</label>
-                            <input type="number" id="amount" name="amount" placeholder="e.g., 250" min="1" step="1">
-                        </div>
+                            <div class="form-group">
+                                <label for="pledgePhone">Phone (South Africa)</label>
+                                <input type="tel" id="pledgePhone" name="phone" placeholder="e.g., +27 12 345 6789">
+                            </div>
 
-                        <div class="form-group">
-                            <label for="frequency">Frequency</label>
-                            <select id="frequency" name="frequency">
-                                <option value="">Select frequency</option>
-                                <option value="one-time">One-time</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="quarterly">Quarterly</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="startDate">Start Date (optional)</label>
-                            <input type="date" id="startDate" name="startDate">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Message (optional)</label>
-                            <textarea id="message" name="message" rows="4" placeholder="Share any notes or prayer requests"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- PAYMENT METHOD SECTION (Initially Hidden) -->
-                    <div id="paymentSection" style="display: none;">
-                        <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-primary);">Choose Your Payment Method</h3>
-                        
-                        <!-- Quick Payment Methods -->
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
-                            <!-- Apple Pay -->
-                            <button type="button" class="pledge-payment-method" id="pledgeApplePayBtn" style="padding: var(--spacing-md); border: 2px solid #000; background: #000; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Apple Pay">
-                                <i class="fab fa-apple" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
-                                <span style="color: white; font-weight: 700; font-size: 0.9rem;">Apple Pay</span>
-                            </button>
-                            
-                            <!-- Face ID / Biometric -->
-                            <button type="button" class="pledge-payment-method" id="pledgeFaceIdBtn" style="padding: var(--spacing-md); border: 2px solid #0071E3; background: #0071E3; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Face ID or Touch ID">
-                                <i class="fas fa-face-id" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
-                                <span style="font-size: 0.9rem;">Biometric</span>
-                            </button>
-
-                            <!-- Wallet/Digital Pay -->
-                            <button type="button" class="pledge-payment-method" id="pledgeWalletBtn" style="padding: var(--spacing-md); border: 2px solid #10a856; background: #10a856; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Digital Wallet">
-                                <i class="fas fa-wallet" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
-                                <span style="font-size: 0.9rem;">Wallet</span>
-                            </button>
-                        </div>
-
-                        <div style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--color-text-secondary);">
-                            <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Or enter card details below</p>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="cardNumber">Card Number</label>
-                            <div style="position: relative;">
-                                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
-                                <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px;">
-                                    <i class="fab fa-cc-visa" style="font-size: 24px; color: #1A1F71;"></i>
-                                    <i class="fab fa-cc-mastercard" style="font-size: 24px; color: #EB001B;"></i>
+                            <div class="form-group">
+                                <label for="pledgeAmount">Pledge Amount (ZAR) *</label>
+                                <input type="number" id="pledgeAmount" name="amount" placeholder="e.g., 250" min="1" step="1" required>
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
+                                    <button type="button" class="pledge-preset" data-amount="100" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R100</button>
+                                    <button type="button" class="pledge-preset" data-amount="250" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R250</button>
+                                    <button type="button" class="pledge-preset" data-amount="500" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R500</button>
+                                    <button type="button" class="pledge-preset" data-amount="1000" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R1000</button>
                                 </div>
                             </div>
-                        </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
                             <div class="form-group">
-                                <label for="expiry">Expiry Date</label>
-                                <input type="text" id="expiry" placeholder="MM/YY">
+                                <label for="pledgeFrequency">Frequency *</label>
+                                <select id="pledgeFrequency" name="frequency" required style="padding: var(--spacing-sm); border: 1px solid var(--color-pale-gold); border-radius: var(--radius-sm); font-family: inherit; font-size: 1rem;">
+                                    <option value="">Select frequency</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="annually">Annually</option>
+                                </select>
                             </div>
+
                             <div class="form-group">
-                                <label for="cvv">CVV</label>
-                                <input type="text" id="cvv" placeholder="123">
+                                <label for="pledgeStartDate">Start Date (optional)</label>
+                                <input type="date" id="pledgeStartDate" name="startDate">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pledgeMessage">Message (optional)</label>
+                                <textarea id="pledgeMessage" name="message" rows="3" placeholder="Share any notes or prayer requests"></textarea>
+                            </div>
+
+                            <button type="button" id="pledgeNextBtn" style="width: 100%; padding: var(--spacing-md); background-color: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth); margin-top: var(--spacing-lg);">Continue to Payment</button>
+                        </div>
+
+                        <!-- STEP 2: PAYMENT METHOD -->
+                        <div id="pledgeStep2" style="display: none;">
+                            <h3 class="card__title" style="margin-bottom: var(--spacing-lg); border-bottom: 2px solid var(--color-pale-gold); padding-bottom: var(--spacing-md);">Payment Method</h3>
+                            
+                            <!-- Quick Payment Methods -->
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
+                                <!-- Apple Pay -->
+                                <button type="button" class="pledge-payment-method" id="pledgeApplePayBtn" style="padding: var(--spacing-md); border: 2px solid #000; background: #000; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Apple Pay">
+                                    <i class="fab fa-apple" style="color: white; font-size: 1.8rem;"></i>
+                                    <span style="color: white; font-weight: 700; font-size: 0.85rem; margin-top: 0.25rem; display: block;">Apple Pay</span>
+                                </button>
+                                
+                                <!-- Google Pay -->
+                                <button type="button" class="pledge-payment-method" id="pledgeGooglePayBtn" style="padding: var(--spacing-md); border: 2px solid #4285F4; background: #4285F4; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Google Pay">
+                                    <i class="fab fa-google" style="color: white; font-size: 1.8rem;"></i>
+                                    <span style="color: white; font-weight: 700; font-size: 0.85rem; margin-top: 0.25rem; display: block;">Google Pay</span>
+                                </button>
+
+                                <!-- Zapper/EFT -->
+                                <button type="button" class="pledge-payment-method" id="pledgeZapperBtn" style="padding: var(--spacing-md); border: 2px solid #ff6200; background: #ff6200; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Zapper/EFT">
+                                    <i class="fas fa-bolt" style="color: white; font-size: 1.8rem;"></i>
+                                    <span style="color: white; font-weight: 700; font-size: 0.85rem; margin-top: 0.25rem; display: block;">Zapper/EFT</span>
+                                </button>
+                            </div>
+
+                            <div style="text-align: center; margin-bottom: var(--spacing-lg); padding: var(--spacing-md); background: rgba(212, 175, 55, 0.1); border-radius: var(--radius-md);">
+                                <p style="margin: 0; font-size: 0.9rem; font-weight: 500; color: var(--color-primary);">Or enter card details below</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pledgeCardNumber">Card Number</label>
+                                <div style="position: relative;">
+                                    <input type="text" id="pledgeCardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="23">
+                                    <div id="pledgeCardIcons" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px;">
+                                        <i class="fab fa-cc-visa" style="font-size: 20px; color: #1A1F71; display: none;"></i>
+                                        <i class="fab fa-cc-mastercard" style="font-size: 20px; color: #EB001B; display: none;"></i>
+                                        <i class="fab fa-cc-amex" style="font-size: 20px; color: #006fcf; display: none;"></i>
+                                    </div>
+                                </div>
+                                <div id="pledgeCardError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--spacing-md);">
+                                <div class="form-group">
+                                    <label for="pledgeExpiry">Expiry Date (MM/YY)</label>
+                                    <input type="text" id="pledgeExpiry" name="expiry" placeholder="12/25" maxlength="5">
+                                    <div id="pledgeExpiryError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pledgeCVV">CVV</label>
+                                    <input type="text" id="pledgeCVV" name="cvv" placeholder="123" maxlength="4">
+                                    <div id="pledgeCVVError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pledgeCardholderName">Cardholder Name (as on card)</label>
+                                <input type="text" id="pledgeCardholderName" name="cardholderName" placeholder="Name as on card">
+                            </div>
+
+                            <!-- ANIMATION CONTAINER -->
+                            <div id="pledgeAnimationContainer" style="display: none; text-align: center; margin: var(--spacing-lg) 0;">
+                                <video width="150" height="112" autoplay loop muted style="border-radius: var(--radius-md);">
+                                    <source src="Assets/Payment_animations/Money Transfer.webm" type="video/webm">
+                                </video>
+                                <p style="margin-top: var(--spacing-sm); font-size: 0.9rem; color: var(--color-text-secondary);">Processing your pledge...</p>
+                            </div>
+
+                            <!-- MESSAGE DISPLAY -->
+                            <div id="pledgeMessage" style="margin-top: var(--spacing-md); text-align: center; font-weight: 500; min-height: 40px;"></div>
+
+                            <!-- BUTTON GROUP -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-top: var(--spacing-lg);">
+                                <button type="button" id="pledgeBackBtn" style="padding: var(--spacing-md); background-color: var(--color-bg-light); color: var(--color-text-primary); border: 2px solid var(--color-pale-gold); border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);">Back</button>
+                                <button type="button" id="pledgePayBtn" style="padding: var(--spacing-md); background-color: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);">Complete Pledge</button>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="cardholderName">Cardholder Name</label>
-                            <input type="text" id="cardholderName" placeholder="Name as on card">
-                        </div>
-                    </div>
-
-                    <!-- ANIMATION CONTAINER -->
-                    <div id="animationContainer" style="display: none; text-align: center; margin: var(--spacing-lg) 0;">
-                        <!-- WebM animations will be displayed here -->
-                    </div>
-
-                    <!-- MESSAGE DISPLAY -->
-                    <div id="formMessage" style="margin-top: var(--spacing-md); text-align: center; font-weight: 500;"></div>
-
-                    <!-- SUBMIT BUTTON -->
-                    <button type="button" class="btn" id="submitButton">Proceed with payment</button>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
     </div>
 </section>
 
@@ -387,140 +413,319 @@
 </style>
 
 <script>
-document.getElementById('submitButton').addEventListener('click', function() {
-    const submitButton = document.getElementById('submitButton');
-    const paymentSection = document.getElementById('paymentSection');
-    const animationContainer = document.getElementById('animationContainer');
-    const formMessage = document.getElementById('formMessage');
-    const pledgeForm = document.getElementById('pledgeForm');
+// ======== PLEDGE PAGE - PERSONAL EMAIL ONLY + RECURRING PAYMENTS ========
+
+// Personal email domains ALLOWED
+const PLEDGE_PERSONAL_DOMAINS = [
+    'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com',
+    'mweb.co.za', 'telkom.co.za', 'vodacom.co.za', 'web.co.za', 'africa.com'
+];
+
+// Professional keywords to REJECT
+const PROFESSIONAL_KEYWORDS = [
+    'admin', 'info', 'office', 'business', 'company', 'corporate', 'work',
+    'professional', 'enterprise', 'noreply', 'support', 'contact', 'sales',
+    'marketing', 'finance', 'billing', 'invoice', 'accounts'
+];
+
+// Validate personal email (reject professional domains)
+function isProfessionalEmail(email) {
+    const domain = email.split('@')[1]?.toLowerCase() || '';
+    const localPart = email.split('@')[0]?.toLowerCase() || '';
     
-    // Check if we're in initial form step or payment step
-    if (paymentSection.style.display === 'none') {
-        // Just show payment section without validation
-        formMessage.innerHTML = '';
-        paymentSection.style.display = 'block';
-        submitButton.textContent = 'Complete Payment';
-        
-        // Smooth scroll to payment section
-        paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-    } else {
-        // Payment step - process payment
-        // Disable submit button and show processing animation
-        submitButton.disabled = true;
-        submitButton.style.opacity = '0.5';
-        formMessage.innerHTML = '';
-        
-        // Show Money Transfer animation (processing)
-        animationContainer.style.display = 'block';
-        animationContainer.innerHTML = `
-            <video width="200" height="150" autoplay loop muted>
-                <source src="Assets/Payment_animations/Money Transfer.webm" type="video/webm">
-                Your browser does not support the video tag.
-            </video>
-            <p style="margin-top: var(--spacing-sm); color: var(--color-text-secondary);">Processing your payment...</p>
-        `;
-        
-        // Simulate payment processing
-        setTimeout(() => {
-            // For testing, we'll simulate a successful payment
-            const paymentSuccessful = Math.random() > 0.2; // 80% success rate for testing
-            
-            if (paymentSuccessful) {
-                // Show Payment Successful animation
-                animationContainer.innerHTML = `
-                    <video width="200" height="150" autoplay loop muted>
-                        <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
-                        Your browser does not support the video tag.
-                    </video>
-                `;
-                
-                formMessage.innerHTML = 'Payment successful! Thank you for your pledge.';
-                formMessage.className = 'success';
-                
-                // After 2 seconds, show Handshake animation (APPEND, don't replace)
-                setTimeout(() => {
-                    // Add Handshake animation BELOW the success animation
-                    const handshakeHTML = `
-                        <div style="margin-top: var(--spacing-md);">
-                            <video width="200" height="150" autoplay loop muted>
-                                <source src="Assets/Payment_animations/Handshake.webm" type="video/webm">
-                                Your browser does not support the video tag.
-                            </video>
-                            <p style="margin-top: var(--spacing-sm); color: var(--color-primary); font-weight: 600;">Thank you for your partnership!</p>
-                        </div>
-                    `;
-                    
-                    // Append handshake to existing animation container
-                    animationContainer.innerHTML += handshakeHTML;
-                }, 2000);
-                
-                // Reset form fields but KEEP animations and messages
-                setTimeout(() => {
-                    // Reset all form fields
-                    pledgeForm.reset();
-                    
-                    // Reset UI state but KEEP animations and messages visible
-                    paymentSection.style.display = 'none';
-                    submitButton.textContent = 'Proceed with payment';
-                    submitButton.disabled = false;
-                    submitButton.style.opacity = '1';
-                    
-                    // DO NOT clear animationContainer or formMessage
-                    // They stay visible with their content
-                    
-                }, 7000);
-                
-            } else {
-                // Show Payment Failed animation
-                animationContainer.innerHTML = `
-                    <video width="200" height="150" autoplay loop muted>
-                        <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
-                        Your browser does not support the video tag.
-                    </video>
-                `;
-                
-                formMessage.innerHTML = 'Payment failed. Please try again.';
-                formMessage.className = 'error';
-                
-                // Re-enable submit button
-                submitButton.disabled = false;
-                submitButton.style.opacity = '1';
-                
-                // DO NOT clear animations on failure - they stay visible
-                // User can try again with the failed animation still showing
-            }
-        }, 3000); // 3 second processing time
-    }
-});
-
-// Format card number input
-document.getElementById('cardNumber')?.addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    let formattedValue = '';
-    for (let i = 0; i < value.length; i++) {
-        if (i > 0 && i % 4 === 0) {
-            formattedValue += ' ';
+    // Check if domain contains professional keywords
+    for (let keyword of PROFESSIONAL_KEYWORDS) {
+        if (domain.includes(keyword) || localPart.includes(keyword)) {
+            return true;
         }
-        formattedValue += value[i];
     }
-    e.target.value = formattedValue;
+    
+    // Check if domain is NOT in personal list
+    if (!PLEDGE_PERSONAL_DOMAINS.includes(domain)) {
+        // If it ends with .co.za, .com, .org, .net without being personal, it's likely professional
+        if (domain.includes('.co.za') || domain === 'com' || domain === 'org' || domain === 'net') {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// Email validation on blur
+document.getElementById('pledgeEmail')?.addEventListener('blur', function() {
+    const email = this.value.trim();
+    const errorDiv = document.getElementById('pledgeEmailError');
+    errorDiv.innerHTML = '';
+    
+    if (!email) return;
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        errorDiv.innerHTML = 'Please enter a valid email address';
+        return;
+    }
+    
+    if (isProfessionalEmail(email)) {
+        errorDiv.innerHTML = 'Pledges are personal commitments. Please use your personal email (e.g., Gmail, Yahoo, etc.).';
+        this.value = '';
+        this.focus();
+    }
 });
 
-// Format expiry date
-document.getElementById('expiry')?.addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+// Handle pledge preset amount buttons
+document.querySelectorAll('.pledge-preset').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const amount = this.getAttribute('data-amount');
+        document.getElementById('pledgeAmount').value = amount;
+    });
+});
+
+// Format card number with spaces
+document.getElementById('pledgeCardNumber')?.addEventListener('input', function() {
+    let value = this.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    let formatted = '';
+    for (let i = 0; i < value.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += value[i];
+    }
+    this.value = formatted;
+    detectPledgeCardType(value);
+});
+
+// Format expiry date (MM/YY)
+document.getElementById('pledgeExpiry')?.addEventListener('input', function() {
+    let value = this.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     if (value.length >= 2) {
-        e.target.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        this.value = value.slice(0, 2) + '/' + value.slice(2, 4);
     } else {
-        e.target.value = value;
+        this.value = value;
     }
 });
 
-// Prevent form submission (since we're using button type="button")
-document.getElementById('pledgeForm').addEventListener('submit', function(e) {
+// Format CVV (numbers only)
+document.getElementById('pledgeCVV')?.addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/gi, '');
+});
+
+// Detect card type and show appropriate icon
+function detectPledgeCardType(cardNumber) {
+    const visaIcon = document.querySelector('#pledgeCardIcons .fa-cc-visa');
+    const masterIcon = document.querySelector('#pledgeCardIcons .fa-cc-mastercard');
+    const amexIcon = document.querySelector('#pledgeCardIcons .fa-cc-amex');
+    
+    if (visaIcon) visaIcon.style.display = 'none';
+    if (masterIcon) masterIcon.style.display = 'none';
+    if (amexIcon) amexIcon.style.display = 'none';
+    
+    if (/^4/.test(cardNumber) && visaIcon) {
+        visaIcon.style.display = 'block';
+    } else if (/^5[1-5]/.test(cardNumber) && masterIcon) {
+        masterIcon.style.display = 'block';
+    } else if (/^3[47]/.test(cardNumber) && amexIcon) {
+        amexIcon.style.display = 'block';
+    }
+}
+
+// Step 1 -> Step 2 navigation
+document.getElementById('pledgeNextBtn')?.addEventListener('click', function() {
+    const fullName = document.getElementById('pledgeFullName').value.trim();
+    const email = document.getElementById('pledgeEmail').value.trim();
+    const amount = document.getElementById('pledgeAmount').value.trim();
+    const frequency = document.getElementById('pledgeFrequency').value;
+    const errorDiv = document.getElementById('pledgeEmailError');
+    
+    // Clear previous errors
+    errorDiv.innerHTML = '';
+    
+    // Validate required fields
+    if (!fullName) {
+        alert('Please enter your full name');
+        return;
+    }
+    
+    if (!email) {
+        alert('Please enter your email address');
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        errorDiv.innerHTML = 'Please enter a valid email address';
+        return;
+    }
+    
+    // Check if professional email
+    if (isProfessionalEmail(email)) {
+        errorDiv.innerHTML = 'Pledges are personal commitments. Please use your personal email (e.g., Gmail, Yahoo, etc.).';
+        document.getElementById('pledgeEmail').focus();
+        return;
+    }
+    
+    if (!amount || parseInt(amount) < 1) {
+        alert('Please enter an amount greater than 0');
+        return;
+    }
+    
+    if (!frequency) {
+        alert('Please select a pledge frequency');
+        return;
+    }
+    
+    // Show step 2, hide step 1
+    document.getElementById('pledgeStep1').style.display = 'none';
+    document.getElementById('pledgeStep2').style.display = 'block';
+    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// Back button
+document.getElementById('pledgeBackBtn')?.addEventListener('click', function() {
+    document.getElementById('pledgeStep2').style.display = 'none';
+    document.getElementById('pledgeStep1').style.display = 'block';
+    document.getElementById('pledgeMessage').innerHTML = '';
+    document.getElementById('pledgeAnimationContainer').style.display = 'none';
+});
+
+// Pay button - Process pledge
+document.getElementById('pledgePayBtn')?.addEventListener('click', function() {
+    const cardNumber = document.getElementById('pledgeCardNumber').value.replace(/\s/g, '');
+    const expiry = document.getElementById('pledgeExpiry').value;
+    const cvv = document.getElementById('pledgeCVV').value;
+    const cardholderName = document.getElementById('pledgeCardholderName').value.trim();
+    const frequency = document.getElementById('pledgeFrequency').value;
+    
+    // Clear previous errors
+    document.getElementById('pledgeCardError').innerHTML = '';
+    document.getElementById('pledgeExpiryError').innerHTML = '';
+    document.getElementById('pledgeCVVError').innerHTML = '';
+    
+    let hasError = false;
+    
+    // Card number validation (Luhn algorithm)
+    if (!validatePledgeCardNumber(cardNumber)) {
+        document.getElementById('pledgeCardError').innerHTML = 'Invalid card number';
+        hasError = true;
+    }
+    
+    // Expiry validation
+    if (!validatePledgeExpiry(expiry)) {
+        document.getElementById('pledgeExpiryError').innerHTML = 'Invalid or expired card';
+        hasError = true;
+    }
+    
+    // CVV validation
+    if (!/^[0-9]{3,4}$/.test(cvv)) {
+        document.getElementById('pledgeCVVError').innerHTML = 'Invalid CVV';
+        hasError = true;
+    }
+    
+    if (hasError) return;
+    
+    // Disable button and show processing
+    this.disabled = true;
+    document.getElementById('pledgeMessage').innerHTML = '';
+    document.getElementById('pledgeAnimationContainer').style.display = 'block';
+    
+    // Simulate payment processing
+    setTimeout(() => {
+        const success = Math.random() > 0.2; // 80% success rate for demo
+        
+        if (success) {
+            // Show success animation
+            document.getElementById('pledgeAnimationContainer').innerHTML = `
+                <video width="150" height="112" autoplay loop muted style="border-radius: var(--radius-md);">
+                    <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
+                </video>
+                <p style="margin-top: var(--spacing-sm); color: #10b981; font-weight: 600;">Initial payment successful!</p>
+            `;
+            
+            const frequencyText = {
+                'weekly': 'weekly starting next week',
+                'monthly': 'monthly starting next month',
+                'quarterly': 'quarterly starting next quarter',
+                'annually': 'annually'
+            };
+            
+            document.getElementById('pledgeMessage').innerHTML = `Thank you for your pledge commitment! Your ${frequencyText[frequency]} pledge is confirmed.`;
+            document.getElementById('pledgeMessage').style.color = '#10b981';
+            
+            // Reset form after delay
+            setTimeout(() => {
+                document.getElementById('pledgeForm').reset();
+                document.getElementById('pledgeStep2').style.display = 'none';
+                document.getElementById('pledgeStep1').style.display = 'block';
+                document.getElementById('pledgePayBtn').disabled = false;
+            }, 4000);
+        } else {
+            // Show failure
+            document.getElementById('pledgeAnimationContainer').innerHTML = `
+                <video width="150" height="112" autoplay loop muted style="border-radius: var(--radius-md);">
+                    <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
+                </video>
+            `;
+            
+            document.getElementById('pledgeMessage').innerHTML = 'Payment failed. Please try again.';
+            document.getElementById('pledgeMessage').style.color = '#ef4444';
+            document.getElementById('pledgePayBtn').disabled = false;
+        }
+    }, 2000);
+});
+
+// Luhn algorithm for card validation
+function validatePledgeCardNumber(cardNumber) {
+    let sum = 0;
+    let isEven = false;
+    
+    for (let i = cardNumber.length - 1; i >= 0; i--) {
+        let digit = parseInt(cardNumber.charAt(i), 10);
+        
+        if (isEven) {
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+        }
+        
+        sum += digit;
+        isEven = !isEven;
+    }
+    
+    return sum % 10 === 0;
+}
+
+// Expiry date validation
+function validatePledgeExpiry(expiry) {
+    const parts = expiry.split('/');
+    if (parts.length !== 2) return false;
+    
+    const month = parseInt(parts[0], 10);
+    const year = parseInt(parts[1], 10);
+    
+    if (month < 1 || month > 12) return false;
+    
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100;
+    const currentMonth = now.getMonth() + 1;
+    
+    if (year < currentYear) return false;
+    if (year === currentYear && month < currentMonth) return false;
+    
+    return true;
+}
+
+// Prevent form submission
+document.getElementById('pledgeForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
     return false;
+});
+
+// ======== CLEAN URL SCRIPT ========
+window.addEventListener('load', function() {
+    const currentPath = window.location.pathname;
+    if (currentPath.endsWith('.html')) {
+        const cleanPath = currentPath.replace(/\.html$/, '');
+        history.replaceState(null, document.title, cleanPath);
+        console.log('✓ Clean URL applied:', cleanPath);
+    }
 });
 </script>
 
@@ -561,14 +766,14 @@ document.getElementById('pledgeForm').addEventListener('submit', function(e) {
                 <div class="footer__section">
                     <h3><i class="fas fa-life-ring"></i> Help</h3>
                     <ul class="footer__links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="ministries.html">Ministries</a></li>
-                        <li><a href="services.html">Sacraments &amp; Worship</a></li>
-                        <li><a href="structure.html">Structure</a></li>
-                        <li><a href="pledge.html">Pledge</a></li>
-                        <li><a href="donations.html">Donations</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="index">Home</a></li>
+                        <li><a href="about">About Us</a></li>
+                        <li><a href="ministries">Ministries</a></li>
+                        <li><a href="services">Sacraments &amp; Worship</a></li>
+                        <li><a href="structure">Structure</a></li>
+                        <li><a href="pledge">Pledge</a></li>
+                        <li><a href="donations">Donations</a></li>
+                        <li><a href="contact">Contact</a></li>
                     </ul>
                 </div>
 
@@ -576,8 +781,8 @@ document.getElementById('pledgeForm').addEventListener('submit', function(e) {
                     <h3><i class="fas fa-scale-balanced"></i> Legal</h3>
                     <ul class="footer__links">
                         <li><a href="#" id="cookie-settings">Cookie Settings</a></li>
-                        <li><a href="privacy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
-                        <li><a href="terms.html"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
+                        <li><a href="privacy"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="terms"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
                     </ul>
                 </div>
 

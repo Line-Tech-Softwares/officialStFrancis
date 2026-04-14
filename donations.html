@@ -72,18 +72,18 @@
     <!-- ============ HEADER & NAVIGATION ============ -->
     <header class="header">
         <div class="header__container">
-            <a href="index.html" class="header__logo">
+            <a href="index" class="header__logo">
                 <img src="Assets/LOGO/st.png" alt="St. Francis Logo" class="header__logo-image"> <span>St. Francis Church</span>
             </a>
             <nav class="header__nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="services.html">Sacraments &amp; Worship</a></li>
-                <li><a href="ministries.html">Ministries</a></li>
-                <li><a href="structure.html">Structure</a></li>
-                <li><a href="pledge.html">Pledge</a></li>
-                <li><a href="donations.html">Donations</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index">Home</a></li>
+                <li><a href="about">About Us</a></li>
+                <li><a href="services">Sacraments &amp; Worship</a></li>
+                <li><a href="ministries">Ministries</a></li>
+                <li><a href="structure">Structure</a></li>
+                <li><a href="pledge">Pledge</a></li>
+                <li><a href="donations">Donations</a></li>
+                <li><a href="contact">Contact</a></li>
             </nav>
             <button class="header__menu-toggle" aria-label="Toggle Navigation Menu">
                 <i class="fas fa-bars"></i>
@@ -122,121 +122,157 @@
         <h2 class="text-center">Other Ways to Give</h2>
         
         <!-- Online Payment Form (Primary) -->
-        <div class="card" style="max-width: 600px; margin: 0 auto var(--spacing-2xl) auto;">
-            <div class="card__content">
-                <h3 class="card__title text-center"><i class="fas fa-credit-card card__icon"></i> Online Payment</h3>
-                <p class="card__description text-center">
-                    Give securely online using your credit or debit card. Quick, easy, and immediate.
-                </p>
-                
-                <!-- Online Payment Form -->
-                <div class="donation-payment-form" style="margin-top: var(--spacing-lg);">
-                    <form id="onlineGivingForm" novalidate>
-                        <div class="form-group">
-                            <label for="donorType">Donor Type *</label>
-                            <select id="donorType" name="donorType" required onchange="updateDonationForm()">
-                                <option value="">Select donor type</option>
-                                <option value="personal">Personal Donation</option>
-                                <option value="organization">Organization/Business</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" id="orgEmailGroup" style="display: none;">
-                            <label for="orgEmail">Business Email Address *</label>
-                            <input type="email" id="orgEmail" name="orgEmail" placeholder="your.business@company.com">
-                        </div>
-                        
-                        <div class="form-group" id="personalEmailGroup">
-                            <label for="personalEmail">Email Address</label>
-                            <input type="email" id="personalEmail" name="personalEmail" placeholder="your.email@example.com">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="onlineAmount">Amount (ZAR)</label>
-                            <input type="number" id="onlineAmount" name="onlineAmount" placeholder="e.g., 500" min="1" step="1">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="givingType">Giving Type</label>
-                            <select id="givingType" name="givingType">
-                                <option value="general">General Donation</option>
-                                <option value="sponsorship">Sponsorship</option>
-                                <option value="tithe">Tithe</option>
-                                <option value="offering">Offering</option>
-                            </select>
-                        </div>
-                        
-                        <!-- PAYMENT METHOD SECTION (Initially Hidden) -->
-                        <div class="donation-payment-section" id="onlinePaymentSection" style="display: none;">
-                            <h4 style="margin-bottom: var(--spacing-md); color: var(--color-primary); font-size: 1rem;">Choose Your Payment Method</h4>
-                            
-                            <!-- Quick Payment Methods -->
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
-                                <!-- Apple Pay -->
-                                <button type="button" class="donation-payment-method" id="applePayBtn" style="padding: var(--spacing-md); border: 2px solid #000; background: #000; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Apple Pay">
-                                    <i class="fab fa-apple" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
-                                    <span style="color: white; font-weight: 700; font-size: 0.9rem;">Apple Pay</span>
-                                </button>
-                                
-                                <!-- Face ID / Biometric -->
-                                <button type="button" class="donation-payment-method" id="faceIdBtn" style="padding: var(--spacing-md); border: 2px solid #0071E3; background: #0071E3; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Face ID or Touch ID">
-                                    <i class="fas fa-face-id" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
-                                    <span style="font-size: 0.9rem;">Biometric</span>
-                                </button>
-
-                                <!-- Wallet/Digital Pay -->
-                                <button type="button" class="donation-payment-method" id="walletBtn" style="padding: var(--spacing-md); border: 2px solid #10a856; background: #10a856; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Digital Wallet">
-                                    <i class="fas fa-wallet" style="color: white; font-size: 1.8rem; margin-right: 0.5rem;"></i>
-                                    <span style="font-size: 0.9rem;">Wallet</span>
-                                </button>
-                            </div>
-
-                            <div style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--color-text-secondary);">
-                                <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Or enter card details below</p>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="onlineCardNumber">Card Number</label>
-                                <div style="position: relative;">
-                                    <input type="text" id="onlineCardNumber" placeholder="1234 5678 9012 3456">
-                                    <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px;">
-                                        <i class="fab fa-cc-visa" style="font-size: 20px; color: #1A1F71;"></i>
-                                        <i class="fab fa-cc-mastercard" style="font-size: 20px; color: #EB001B;"></i>
+            <div class="card" style="max-width: 900px; margin: 0 auto;">
+                <div class="card__content">
+                    <h3 class="card__title text-center"><i class="fas fa-credit-card card__icon"></i> Online Payment</h3>
+                    <p class="card__description text-center">
+                        Give securely online using your credit or debit card, Apple Pay, Google Pay, or instant EFT. Quick, easy, and immediate.
+                    </p>
+                    
+                    <!-- Online Payment Form -->
+                    <div class="donation-payment-form" style="margin-top: var(--spacing-lg);">
+                        <form id="onlineGivingForm" novalidate>
+                            <!-- STEP 1: DONOR DETAILS -->
+                            <div id="donationStep1">
+                                <div class="form-group">
+                                    <label style="font-weight: 600; margin-bottom: var(--spacing-sm); display: block;">Donor Type *</label>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-sm);">
+                                        <label style="display: flex; align-items: center; padding: var(--spacing-sm); border: 2px solid var(--color-pale-gold); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" id="personalLabel">
+                                            <input type="radio" name="donorType" value="personal" checked onchange="updateDonationForm()"> <span style="margin-left: var(--spacing-sm);">Personal</span>
+                                        </label>
+                                        <label style="display: flex; align-items: center; padding: var(--spacing-sm); border: 2px solid var(--color-pale-gold); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" id="orgLabel">
+                                            <input type="radio" name="donorType" value="organization" onchange="updateDonationForm()"> <span style="margin-left: var(--spacing-sm);">Organisation</span>
+                                        </label>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-sm);">
                                 <div class="form-group">
-                                    <label for="onlineExpiry">Expiry Date</label>
-                                    <input type="text" id="onlineExpiry" placeholder="MM/YY">
+                                    <label for="donationFullName">Full Name *</label>
+                                    <input type="text" id="donationFullName" name="fullName" placeholder="Your full name" required>
                                 </div>
+
                                 <div class="form-group">
-                                    <label for="onlineCvv">CVV</label>
-                                    <input type="text" id="onlineCvv" placeholder="123">
+                                    <label for="donationEmail">Email Address *</label>
+                                    <input type="email" id="donationEmail" name="email" placeholder="yourpersonalemail@example.com" required>
+                                    <div id="emailShortcuts" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--spacing-sm);">
+                                        <span style="font-size: 0.75rem; color: var(--color-text-secondary); display: block; width: 100%; margin-bottom: 0.25rem;">Quick fill:</span>
+                                        <button type="button" class="email-shortcut" data-domain="gmail.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@gmail.com</button>
+                                        <button type="button" class="email-shortcut" data-domain="yahoo.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@yahoo.com</button>
+                                        <button type="button" class="email-shortcut" data-domain="outlook.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@outlook.com</button>
+                                        <button type="button" class="email-shortcut" data-domain="hotmail.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@hotmail.com</button>
+                                        <button type="button" class="email-shortcut" data-domain="icloud.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@icloud.com</button>
+                                        <button type="button" class="email-shortcut" data-domain="mweb.co.za" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@mweb.co.za</button>
+                                        <button type="button" class="email-shortcut" data-domain="telkom.co.za" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@telkom.co.za</button>
+                                        <button type="button" class="email-shortcut" data-domain="vodacom.co.za" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@vodacom.co.za</button>
+                                    </div>
+                                    <div id="emailError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="donationAmount">Donation Amount (ZAR) *</label>
+                                    <input type="number" id="donationAmount" name="amount" placeholder="e.g., 500" min="1" step="1" required>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
+                                        <button type="button" class="donation-preset" data-amount="100" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R100</button>
+                                        <button type="button" class="donation-preset" data-amount="250" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R250</button>
+                                        <button type="button" class="donation-preset" data-amount="500" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R500</button>
+                                        <button type="button" class="donation-preset" data-amount="1000" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R1000</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="donationGivingType">Giving Type</label>
+                                    <select id="donationGivingType" name="givingType" style="padding: var(--spacing-sm); border: 1px solid var(--color-pale-gold); border-radius: var(--radius-sm); font-family: inherit; font-size: 1rem;">
+                                        <option value="general">General Donation</option>
+                                        <option value="sponsorship">Sponsorship</option>
+                                        <option value="tithe">Tithe</option>
+                                        <option value="offering">Offering</option>
+                                    </select>
+                                </div>
+
+                                <button type="button" id="donationNextBtn" style="width: 100%; padding: var(--spacing-md); background-color: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth); margin-top: var(--spacing-lg);">Continue to Payment</button>
+                            </div>
+
+                            <!-- STEP 2: PAYMENT METHOD -->
+                            <div id="donationStep2" style="display: none;">
+                                <h4 style="margin-bottom: var(--spacing-lg); color: var(--color-primary); font-size: 1.1rem; border-bottom: 2px solid var(--color-pale-gold); padding-bottom: var(--spacing-md);">Payment Method</h4>
+                                
+                                <!-- Quick Payment Methods -->
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-xl);">
+                                    <!-- Apple Pay -->
+                                    <button type="button" class="donation-payment-method" id="donationApplePayBtn" style="padding: var(--spacing-md); border: 2px solid #000; background: #000; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Apple Pay">
+                                        <i class="fab fa-apple" style="color: white; font-size: 1.8rem;"></i>
+                                        <span style="color: white; font-weight: 700; font-size: 0.85rem; margin-top: 0.25rem; display: block;">Apple Pay</span>
+                                    </button>
+                                    
+                                    <!-- Google Pay -->
+                                    <button type="button" class="donation-payment-method" id="donationGooglePayBtn" style="padding: var(--spacing-md); border: 2px solid #4285F4; background: #4285F4; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" title="Pay with Google Pay">
+                                        <i class="fab fa-google" style="color: white; font-size: 1.8rem;"></i>
+                                        <span style="color: white; font-weight: 700; font-size: 0.85rem; margin-top: 0.25rem; display: block;">Google Pay</span>
+                                    </button>
+
+                                    <!-- Zapper/EFT -->
+                                    <button type="button" class="donation-payment-method" id="donationZapperBtn" style="padding: var(--spacing-md); border: 2px solid #ff6200; background: #ff6200; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); color: white; font-weight: 700;" title="Pay with Zapper/EFT">
+                                        <i class="fas fa-bolt" style="color: white; font-size: 1.8rem;"></i>
+                                        <span style="color: white; font-weight: 700; font-size: 0.85rem; margin-top: 0.25rem; display: block;">Zapper/EFT</span>
+                                    </button>
+                                </div>
+
+                                <div style="text-align: center; margin-bottom: var(--spacing-lg); padding: var(--spacing-md); background: rgba(212, 175, 55, 0.1); border-radius: var(--radius-md);">
+                                    <p style="margin: 0; font-size: 0.9rem; font-weight: 500; color: var(--color-primary);">Or enter card details below</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="donationCardNumber">Card Number</label>
+                                    <div style="position: relative;">
+                                        <input type="text" id="donationCardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="23">
+                                        <div id="donationCardIcons" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px;">
+                                            <i class="fab fa-cc-visa" style="font-size: 20px; color: #1A1F71; display: none;"></i>
+                                            <i class="fab fa-cc-mastercard" style="font-size: 20px; color: #EB001B; display: none;"></i>
+                                            <i class="fab fa-cc-amex" style="font-size: 20px; color: #006fcf; display: none;"></i>
+                                        </div>
+                                    </div>
+                                    <div id="donationCardError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--spacing-md);">
+                                    <div class="form-group">
+                                        <label for="donationExpiry">Expiry Date (MM/YY)</label>
+                                        <input type="text" id="donationExpiry" name="expiry" placeholder="12/25" maxlength="5">
+                                        <div id="donationExpiryError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="donationCVV">CVV</label>
+                                        <input type="text" id="donationCVV" name="cvv" placeholder="123" maxlength="4">
+                                        <div id="donationCVVError" style="color: #ef4444; font-size: 0.9rem; margin-top: var(--spacing-xs);"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="donationCardholderName">Cardholder Name (as on card)</label>
+                                    <input type="text" id="donationCardholderName" name="cardholderName" placeholder="Name as on card">
+                                </div>
+
+                                <!-- ANIMATION CONTAINER -->
+                                <div id="donationAnimationContainer" style="display: none; text-align: center; margin: var(--spacing-lg) 0;">
+                                    <video width="150" height="112" autoplay loop muted style="border-radius: var(--radius-md);">
+                                        <source src="Assets/Payment_animations/Money Transfer.webm" type="video/webm">
+                                    </video>
+                                    <p style="margin-top: var(--spacing-sm); font-size: 0.9rem; color: var(--color-text-secondary);">Processing your donation...</p>
+                                </div>
+
+                                <!-- MESSAGE DISPLAY -->
+                                <div id="donationMessage" style="margin-top: var(--spacing-md); text-align: center; font-weight: 500; min-height: 40px;"></div>
+
+                                <!-- BUTTON GROUP -->
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-top: var(--spacing-lg);">
+                                    <button type="button" id="donationBackBtn" style="padding: var(--spacing-md); background-color: var(--color-bg-light); color: var(--color-text-primary); border: 2px solid var(--color-pale-gold); border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);">Back</button>
+                                    <button type="button" id="donationPayBtn" style="padding: var(--spacing-md); background-color: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);">Complete Donation</button>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="onlineCardholderName">Cardholder Name</label>
-                                <input type="text" id="onlineCardholderName" placeholder="Name as on card">
-                            </div>
-                        </div>
-
-                        <!-- ANIMATION CONTAINER -->
-                        <div class="donation-animation-container" id="onlineAnimationContainer" style="display: none; text-align: center; margin: var(--spacing-md) 0;">
-                            <!-- WebM animations will be displayed here -->
-                        </div>
-
-                        <!-- MESSAGE DISPLAY -->
-                        <div class="donation-message" id="onlineMessage" style="margin-top: var(--spacing-md); text-align: center; font-weight: 500; min-height: 40px;"></div>
-
-                        <!-- SUBMIT BUTTON -->
-                        <button type="button" class="btn donation-submit-btn" id="onlineSubmitBtn" style="width: 100%; margin-top: var(--spacing-md);">Proceed with payment</button>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
         <!-- Bank Transfer Details (Separate section below the form) -->
         <div style="max-width: 600px; margin: 0 auto;">
@@ -347,141 +383,279 @@
 </style>
 
 <script>
-// Format card number
-function formatCardNumber(input) {
-    let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    let formattedValue = '';
-    for (let i = 0; i < value.length; i++) {
-        if (i > 0 && i % 4 === 0) {
-            formattedValue += ' ';
-        }
-        formattedValue += value[i];
-    }
-    input.value = formattedValue;
-}
+// ======== DONATIONS PAGE - FORM VALIDATION & PAYMENT LOGIC ========
 
-// Format expiry date
-function formatExpiry(input) {
-    let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    if (value.length >= 2) {
-        input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+// Personal email domains allowed for donations
+const PERSONAL_EMAIL_DOMAINS = [
+    'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com',
+    'mweb.co.za', 'telkom.co.za', 'vodacom.co.za', 'web.co.za', 'africa.com'
+];
+
+// Update form based on donor type
+function updateDonationForm() {
+    const donorType = document.querySelector('input[name="donorType"]:checked').value;
+    const emailShortcuts = document.getElementById('emailShortcuts');
+    const emailInput = document.getElementById('donationEmail');
+    
+    if (donorType === 'organization') {
+        emailInput.placeholder = 'yourname@business.com';
+        emailShortcuts.style.display = 'none';
     } else {
-        input.value = value;
+        emailInput.placeholder = 'yourpersonalemail@example.com';
+        emailShortcuts.style.display = 'flex';
     }
 }
 
-// Set up online payment
-document.addEventListener('DOMContentLoaded', function() {
-    const submitBtn = document.getElementById('onlineSubmitBtn');
-    const paymentSection = document.getElementById('onlinePaymentSection');
-    const animationContainer = document.getElementById('onlineAnimationContainer');
-    const messageDiv = document.getElementById('onlineMessage');
-    const amountInput = document.getElementById('onlineAmount');
-    
-    // Set up input formatting
-    document.getElementById('onlineCardNumber')?.addEventListener('input', function() {
-        formatCardNumber(this);
-    });
-    
-    document.getElementById('onlineExpiry')?.addEventListener('input', function() {
-        formatExpiry(this);
-    });
-    
-    submitBtn.addEventListener('click', function() {
-        // Check if we're in initial step or payment step
-        if (paymentSection.style.display === 'none') {
-            // Check if amount is entered
-            if (!amountInput.value) {
-                messageDiv.innerHTML = 'Please enter an amount';
-                messageDiv.className = 'donation-message error';
-                return;
-            }
-            
-            // Show payment section
-            messageDiv.innerHTML = '';
-            paymentSection.style.display = 'block';
-            submitBtn.textContent = 'Complete Payment';
-            
-            // Smooth scroll to payment section
-            paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
+// Handle email shortcut chips
+document.querySelectorAll('.email-shortcut').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const domain = this.getAttribute('data-domain');
+        const emailInput = document.getElementById('donationEmail');
+        const currentValue = emailInput.value;
+        
+        if (currentValue && !currentValue.includes('@')) {
+            emailInput.value = currentValue + '@' + domain;
+        } else if (!currentValue) {
+            emailInput.value = '@' + domain;
         } else {
-            // Payment step - process payment
-            submitBtn.disabled = true;
-            messageDiv.innerHTML = '';
-            
-            // Show Money Transfer animation (processing)
-            animationContainer.style.display = 'block';
-            animationContainer.innerHTML = `
-                <video width="150" height="112" autoplay loop muted>
-                    <source src="Assets/Payment_animations/Money Transfer.webm" type="video/webm">
-                    Your browser does not support the video tag.
+            const beforeAt = currentValue.split('@')[0];
+            emailInput.value = beforeAt + '@' + domain;
+        }
+        emailInput.focus();
+    });
+});
+
+// Handle donation preset amount buttons
+document.querySelectorAll('.donation-preset').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const amount = this.getAttribute('data-amount');
+        document.getElementById('donationAmount').value = amount;
+    });
+});
+
+// Format card number with spaces
+document.getElementById('donationCardNumber')?.addEventListener('input', function() {
+    let value = this.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    let formatted = '';
+    for (let i = 0; i < value.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += value[i];
+    }
+    this.value = formatted;
+    detectCardType(value);
+});
+
+// Format expiry date (MM/YY)
+document.getElementById('donationExpiry')?.addEventListener('input', function() {
+    let value = this.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    if (value.length >= 2) {
+        this.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+    } else {
+        this.value = value;
+    }
+});
+
+// Format CVV (numbers only)
+document.getElementById('donationCVV')?.addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/gi, '');
+});
+
+// Detect card type and show appropriate icon
+function detectCardType(cardNumber) {
+    const icons = document.querySelectorAll('#donationCardIcons i');
+    icons.forEach(icon => icon.style.display = 'none');
+    
+    if (/^4/.test(cardNumber)) {
+        document.querySelectorAll('#donationCardIcons .fa-cc-visa')[0]?.style.setAttribute('display', 'block');
+    } else if (/^5[1-5]/.test(cardNumber)) {
+        document.querySelectorAll('#donationCardIcons .fa-cc-mastercard')[0]?.style.setAttribute('display', 'block');
+    } else if (/^3[47]/.test(cardNumber)) {
+        document.querySelectorAll('#donationCardIcons .fa-cc-amex')[0]?.style.setAttribute('display', 'block');
+    }
+}
+
+// Step navigation
+document.getElementById('donationNextBtn')?.addEventListener('click', function() {
+    const fullName = document.getElementById('donationFullName').value.trim();
+    const email = document.getElementById('donationEmail').value.trim();
+    const amount = document.getElementById('donationAmount').value.trim();
+    const emailError = document.getElementById('emailError');
+    
+    // Clear previous errors
+    emailError.innerHTML = '';
+    
+    // Validate required fields
+    if (!fullName) {
+        alert('Please enter your full name');
+        return;
+    }
+    
+    if (!email) {
+        alert('Please enter your email address');
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        emailError.innerHTML = 'Please enter a valid email address';
+        return;
+    }
+    
+    if (!amount || parseInt(amount) < 1) {
+        alert('Please enter an amount greater than 0');
+        return;
+    }
+    
+    // Show step 2, hide step 1
+    document.getElementById('donationStep1').style.display = 'none';
+    document.getElementById('donationStep2').style.display = 'block';
+    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// Back button
+document.getElementById('donationBackBtn')?.addEventListener('click', function() {
+    document.getElementById('donationStep2').style.display = 'none';
+    document.getElementById('donationStep1').style.display = 'block';
+    document.getElementById('donationMessage').innerHTML = '';
+    document.getElementById('donationAnimationContainer').style.display = 'none';
+});
+
+// Pay button - Process donation
+document.getElementById('donationPayBtn')?.addEventListener('click', function() {
+    const cardNumber = document.getElementById('donationCardNumber').value.replace(/\s/g, '');
+    const expiry = document.getElementById('donationExpiry').value;
+    const cvv = document.getElementById('donationCVV').value;
+    const cardholderName = document.getElementById('donationCardholderName').value.trim();
+    const amount = document.getElementById('donationAmount').value;
+    
+    // Clear previous errors
+    document.getElementById('donationCardError').innerHTML = '';
+    document.getElementById('donationExpiryError').innerHTML = '';
+    document.getElementById('donationCVVError').innerHTML = '';
+    
+    let hasError = false;
+    
+    // Card number validation (Luhn algorithm)
+    if (!validateCardNumber(cardNumber)) {
+        document.getElementById('donationCardError').innerHTML = 'Invalid card number';
+        hasError = true;
+    }
+    
+    // Expiry validation
+    if (!validateExpiry(expiry)) {
+        document.getElementById('donationExpiryError').innerHTML = 'Invalid or expired card';
+        hasError = true;
+    }
+    
+    // CVV validation
+    if (!/^[0-9]{3,4}$/.test(cvv)) {
+        document.getElementById('donationCVVError').innerHTML = 'Invalid CVV';
+        hasError = true;
+    }
+    
+    if (hasError) return;
+    
+    // Disable button and show processing
+    this.disabled = true;
+    document.getElementById('donationMessage').innerHTML = '';
+    document.getElementById('donationAnimationContainer').style.display = 'block';
+    
+    // Simulate payment processing
+    setTimeout(() => {
+        const success = Math.random() > 0.2; // 80% success rate for demo
+        
+        if (success) {
+            // Show success animation
+            document.getElementById('donationAnimationContainer').innerHTML = `
+                <video width="150" height="112" autoplay loop muted style="border-radius: var(--radius-md);">
+                    <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
                 </video>
-                <p style="margin-top: var(--spacing-sm); font-size: 0.9rem; color: var(--color-text-secondary);">Processing your payment...</p>
+                <p style="margin-top: var(--spacing-sm); color: #10b981; font-weight: 600;">Payment successful!</p>
             `;
             
-            // Simulate payment processing
+            document.getElementById('donationMessage').innerHTML = 'Thank you for your generous donation!';
+            document.getElementById('donationMessage').style.color = '#10b981';
+            
+            // Reset form after delay
             setTimeout(() => {
-                const paymentSuccessful = Math.random() > 0.2; // 80% success rate
-                
-                if (paymentSuccessful) {
-                    // Show Payment Successful animation
-                    animationContainer.innerHTML = `
-                        <video width="150" height="112" autoplay loop muted>
-                            <source src="Assets/Payment_animations/Payment Successful.webm" type="video/webm">
-                            Your browser does not support the video tag.
-                        </video>
-                    `;
-                    
-                    messageDiv.innerHTML = 'Payment successful! Thank you for your donation.';
-                    messageDiv.className = 'donation-message success';
-                    
-                    // After 2 seconds, show Handshake animation
-                    setTimeout(() => {
-                        animationContainer.innerHTML = `
-                            <video width="150" height="112" autoplay loop muted>
-                                <source src="Assets/Payment_animations/Handshake.webm" type="video/webm">
-                                Your browser does not support the video tag.
-                            </video>
-                            <p style="margin-top: var(--spacing-sm); color: var(--color-primary); font-weight: 600; font-size: 0.9rem;">Thank you for your generosity!</p>
-                        `;
-                    }, 2000);
-                    
-                    // Reset amount field and giving type but KEEP animations and messages
-                    setTimeout(() => {
-                        amountInput.value = '';
-                        document.getElementById('givingType').value = 'general';
-                        // Reset UI state but KEEP animations and messages visible
-                        paymentSection.style.display = 'none';
-                        submitBtn.textContent = 'Proceed with payment';
-                        submitBtn.disabled = false;
-                        // DON'T clear animationContainer or messageDiv
-                    }, 7000);
-                    
-                } else {
-                    // Show Payment Failed animation
-                    animationContainer.innerHTML = `
-                        <video width="150" height="112" autoplay loop muted>
-                            <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
-                            Your browser does not support the video tag.
-                        </video>
-                    `;
-                    
-                    messageDiv.innerHTML = 'Payment failed. Please try again.';
-                    messageDiv.className = 'donation-message error';
-                    
-                    // Re-enable submit button but KEEP animation visible
-                    submitBtn.disabled = false;
-                }
+                document.getElementById('onlineGivingForm').reset();
+                updateDonationForm();
+                document.getElementById('donationStep2').style.display = 'none';
+                document.getElementById('donationStep1').style.display = 'block';
+                document.getElementById('donationPayBtn').disabled = false;
             }, 3000);
+        } else {
+            // Show failure
+            document.getElementById('donationAnimationContainer').innerHTML = `
+                <video width="150" height="112" autoplay loop muted style="border-radius: var(--radius-md);">
+                    <source src="Assets/Payment_animations/Payment Failed.webm" type="video/webm">
+                </video>
+            `;
+            
+            document.getElementById('donationMessage').innerHTML = 'Payment failed. Please try again.';
+            document.getElementById('donationMessage').style.color = '#ef4444';
+            document.getElementById('donationPayBtn').disabled = false;
         }
-    });
+    }, 2000);
+});
+
+// Luhn algorithm for card validation
+function validateCardNumber(cardNumber) {
+    let sum = 0;
+    let isEven = false;
     
-    // Prevent form submission
-    document.getElementById('onlineGivingForm')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        return false;
-    });
+    for (let i = cardNumber.length - 1; i >= 0; i--) {
+        let digit = parseInt(cardNumber.charAt(i), 10);
+        
+        if (isEven) {
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+        }
+        
+        sum += digit;
+        isEven = !isEven;
+    }
+    
+    return sum % 10 === 0;
+}
+
+// Expiry date validation
+function validateExpiry(expiry) {
+    const parts = expiry.split('/');
+    if (parts.length !== 2) return false;
+    
+    const month = parseInt(parts[0], 10);
+    const year = parseInt(parts[1], 10);
+    
+    if (month < 1 || month > 12) return false;
+    
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100;
+    const currentMonth = now.getMonth() + 1;
+    
+    if (year < currentYear) return false;
+    if (year === currentYear && month < currentMonth) return false;
+    
+    return true;
+}
+
+// Prevent form submission
+document.getElementById('onlineGivingForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// ======== CLEAN URL SCRIPT ========
+window.addEventListener('load', function() {
+    const currentPath = window.location.pathname;
+    if (currentPath.endsWith('.html')) {
+        const cleanPath = currentPath.replace(/\.html$/, '');
+        history.replaceState(null, document.title, cleanPath);
+        console.log('✓ Clean URL applied:', cleanPath);
+    }
 });
 </script>
     <!-- ============ IMPACT SECTION ============ -->
@@ -544,14 +718,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="footer__section">
                     <h3><i class="fas fa-life-ring"></i> Help</h3>
                     <ul class="footer__links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="ministries.html">Ministries</a></li>
-                        <li><a href="services.html">Sacraments &amp; Worship</a></li>
-                        <li><a href="structure.html">Structure</a></li>
-                        <li><a href="pledge.html">Pledge</a></li>
-                        <li><a href="donations.html">Donations</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="index">Home</a></li>
+                        <li><a href="about">About Us</a></li>
+                        <li><a href="ministries">Ministries</a></li>
+                        <li><a href="services">Sacraments &amp; Worship</a></li>
+                        <li><a href="structure">Structure</a></li>
+                        <li><a href="pledge">Pledge</a></li>
+                        <li><a href="donations">Donations</a></li>
+                        <li><a href="contact">Contact</a></li>
                     </ul>
                 </div>
 
@@ -559,8 +733,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3><i class="fas fa-scale-balanced"></i> Legal</h3>
                     <ul class="footer__links">
                         <li><a href="#" id="cookie-settings">Cookie Settings</a></li>
-                        <li><a href="privacy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
-                        <li><a href="terms.html"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
+                        <li><a href="privacy"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="terms"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
                     </ul>
                 </div>
 

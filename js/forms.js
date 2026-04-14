@@ -55,18 +55,29 @@ class FormValidator {
             return true;
         }
 
-        // ENHANCED: Email validation - Professional email for donations/pledges
+        // ENHANCED: Email validation - Business email only for org donations
         if (type === 'email' && value) {
-            // Determine form type
-            let formType = 'contact'; // default
-            if (this.formId.includes('donation') || this.formId.includes('pledge')) {
-                formType = this.formId.includes('pledge') ? 'pledge' : 'donation';
+            // Determine validation type based on field ID
+            let validationType = 'contact'; // default
+            
+            if (this.formId === 'onlineGivingForm' || this.formId === 'donationForm') {
+                // For donations, check if it's org email field
+                if (field.id === 'orgEmail') {
+                    validationType = 'donation-org';
+                } else {
+                    validationType = 'donation-personal';
+                }
+            } else if (this.formId === 'pledgeForm') {
+                // Pledges accept any email
+                validationType = 'pledge';
             }
 
-            if (!this.validateEmail(value, formType)) {
-                if (formType === 'donation' || formType === 'pledge') {
+            if (!this.validateEmail(value, validationType)) {
+                if (validationType === 'donation-org') {
                     this.setError(field, 
-                        'For donation and pledge forms, please use a professional/organizational email address (not Gmail, Yahoo, Outlook, etc.). This helps us verify organizational donations.');
+                        'Business email required. Please use your company email address (not Gmail, Yahoo, Outlook, etc.)');
+                } else if (validationType === 'donation-personal') {
+                    this.setError(field, 'Please enter a valid email address');
                 } else {
                     this.setError(field, 'Please enter a valid email address');
                 }
@@ -109,9 +120,9 @@ class FormValidator {
     }
 
     /**
-     * ENHANCED: Validate email based on form type
+     * ENHANCED: Validate email based on form type and donor type
      * Contact forms: Accept any valid email
-     * Donation/Pledge forms: Accept only professional emails (not free domains)
+     * Donation/Pledge forms: Donations org = business only, personal/pledges = any email
      */
     validateEmail(email, formType = 'contact') {
         // Check basic email format
@@ -120,21 +131,21 @@ class FormValidator {
             return false;
         }
 
-        // For donation/pledge forms, only allow professional emails
-        if (formType === 'donation' || formType === 'pledge') {
-            return this.validateProfessionalEmail(email);
+        // For donation organization forms, only allow business emails
+        if (formType === 'donation-org') {
+            return this.validateBusinessEmail(email);
         }
 
-        // Contact forms accept all valid emails
+        // For donation personal, pledges, and contact forms accept all valid emails
         return true;
     }
 
     /**
-     * PROFESSIONAL EMAIL VALIDATION (for donations/pledges)
+     * BUSINESS EMAIL VALIDATION (for organization donations only)
      * Blocks free email domains (Gmail, Yahoo, Outlook, etc.)
      * Only allows corporate/organizational email addresses
      */
-    validateProfessionalEmail(email) {
+    validateBusinessEmail(email) {
         // List of free email providers to block
         const freeEmailDomains = [
             'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com',
@@ -335,6 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all forms on the page
     const contactForm = document.getElementById('contactForm');
     const donationForm = document.getElementById('donationForm');
+    const onlineGivingForm = document.getElementById('onlineGivingForm');
     const pledgeForm = document.getElementById('pledgeForm');
     
     if (contactForm) {
@@ -343,6 +355,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (donationForm) {
         new FormValidator('donationForm');
+    }
+
+    if (onlineGivingForm) {
+        window.formValidator = new FormValidator('onlineGivingForm');
     }
 
     if (pledgeForm) {
@@ -406,6 +422,54 @@ formStyles.textContent = `
         align-items: center;
         gap: var(--spacing-sm);
         animation: slideDown 0.4s ease-out;
+    }
+
+    /* Payment Method Buttons - Mobile Responsive */
+    @media (max-width: 768px) {
+        /* Payment method grid - stack on smaller screens */
+        [style*="grid-template-columns: repeat(3, 1fr)"] {
+            display: flex !important;
+            flex-direction: column !important;
+            grid-template-columns: unset !important;
+            gap: var(--spacing-md) !important;
+        }
+
+        /* Payment buttons */
+        .pledge-payment-method,
+        [class*="payment-method"] {
+            padding: var(--spacing-md) !important;
+            min-height: 50px !important;
+            font-size: 1rem !important;
+            width: 100% !important;
+        }
+
+        /* Payment method icons */
+        .pledge-payment-method i,
+        [class*="payment-method"] i {
+            font-size: 1.5rem !important;
+            margin-right: 0.75rem !important;
+        }
+
+        .pledge-payment-method span,
+        [class*="payment-method"] span {
+            font-size: 0.95rem !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        /* Extra small screens */
+        .pledge-payment-method,
+        [class*="payment-method"] {
+            padding: var(--spacing-sm) var(--spacing-md) !important;
+            min-height: 45px !important;
+            font-size: 0.9rem !important;
+        }
+
+        .pledge-payment-method i,
+        [class*="payment-method"] i {
+            font-size: 1.3rem !important;
+            margin-right: 0.5rem !important;
+        }
     }
 `;
 document.head.appendChild(formStyles);
@@ -500,6 +564,128 @@ alertStyles.textContent = `
 document.head.appendChild(alertStyles);
 
 /**
+ * Card Validation Utilities
+ */
+const CardValidator = {
+    /**
+     * Validate card number using Luhn algorithm
+     */
+    validateCardNumber: function(cardNumber) {
+        // Remove spaces and dashes
+        const cleaned = cardNumber.replace(/[\s\-]/g, '');
+        
+        // Must be numeric and 13-19 digits
+        if (!/^\d{13,19}$/.test(cleaned)) {
+            return false;
+        }
+        
+        // Luhn algorithm check
+        let sum = 0;
+        let isEven = false;
+        
+        for (let i = cleaned.length - 1; i >= 0; i--) {
+            let digit = parseInt(cleaned[i], 10);
+            
+            if (isEven) {
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+            
+            sum += digit;
+            isEven = !isEven;
+        }
+        
+        return sum % 10 === 0;
+    },
+
+    /**
+     * Validate expiry date (MM/YY format)
+     */
+    validateExpiry: function(expiry) {
+        const pattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+        if (!pattern.test(expiry)) {
+            return false;
+        }
+        
+        const [month, year] = expiry.split('/');
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear() % 100;
+        const currentMonth = currentDate.getMonth() + 1;
+        
+        const expiryYear = parseInt(year, 10);
+        const expiryMonth = parseInt(month, 10);
+        
+        // Check if card has expired
+        if (expiryYear < currentYear || (expiryYear === currentYear && expiryMonth < currentMonth)) {
+            return false;
+        }
+        
+        return true;
+    },
+
+    /**
+     * Validate CVV (3-4 digits)
+     */
+    validateCVV: function(cvv) {
+        return /^\d{3,4}$/.test(cvv);
+    },
+
+    /**
+     * Validate all card fields for a form
+     */
+    validateCardFields: function(formType = 'donation') {
+        const cardNumberField = formType === 'pledge' ? 'cardNumber' : 'onlineCardNumber';
+        const expiryField = formType === 'pledge' ? 'expiry' : 'onlineExpiry';
+        const cvvField = formType === 'pledge' ? 'cvv' : 'onlineCvv';
+        const cardholderField = formType === 'pledge' ? 'cardholderName' : 'onlineCardholderName';
+
+        const cardNumber = document.getElementById(cardNumberField)?.value || '';
+        const expiry = document.getElementById(expiryField)?.value || '';
+        const cvv = document.getElementById(cvvField)?.value || '';
+        const cardholder = document.getElementById(cardholderField)?.value || '';
+
+        if (!cardNumber) {
+            window.showHTMLAlert('Card Number Required', 'Please enter your card number.', 'error');
+            return false;
+        }
+
+        if (!this.validateCardNumber(cardNumber)) {
+            window.showHTMLAlert('Invalid Card Number', 'Please enter a valid card number.', 'error');
+            return false;
+        }
+
+        if (!expiry) {
+            window.showHTMLAlert('Expiry Required', 'Please enter the card expiry date (MM/YY).', 'error');
+            return false;
+        }
+
+        if (!this.validateExpiry(expiry)) {
+            window.showHTMLAlert('Invalid Expiry', 'Please enter a valid expiry date or the card has expired.', 'error');
+            return false;
+        }
+
+        if (!cvv) {
+            window.showHTMLAlert('CVV Required', 'Please enter the card CVV.', 'error');
+            return false;
+        }
+
+        if (!this.validateCVV(cvv)) {
+            window.showHTMLAlert('Invalid CVV', 'Please enter a valid CVV (3-4 digits).', 'error');
+            return false;
+        }
+
+        if (!cardholder) {
+            window.showHTMLAlert('Cardholder Name Required', 'Please enter the cardholder name.', 'error');
+            return false;
+        }
+
+        return true;
+    }
+};
+
+/**
  * Payment Processing System
  * Handles Apple Pay, Biometric (Face ID), and Digital Wallet payments
  */
@@ -513,9 +699,15 @@ const PaymentProcessor = {
             return;
         }
 
-        // Check if Apple Pay is available
-        if (!window.ApplePaySession || !ApplePaySession.canMakePayments()) {
-            window.showHTMLAlert('Apple Pay Unavailable', 'Apple Pay is not available on this device. Please use another payment method.', 'warning');
+        // Check if Apple Pay is available on this device/browser
+        if (!(window.ApplePaySession instanceof Function)) {
+            window.showHTMLAlert('Apple Pay Unavailable', 'Apple Pay is not available on this device or browser. Please use another payment method.', 'warning');
+            return;
+        }
+
+        // Check if user can make Apple Pay payments
+        if (!ApplePaySession.canMakePayments()) {
+            window.showHTMLAlert('Apple Pay Not Configured', 'Apple Pay is not configured on this device. Please use another payment method.', 'warning');
             return;
         }
 
@@ -524,43 +716,61 @@ const PaymentProcessor = {
             countryCode: 'ZA',
             currencyCode: 'ZAR',
             supportedNetworks: ['visa', 'masterCard', 'amex'],
-            merchantCapabilities: ['supports3DS'],
+            merchantCapabilities: ['supports3DS', 'supportsDebit', 'supportsCredit'],
+            requiredBillingContactFields: ['postalAddress', 'name', 'phone', 'email'],
+            requiredShippingContactFields: [],
             total: {
                 label: 'St. Francis ' + (formType === 'pledge' ? 'Pledge' : 'Donation'),
-                amount: amount.toString()
+                amount: parseFloat(amount).toFixed(2)
             },
             lineItems: [
                 {
                     label: 'Church ' + (formType === 'pledge' ? 'Pledge' : 'Donation'),
-                    amount: amount.toString(),
+                    amount: parseFloat(amount).toFixed(2),
                     type: 'final'
                 }
             ]
         };
 
         try {
-            const session = new ApplePaySession(11, request);
+            const session = new ApplePaySession(10, request);
 
             session.onvalidatemerchant = (event) => {
-                // In production, validate merchant with Apple
-                // For now, just continue
+                // In production, you would validate the merchant with Apple Pay servers
+                // For development, we complete validation
                 session.completeMerchantValidation({});
             };
 
             session.onpaymentauthorized = (event) => {
-                // Payment authorized - process it
-                const paymentData = event.payment;
-                PaymentProcessor.completePayment(amount, 'Apple Pay', formType, session);
+                // Payment authorized - process the payment
+                const paymentData = {
+                    token: event.payment.token,
+                    billingContact: event.payment.billingContact,
+                    shippingContact: event.payment.shippingContact
+                };
+                
+                // Simulate server-side payment processing
+                setTimeout(() => {
+                    // Mark payment as successful
+                    session.completePayment(ApplePaySession.STATUS_SUCCESS);
+                    PaymentProcessor.completePayment(amount, 'Apple Pay', formType, null);
+                }, 1000);
             };
 
             session.oncancel = () => {
                 window.showHTMLAlert('Payment Cancelled', 'Your ' + (formType === 'pledge' ? 'pledge' : 'donation') + ' has been cancelled.', 'warning');
             };
 
+            session.onerror = (error) => {
+                window.showHTMLAlert('Payment Error', 'An error occurred: ' + error.errors[0].message, 'error');
+                console.error('Apple Pay error:', error);
+            };
+
+            // Begin the payment session
             session.begin();
         } catch (error) {
-            window.showHTMLAlert('Payment Error', 'An error occurred while initiating Apple Pay. Please try again.', 'error');
-            console.error('Apple Pay error:', error);
+            window.showHTMLAlert('Payment Error', 'Failed to initiate Apple Pay. Please try another payment method.', 'error');
+            console.error('Apple Pay initialization error:', error);
         }
     },
 
@@ -781,20 +991,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const donorType = document.getElementById('donorType').value;
         const orgEmailGroup = document.getElementById('orgEmailGroup');
         const personalEmailGroup = document.getElementById('personalEmailGroup');
+        const orgEmailInput = document.getElementById('orgEmail');
+        const personalEmailInput = document.getElementById('personalEmail');
         
         if (donorType === 'organization') {
             orgEmailGroup.style.display = 'block';
             personalEmailGroup.style.display = 'none';
-            document.getElementById('orgEmail').required = true;
-            document.getElementById('personalEmail').required = false;
+            orgEmailInput.required = true;
+            orgEmailInput.placeholder = 'finance@yourcompany.com';
+            personalEmailInput.required = false;
         } else if (donorType === 'personal') {
             orgEmailGroup.style.display = 'none';
             personalEmailGroup.style.display = 'block';
-            document.getElementById('orgEmail').required = false;
-            document.getElementById('personalEmail').required = false;
+            personalEmailInput.required = true;
+            personalEmailInput.placeholder = 'your.email@example.com';
+            orgEmailInput.required = false;
         } else {
             orgEmailGroup.style.display = 'none';
             personalEmailGroup.style.display = 'block';
+            personalEmailInput.required = false;
+            orgEmailInput.required = false;
         }
     };
 

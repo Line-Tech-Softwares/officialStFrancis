@@ -69,12 +69,7 @@
     </div>
 
     <!-- MAIN CONTENT SECTION -->
-    <div class="container">
-        <!-- Back Button (Top) -->
-        <a href="../ministries.html" class="ministry__back-button" style="display: block; margin-top: var(--spacing-2xl); margin-bottom: var(--spacing-xl);" onclick="return handleMinistryBackButton(event)">
-            <i class="fas fa-arrow-left"></i> Back to Ministries
-        </a>
-
+    <div class="container ministry__container">
         <!-- Header with Title & CTA Button -->
         <div class="ministry__header" style="display: flex; flex-direction: column; gap: var(--spacing-md);">
             <div class="ministry__header-info" style="flex: 1;">
@@ -84,30 +79,29 @@
             <a href="../contact.html" class="ministry__action-button" style="align-self: flex-start;">Get Involved</a>
         </div>
 
-        <!-- Tabs Navigation -->
-        <div class="ministry__tabs" style="margin: var(--spacing-2xl) 0 var(--spacing-xl); border-bottom: 2px solid var(--color-gold); display: flex; gap: var(--spacing-md);">
-            <button class="ministry__tab active" data-tab="tab-about" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-primary); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--color-gold); margin-bottom: -2px;">
-                <i class="fas fa-info-circle"></i> About
-            </button>
-            <button class="ministry__tab" data-tab="tab-gallery" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
-                <i class="fas fa-images"></i> Gallery
-            </button>
-            <button class="ministry__tab" data-tab="tab-songs" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
-                <i class="fas fa-music"></i> Songs
-            </button>
-            <button class="ministry__tab" data-tab="tab-events" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
-                <i class="fas fa-calendar"></i> Events
-            </button>
-        </div>
+        <div class="ministry__tabs">
+    <button class="ministry__tab active" data-tab="tab-about">
+        <i class="fas fa-info-circle"></i> About
+    </button>
+    <button class="ministry__tab" data-tab="tab-gallery">
+        <i class="fas fa-images"></i> Gallery
+    </button>
+    <button class="ministry__tab" data-tab="tab-songs">
+        <i class="fas fa-music"></i> Songs
+    </button>
+    <button class="ministry__tab" data-tab="tab-events">
+        <i class="fas fa-calendar"></i> Events
+    </button>
+</div>
 
         <!-- TAB CONTENTS -->
 
         <!-- ABOUT TAB (Active) -->
         <div id="tab-about" class="ministry__tab-content active" style="margin-bottom: var(--spacing-2xl);">
             <div class="ministry__about" style="background-color: var(--color-cream); padding: var(--spacing-lg); border-radius: var(--radius-md); line-height: 1.8; color: var(--color-primary);">
-                <p style="margin-bottom: var(--spacing-md);">The Anglican Womens Fellowship honors the legacy of Saint Lawrence through fellowship and dedicated service. Like Saint Lawrence who gave himself in service to Christ, we gather as men committed to supporting one another and serving our community with strength and compassion.</p>
-                <p style="margin-bottom: var(--spacing-md);">Our guild of altar servers maintains reverence and discipline in our sacred duties at the altar, blending tradition with spiritual devotion. We serve with humility and dedication, inspired by St. Lawrence's example of selfless martyrdom and unwavering faith.</p>
-                <p style="margin-bottom: 0;"><strong>Through regular meetings, spiritual study, charitable work, and brotherhood, we live out our faith together. All men are welcome to join this fellowship.</strong></p>
+                <p style="margin-bottom: var(--spacing-md);">The Anglican Women's Fellowship is a community dedicated to fostering spiritual growth, unity, and service among the women of our congregation. We gather regularly for prayer, study, fellowship, and charitable works.</p>
+                <p style="margin-bottom: var(--spacing-md);">Through scripture study, prayer circles, and community outreach, we encourage one another in faith and support the mission of our church. We celebrate the gifts and talents that women bring to our faith community.</p>
+                <p style="margin-bottom: 0;"><strong>All women are invited to join us as we grow deeper in our faith, build meaningful friendships, and serve God's kingdom together.</strong></p>
             </div>
         </div>
 

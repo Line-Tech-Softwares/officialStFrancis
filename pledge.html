@@ -167,7 +167,7 @@
 
                             <div class="form-group">
                                 <label for="pledgeEmail">Personal Email Address *</label>
-                                <input type="email" id="pledgeEmail" name="email" placeholder="yourpersonalemail@example.com" required>
+                                <input type="email" id="pledgeEmail" name="email" placeholder="yourpersonalemail@example.com">
                                 <div id="pledgeEmailShortcuts" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--spacing-sm);">
                                     <span style="font-size: 0.75rem; color: var(--color-text-secondary); display: block; width: 100%; margin-bottom: 0.25rem;">Quick fill:</span>
                                     <button type="button" class="pledge-email-shortcut" data-domain="gmail.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@gmail.com</button>
@@ -192,7 +192,7 @@
 
                             <div class="form-group">
                                 <label for="pledgeAmount">Pledge Amount (ZAR) *</label>
-                                <input type="number" id="pledgeAmount" name="amount" placeholder="e.g., 250" min="1" step="1" required>
+                                <input type="number" id="pledgeAmount" name="amount" placeholder="e.g., 250" min="1" step="1">
                                 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
                                     <button type="button" class="pledge-preset" data-amount="100" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R100</button>
                                     <button type="button" class="pledge-preset" data-amount="250" style="padding: var(--spacing-sm); font-size: 0.9rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">R250</button>
@@ -203,7 +203,7 @@
 
                             <div class="form-group">
                                 <label for="pledgeFrequency">Frequency *</label>
-                                <select id="pledgeFrequency" name="frequency" required style="padding: var(--spacing-sm); border: 1px solid var(--color-pale-gold); border-radius: var(--radius-sm); font-family: inherit; font-size: 1rem;">
+                                <select id="pledgeFrequency" name="frequency" style="padding: var(--spacing-sm); border: 1px solid var(--color-pale-gold); border-radius: var(--radius-sm); font-family: inherit; font-size: 1rem;">>
                                     <option value="">Select frequency</option>
                                     <option value="weekly">Weekly</option>
                                     <option value="monthly">Monthly</option>
@@ -550,26 +550,30 @@ function isProfessionalEmail(email) {
     return false;
 }
 
-// Email validation on blur
-document.getElementById('pledgeEmail')?.addEventListener('blur', function() {
-    const email = this.value.trim();
+// Email validation - only on form submission, not on blur
+function validatePledgeEmail(email) {
     const errorDiv = document.getElementById('pledgeEmailError');
-    errorDiv.innerHTML = '';
+    email = email.trim();
     
-    if (!email) return;
+    if (!email) {
+        errorDiv.innerHTML = 'Please enter your email address';
+        return false;
+    }
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         errorDiv.innerHTML = 'Please enter a valid email address';
-        return;
+        return false;
     }
     
     if (isProfessionalEmail(email)) {
         errorDiv.innerHTML = 'Pledges are personal commitments. Please use your personal email (e.g., Gmail, Yahoo, etc.).';
-        this.value = '';
-        this.focus();
+        return false;
     }
-});
+    
+    errorDiv.innerHTML = ''; // Clear errors if valid
+    return true;
+}
 
 // Handle pledge preset amount buttons
 document.querySelectorAll('.pledge-preset').forEach(btn => {
@@ -677,16 +681,8 @@ document.getElementById('pledgeNextBtn')?.addEventListener('click', function() {
         return;
     }
     
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        errorDiv.innerHTML = 'Please enter a valid email address';
-        return;
-    }
-    
-    // Check if professional email
-    if (isProfessionalEmail(email)) {
-        errorDiv.innerHTML = 'Pledges are personal commitments. Please use your personal email (e.g., Gmail, Yahoo, etc.).';
+    // Validate email
+    if (!validatePledgeEmail(email)) {
         document.getElementById('pledgeEmail').focus();
         return;
     }

@@ -521,17 +521,30 @@ document.querySelectorAll('.email-shortcut').forEach(btn => {
         e.preventDefault();
         const domain = this.getAttribute('data-domain');
         const emailInput = document.getElementById('donationEmail');
-        const currentValue = emailInput.value;
+        const currentValue = emailInput.value.trim();
         
-        if (currentValue && !currentValue.includes('@')) {
-            emailInput.value = currentValue + '@' + domain;
-        } else if (!currentValue) {
-            emailInput.value = '@' + domain;
-        } else {
+        // If empty, don't set just @domain - require a username first
+        if (!currentValue) {
+            emailInput.focus();
+            return;
+        }
+        
+        // Check if there's already an @ symbol
+        if (currentValue.includes('@')) {
+            // Replace the domain part
             const beforeAt = currentValue.split('@')[0];
             emailInput.value = beforeAt + '@' + domain;
+        } else {
+            // No @ yet, append @domain
+            emailInput.value = currentValue + '@' + domain;
         }
+        
         emailInput.focus();
+        // Clear any previous error messages
+        const errorDiv = document.getElementById('emailError');
+        if (errorDiv) {
+            errorDiv.innerHTML = '';
+        }
     });
 });
 

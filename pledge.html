@@ -586,14 +586,26 @@ document.querySelectorAll('.pledge-email-shortcut').forEach(btn => {
         e.preventDefault();
         const emailInput = document.getElementById('pledgeEmail');
         const domain = this.getAttribute('data-domain');
-        const currentEmail = emailInput.value;
+        const currentEmail = emailInput.value.trim();
         
-        // If there's a username part, append domain; otherwise do nothing
+        // If empty, just focus
+        if (!currentEmail) {
+            emailInput.focus();
+            return;
+        }
+        
+        // If there's already an @ symbol, replace everything after it
         const atIndex = currentEmail.indexOf('@');
         if (atIndex > 0) {
             emailInput.value = currentEmail.substring(0, atIndex) + '@' + domain;
+        } else if (atIndex < 0) {
+            // No @ symbol yet, so append @ + domain
+            emailInput.value = currentEmail + '@' + domain;
         }
+        
         emailInput.focus();
+        // Clear any previous error messages
+        document.getElementById('pledgeEmailError').innerHTML = '';
     });
 });
 

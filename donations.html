@@ -62,6 +62,119 @@
             gap: var(--spacing-lg);
             margin-top: var(--spacing-2xl);
         }
+
+        /* Mobile Responsive Styles for Small Devices (iPhone 13 and below) */
+        @media (max-width: 390px) {
+            .donation-payment-form form {
+                padding: var(--spacing-sm);
+            }
+
+            .form-group {
+                margin-bottom: var(--spacing-md) !important;
+            }
+
+            .form-group label {
+                font-size: 0.95rem;
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: var(--spacing-sm) !important;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+
+            #emailShortcuts {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem !important;
+            }
+
+            .email-shortcut {
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.75rem !important;
+                flex: 0 1 calc(50% - 0.2rem);
+            }
+
+            .donation-preset {
+                padding: var(--spacing-sm) !important;
+                font-size: 0.85rem !important;
+                width: 100%;
+            }
+
+            .donation-preset {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: var(--spacing-sm) !important;
+            }
+
+            #donationNextBtn,
+            #donationBackBtn,
+            #donationSubmitBtn {
+                padding: var(--spacing-md) var(--spacing-sm) !important;
+                font-size: 1rem !important;
+                width: 100% !important;
+                margin: var(--spacing-md) 0 var(--spacing-sm) 0 !important;
+            }
+
+            .form-button {
+                padding: var(--spacing-md) var(--spacing-sm) !important;
+                font-size: 1rem !important;
+                width: 100% !important;
+            }
+
+            .donation-payment-form {
+                width: 100%;
+                margin: 0 !important;
+            }
+
+            .container {
+                padding: var(--spacing-md) !important;
+            }
+
+            hr {
+                margin: var(--spacing-md) 0 !important;
+            }
+
+            h4 {
+                font-size: 1.05rem !important;
+                margin-bottom: var(--spacing-md) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .donation__methods {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-payment-form {
+                width: 100%;
+            }
+
+            .form-group {
+                margin-bottom: var(--spacing-md);
+            }
+
+            .donation-preset {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-sm);
+            }
+
+            #donationNextBtn,
+            #donationBackBtn,
+            #donationSubmitBtn {
+                margin-top: var(--spacing-md);
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .email-shortcut {
+                flex: 0 1 calc(50% - 0.25rem);
+            }
+        }
     </style>
 </head>
 <body>
@@ -135,15 +248,11 @@
                             <!-- STEP 1: DONOR DETAILS -->
                             <div id="donationStep1">
                                 <div class="form-group">
-                                    <label style="font-weight: 600; margin-bottom: var(--spacing-sm); display: block;">Donor Type *</label>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-sm);">
-                                        <label style="display: flex; align-items: center; padding: var(--spacing-sm); border: 2px solid var(--color-pale-gold); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" id="personalLabel">
-                                            <input type="radio" name="donorType" value="personal" checked onchange="updateDonationForm()"> <span style="margin-left: var(--spacing-sm);">Personal</span>
-                                        </label>
-                                        <label style="display: flex; align-items: center; padding: var(--spacing-sm); border: 2px solid var(--color-pale-gold); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth);" id="orgLabel">
-                                            <input type="radio" name="donorType" value="organization" onchange="updateDonationForm()"> <span style="margin-left: var(--spacing-sm);">Organisation</span>
-                                        </label>
-                                    </div>
+                                    <label for="donorType">Donor Type *</label>
+                                    <select id="donorType" name="donorType" onchange="updateDonationForm()" style="padding: var(--spacing-sm); border: 1px solid var(--color-pale-gold); border-radius: var(--radius-sm); font-family: inherit; font-size: 1rem; width: 100%;">
+                                        <option value="personal">Personal</option>
+                                        <option value="organization">Organisation</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -744,7 +853,7 @@ window.addEventListener('load', function() {
                         <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i> Facebook</a></li>
                         <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
                         <li><a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
-                        <li><a href="https://wa.me/27123456789" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                        <li><a href="https://wa.me/27814421719" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
                     </ul>
                 </div>
 

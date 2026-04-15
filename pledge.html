@@ -168,6 +168,17 @@
                             <div class="form-group">
                                 <label for="pledgeEmail">Personal Email Address *</label>
                                 <input type="email" id="pledgeEmail" name="email" placeholder="yourpersonalemail@example.com" required>
+                                <div id="pledgeEmailShortcuts" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--spacing-sm);">
+                                    <span style="font-size: 0.75rem; color: var(--color-text-secondary); display: block; width: 100%; margin-bottom: 0.25rem;">Quick fill:</span>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="gmail.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@gmail.com</button>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="yahoo.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@yahoo.com</button>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="outlook.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@outlook.com</button>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="hotmail.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@hotmail.com</button>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="icloud.com" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@icloud.com</button>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="mweb.co.za" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@mweb.co.za</button>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="telkom.co.za" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@telkom.co.za</button>
+                                    <button type="button" class="pledge-email-shortcut" data-domain="vodacom.co.za" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--color-gold); background: white; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition-smooth);">@vodacom.co.za</button>
+                                </div>
                                 <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-top: var(--spacing-xs);">
                                     <i class="fas fa-info-circle"></i> Pledges must use a personal email (Gmail, Yahoo, etc.)
                                 </p>
@@ -410,6 +421,94 @@
     #formMessage.info {
         color: #3b82f6;
     }
+
+    /* Mobile Responsive Styles for Small Devices (iPhone 13 and below) */
+    @media (max-width: 390px) {
+        .pledge-form-container form {
+            padding: var(--spacing-sm);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md) !important;
+        }
+
+        .form-group label {
+            font-size: 0.95rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            font-size: 16px !important; /* Prevents zoom on iOS */
+            padding: var(--spacing-sm) !important;
+            width: 100% !important;
+            box-sizing: border-box;
+        }
+
+        #pledgeNextBtn,
+        #pledgeBackBtn,
+        #pledgeSubmitBtn {
+            padding: var(--spacing-md) var(--spacing-sm) !important;
+            font-size: 1rem !important;
+            width: 100% !important;
+            margin: var(--spacing-md) 0 var(--spacing-sm) 0 !important;
+        }
+
+        .form-button {
+            padding: var(--spacing-md) var(--spacing-sm) !important;
+            font-size: 1rem !important;
+            width: 100% !important;
+        }
+
+        .pledge-form-container {
+            width: 100%;
+            margin: 0 !important;
+        }
+
+        .container {
+            padding: var(--spacing-md) !important;
+        }
+
+        hr {
+            margin: var(--spacing-md) 0 !important;
+        }
+
+        h3 {
+            font-size: 1.05rem !important;
+            margin-bottom: var(--spacing-md) !important;
+        }
+
+        .card-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        #paymentSection {
+            padding-top: var(--spacing-lg) !important;
+            margin-top: var(--spacing-lg) !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pledge-form-container {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        #pledgeNextBtn,
+        #pledgeBackBtn,
+        #pledgeSubmitBtn {
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .card-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
 <script>
@@ -478,6 +577,23 @@ document.querySelectorAll('.pledge-preset').forEach(btn => {
         e.preventDefault();
         const amount = this.getAttribute('data-amount');
         document.getElementById('pledgeAmount').value = amount;
+    });
+});
+
+// Handle pledge email shortcuts
+document.querySelectorAll('.pledge-email-shortcut').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('pledgeEmail');
+        const domain = this.getAttribute('data-domain');
+        const currentEmail = emailInput.value;
+        
+        // If there's a username part, append domain; otherwise do nothing
+        const atIndex = currentEmail.indexOf('@');
+        if (atIndex > 0) {
+            emailInput.value = currentEmail.substring(0, atIndex) + '@' + domain;
+        }
+        emailInput.focus();
     });
 });
 
@@ -792,7 +908,7 @@ window.addEventListener('load', function() {
                         <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i> Facebook</a></li>
                         <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
                         <li><a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
-                        <li><a href="https://wa.me/27123456789" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                        <li><a href="https://wa.me/27814421719" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
                     </ul>
                 </div>
 

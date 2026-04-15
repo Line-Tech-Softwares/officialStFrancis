@@ -1,0 +1,44 @@
+{
+  "name": "apple-pay-backend",
+  "version": "1.0.0",
+  "description": "Production-ready Apple Pay backend for St. Francis Church",
+  "main": "apple-pay-backend.js",
+  "scripts": {
+    "start": "node apple-pay-backend.js",
+    "dev": "NODE_ENV=development nodemon apple-pay-backend.js",
+    "test": "NODE_ENV=test node apple-pay-backend.js",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "apple-pay",
+    "payment-processing",
+    "nodejs",
+    "express"
+  ],
+  "author": "St. Francis Church",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "dotenv": "^16.0.3",
+    "stripe": "^12.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "eslint": "^8.40.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Line-Tech-Softwares/officialStFrancis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Line-Tech-Softwares/officialStFrancis/issues"
+  },
+  "homepage": "https://sfmamelodwest.co.za"
+}

@@ -1,0 +1,318 @@
+/**
+ * Apple Pay Button Styles
+ * Production-ready styling using Apple's design guidelines
+ * https://developer.apple.com/design/human-interface-guidelines/apple-pay
+ */
+
+/* ================================================
+   Apple Pay Button Styling
+   ================================================ */
+
+.apple-pay-button {
+    /* Base styling */
+    background-color: #000;
+    background-size: 100% 60%;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    border-radius: 4px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    
+    /* Typography */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    
+    /* Sizing */
+    min-width: 200px;
+    min-height: 40px;
+    width: auto;
+    
+    /* Transitions */
+    transition: all 0.2s ease;
+    
+    /* Accessibility */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Black variant (recommended) */
+.apple-pay-button-black {
+    background-color: #000;
+    color: #fff;
+}
+
+.apple-pay-button-black:hover:not(:disabled) {
+    background-color: #1a1a1a;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.apple-pay-button-black:active:not(:disabled) {
+    background-color: #000;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* White variant (for dark backgrounds) */
+.apple-pay-button-white {
+    background-color: #fff;
+    border: 1px solid #000;
+    color: #000;
+}
+
+.apple-pay-button-white:hover:not(:disabled) {
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.apple-pay-button-white:active:not(:disabled) {
+    background-color: #fff;
+}
+
+/* Disabled state */
+.apple-pay-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Focus state for accessibility */
+.apple-pay-button:focus {
+    outline: 2px solid var(--color-gold, #d4af37);
+    outline-offset: 2px;
+}
+
+/* ================================================
+   Apple Pay Container
+   ================================================ */
+
+[data-apple-pay-container] {
+    margin: 24px 0;
+    padding: 16px 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+[data-apple-pay-container] h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+}
+
+[data-apple-pay-container] > p {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* ================================================
+   Message Styling
+   ================================================ */
+
+[data-apple-pay-message] {
+    margin: 16px 0 0 0;
+}
+
+/* Success message */
+.apple-pay-success-message {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    color: #155724;
+    padding: 12px 16px;
+    margin: 16px 0;
+    animation: slideDown 0.3s ease-out;
+}
+
+.apple-pay-success-message h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #155724;
+}
+
+.apple-pay-success-message p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.apple-pay-success-message strong {
+    font-weight: 600;
+    color: #0c3622;
+}
+
+/* Error message */
+.apple-pay-error-message {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    color: #721c24;
+    padding: 12px 16px;
+    margin: 16px 0;
+    animation: slideDown 0.3s ease-out;
+}
+
+.apple-pay-error-message h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #721c24;
+}
+
+.apple-pay-error-message p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+/* Info message */
+.apple-pay-info-message {
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    border-radius: 4px;
+    color: #0c5460;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+
+/* ================================================
+   Animations
+   ================================================ */
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
+/* ================================================
+   Responsive Design
+   ================================================ */
+
+/* Tablet and above */
+@media (min-width: 768px) {
+    .apple-pay-button {
+        min-width: 240px;
+        min-height: 44px;
+    }
+    
+    [data-apple-pay-container] {
+        max-width: 500px;
+        margin: 24px auto;
+    }
+}
+
+/* Mobile optimization */
+@media (max-width: 767px) {
+    .apple-pay-button {
+        min-width: 100%;
+        width: 100%;
+        min-height: 48px;
+        font-size: 16px; /* Prevents iOS auto-zoom */
+    }
+    
+    [data-apple-pay-container] {
+        margin: 16px 0;
+        padding: 12px 16px;
+    }
+    
+    .apple-pay-success-message,
+    .apple-pay-error-message,
+    .apple-pay-info-message {
+        margin: 12px 0;
+        padding: 10px 12px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    [data-apple-pay-container] h3 {
+        font-size: 16px;
+    }
+    
+    [data-apple-pay-container] > p {
+        font-size: 13px;
+    }
+    
+    .apple-pay-success-message h3,
+    .apple-pay-error-message h3 {
+        font-size: 15px;
+    }
+}
+
+/* ================================================
+   Dark Mode Support (Optional)
+   ================================================ */
+
+@media (prefers-color-scheme: dark) {
+    [data-apple-pay-container] {
+        background-color: #1a1a1a;
+        border-color: #333;
+    }
+    
+    [data-apple-pay-container] h3 {
+        color: #fff;
+    }
+    
+    [data-apple-pay-container] > p {
+        color: #aaa;
+    }
+    
+    .apple-pay-button-white {
+        background-color: #333;
+        border-color: #555;
+        color: #fff;
+    }
+    
+    .apple-pay-button-white:hover:not(:disabled) {
+        background-color: #444;
+    }
+}
+
+/* ================================================
+   Accessibility Features
+   ================================================ */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .apple-pay-button,
+    .apple-pay-success-message,
+    .apple-pay-error-message {
+        transition: none;
+        animation: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+    .apple-pay-button {
+        border: 2px solid #000;
+    }
+    
+    .apple-pay-success-message {
+        border-width: 2px;
+        font-weight: 600;
+    }
+    
+    .apple-pay-error-message {
+        border-width: 2px;
+        font-weight: 600;
+    }
+}

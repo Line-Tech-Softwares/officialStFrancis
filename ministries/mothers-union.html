@@ -31,6 +31,7 @@
 
     <!-- TikTok-style Ministries Template -->
     <link rel="stylesheet" href="../css/components/ministries.css">
+    <link rel="stylesheet" href="../css/components/ministries-gallery.css">
 </head>
 <body>
     <noscript>
@@ -80,17 +81,17 @@
         </div>
 
         <!-- Tabs Navigation -->
-        <div class="ministry__tabs" style="margin: var(--spacing-2xl) 0 var(--spacing-xl); border-bottom: 2px solid var(--color-gold); display: flex; gap: var(--spacing-md);">
-            <button class="ministry__tab active" data-tab="tab-about" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-primary); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--color-gold); margin-bottom: -2px;">
+        <div class="ministry__tabs">
+            <button class="ministry__tab active" data-tab="tab-about">
                 <i class="fas fa-info-circle"></i> About
             </button>
-            <button class="ministry__tab" data-tab="tab-gallery" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
+            <button class="ministry__tab" data-tab="tab-gallery">
                 <i class="fas fa-images"></i> Gallery
             </button>
-            <button class="ministry__tab" data-tab="tab-songs" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
+            <button class="ministry__tab" data-tab="tab-songs">
                 <i class="fas fa-music"></i> Songs
             </button>
-            <button class="ministry__tab" data-tab="tab-events" style="padding: var(--spacing-sm) var(--spacing-md); border: none; background: transparent; color: var(--color-text-secondary); font-weight: 600; cursor: pointer;">
+            <button class="ministry__tab" data-tab="tab-events">
                 <i class="fas fa-calendar"></i> Events
             </button>
         </div>
@@ -107,24 +108,12 @@
         </div>
 
         <!-- GALLERY TAB -->
-        <div id="tab-gallery" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">
-            <div style="text-align: center; padding: var(--spacing-2xl); background-color: var(--color-cream); border-radius: var(--radius-md);">
-                <i class="fas fa-images" style="font-size: 3rem; color: var(--color-gold); margin-bottom: var(--spacing-md);"></i>
-                <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);">Gallery Coming Soon</h3>
-                <p style="color: var(--color-text-secondary);">Content coming soon. I will add them in due time.</p>
-            </div>
-            <div class="ministry__gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-lg);">
-                <div class="gallery__item" style="aspect-ratio: 9/16; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center; color: white;"><i class="fas fa-camera" style="font-size: 2rem; margin-bottom: var(--spacing-sm);"></i><p>Photo Gallery</p></div>
-                </div>
-                <div class="gallery__item" style="aspect-ratio: 9/16; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center; color: white;"><i class="fas fa-image" style="font-size: 2rem; margin-bottom: var(--spacing-sm);"></i><p>Events & Activities</p></div>
-                </div>
-            </div>
+        <div id="tab-gallery" class="ministry__tab-content"  style="margin-bottom: var(--spacing-2xl);">
+            <div class="ministry__gallery"></div>
         </div>
 
         <!-- SONGS TAB -->
-        <div id="tab-songs" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">
+        <div id="tab-songs" class="ministry__tab-content"  style="margin-bottom: var(--spacing-2xl);">
             <div style="text-align: center; padding: var(--spacing-2xl); background-color: var(--color-cream); border-radius: var(--radius-md);">
                 <i class="fas fa-music" style="font-size: 3rem; color: var(--color-gold); margin-bottom: var(--spacing-md);"></i>
                 <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);">Songs Coming Soon</h3>
@@ -143,7 +132,7 @@
         </div>
 
         <!-- EVENTS TAB -->
-        <div id="tab-events" class="ministry__tab-content" style="margin-bottom: var(--spacing-2xl); display: none;">
+        <div id="tab-events" class="ministry__tab-content"  style="margin-bottom: var(--spacing-2xl);">
             <!-- Subscription Section -->
             <div class="ministry__subscription-banner">
                 <h3>Stay Updated</h3>
@@ -298,6 +287,7 @@
     <script src="../js/main.js"></script>
     <script src="../js/ministry-debug.js"></script>
     <script src="../js/ministry-tabs.js"></script>
+    <script src="../js/ministry-gallery.js"></script>
     <script src="../js/ministry-navigation.js"></script>
     <script>
         // Modal Functions

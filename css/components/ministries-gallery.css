@@ -1,0 +1,521 @@
+/* ================================================
+   MINISTRIES GALLERY STYLES - MOBILE FIRST
+   Fully responsive gallery with clear lightbox on phones
+   ================================================ */
+
+/* ================================================
+   GALLERY GRID - MOBILE FIRST
+   ================================================ */
+
+.ministry__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Gallery Items */
+.gallery__item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.875rem;
+    background: var(--color-white);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    aspect-ratio: 1;
+    cursor: pointer;
+    width: 100%;
+}
+
+.gallery__item:active {
+    transform: scale(0.98);
+}
+
+.gallery__item-button {
+    border: none;
+    background: none;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery__item-button img,
+.gallery__item-button video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery__item video {
+    background: #000;
+}
+
+/* Download Button - Mobile Optimized */
+.gallery__item-download {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 2;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.gallery__item-download:active {
+    transform: scale(0.95);
+    background: var(--color-gold, #c9a03d);
+}
+
+.gallery__item-download i {
+    font-size: 0.875rem;
+}
+
+/* ================================================
+   LIGHTBOX MODAL - MOBILE FIRST & CLEAR
+   ================================================ */
+
+.gallery__lightbox {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.96);
+}
+
+.gallery__lightbox-open {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+
+.gallery__lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+}
+
+/* Main Content Container */
+.gallery__lightbox-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+    padding: 0.75rem;
+}
+
+/* Frame/Media Container */
+.gallery__lightbox-frame {
+    position: relative;
+    width: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 1rem;
+    min-height: 50vh;
+    max-height: 70vh;
+}
+
+.gallery__lightbox-frame img,
+.gallery__lightbox-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Navigation Buttons - Large & Touch Friendly */
+.gallery__lightbox-prev,
+.gallery__lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+    font-size: 1.25rem;
+}
+
+.gallery__lightbox-prev {
+    left: 0.75rem;
+}
+
+.gallery__lightbox-next {
+    right: 0.75rem;
+}
+
+.gallery__lightbox-prev:active,
+.gallery__lightbox-next:active {
+    transform: translateY(-50%) scale(0.95);
+    background: var(--color-gold, #c9a03d);
+}
+
+/* Close Button - Large & Clear */
+.gallery__lightbox-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+    font-size: 1.25rem;
+}
+
+.gallery__lightbox-close:active {
+    transform: scale(0.95);
+    background: var(--color-gold, #c9a03d);
+}
+
+/* Footer Info - Clear & Readable */
+.gallery__lightbox-footer {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(8px);
+}
+
+.gallery__lightbox-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.gallery__lightbox-counter {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+.gallery__lightbox-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.gallery__lightbox-download:active {
+    transform: scale(0.97);
+    background: var(--color-gold, #c9a03d);
+}
+
+.gallery__lightbox-download i {
+    font-size: 1rem;
+}
+
+/* ================================================
+   EMPTY STATE
+   ================================================ */
+
+.gallery__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: var(--color-cream);
+    border-radius: 1rem;
+}
+
+.gallery__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.gallery__icon {
+    font-size: 3rem;
+    color: var(--color-gold);
+}
+
+.gallery__label {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.95rem;
+}
+
+/* ================================================
+   TABLET (768px and up)
+   ================================================ */
+
+@media (min-width: 768px) {
+    .ministry__gallery {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+        padding: 0 1.25rem;
+    }
+
+    .gallery__item {
+        border-radius: 0.875rem;
+    }
+
+    .gallery__item-download {
+        width: 2.5rem;
+        height: 2.5rem;
+        bottom: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .gallery__item-download i {
+        font-size: 1rem;
+    }
+
+    .gallery__lightbox-content {
+        max-width: 90%;
+        max-height: 90%;
+        padding: 0;
+    }
+
+    .gallery__lightbox-frame {
+        min-height: 60vh;
+        max-height: 75vh;
+    }
+
+    .gallery__lightbox-prev,
+    .gallery__lightbox-next {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1.5rem;
+    }
+
+    .gallery__lightbox-close {
+        width: 3.5rem;
+        height: 3.5rem;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .gallery__lightbox-footer {
+        margin-top: 1.25rem;
+        padding: 1rem;
+    }
+}
+
+/* ================================================
+   DESKTOP (1024px and up)
+   ================================================ */
+
+@media (min-width: 1024px) {
+    .ministry__gallery {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+        padding: 0;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .gallery__item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .gallery__item-download {
+        opacity: 0;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .gallery__item:hover .gallery__item-download {
+        opacity: 1;
+    }
+
+    .gallery__item-download:hover {
+        transform: scale(1.05);
+        background: var(--color-gold, #c9a03d);
+    }
+
+    .gallery__lightbox-content {
+        max-width: 85%;
+        max-height: 85%;
+    }
+
+    .gallery__lightbox-frame {
+        min-height: 65vh;
+        max-height: 80vh;
+    }
+
+    .gallery__lightbox-prev:hover,
+    .gallery__lightbox-next:hover,
+    .gallery__lightbox-close:hover {
+        transform: translateY(-50%) scale(1.05);
+        background: var(--color-gold, #c9a03d);
+    }
+
+    .gallery__lightbox-prev:hover {
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    .gallery__lightbox-close:hover {
+        transform: scale(1.05);
+    }
+
+    .gallery__lightbox-download:hover {
+        transform: translateY(-2px);
+        background: var(--color-gold, #c9a03d);
+    }
+}
+
+/* ================================================
+   LARGE DESKTOP (1440px and up)
+   ================================================ */
+
+@media (min-width: 1440px) {
+    .ministry__gallery {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        max-width: 1400px;
+    }
+
+    .gallery__lightbox-content {
+        max-width: 75%;
+        max-height: 80%;
+    }
+}
+
+/* ================================================
+   LANDSCAPE MODE ON PHONES
+   ================================================ */
+
+@media (max-width: 896px) and (orientation: landscape) {
+    .gallery__lightbox-frame {
+        min-height: 75vh;
+        max-height: 85vh;
+    }
+
+    .gallery__lightbox-footer {
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .gallery__lightbox-prev,
+    .gallery__lightbox-next {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .gallery__lightbox-close {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+/* ================================================
+   SAFE AREA FOR NOTCHED PHONES
+   ================================================ */
+
+@supports (padding: max(0px)) {
+    .gallery__lightbox {
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    
+    .gallery__lightbox-close {
+        top: max(0.75rem, env(safe-area-inset-top));
+        right: max(0.75rem, env(safe-area-inset-right));
+    }
+    
+    .gallery__lightbox-prev {
+        left: max(0.75rem, env(safe-area-inset-left));
+    }
+    
+    .gallery__lightbox-next {
+        right: max(0.75rem, env(safe-area-inset-right));
+    }
+}
+
+/* ================================================
+   ACCESSIBILITY & REDUCED MOTION
+   ================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .gallery__lightbox-open,
+    .gallery__item,
+    .gallery__item:active,
+    .gallery__lightbox-prev:active,
+    .gallery__lightbox-next:active,
+    .gallery__lightbox-close:active {
+        animation: none;
+        transition: none;
+        transform: none;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+.gallery__item-button:focus-visible,
+.gallery__item-download:focus-visible,
+.gallery__lightbox-prev:focus-visible,
+.gallery__lightbox-next:focus-visible,
+.gallery__lightbox-close:focus-visible,
+.gallery__lightbox-download:focus-visible {
+    outline: 3px solid var(--color-gold, #c9a03d);
+    outline-offset: 2px;
+}
+
+/* ================================================
+   ANIMATIONS
+   ================================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

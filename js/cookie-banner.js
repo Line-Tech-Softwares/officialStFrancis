@@ -69,11 +69,160 @@ const CookieBanner = {
     // Log the visit for frequent-visitor logic
     this.logVisit();
 
+    // Setup footer cookie settings button listeners
+    this.setupFooterListeners();
+
     // If consent is required, show banner; otherwise, do nothing
     if (this.shouldShowBanner()) {
       this.createBanner();
       this.attachEventListeners();
     }
+  },
+
+  /**
+   * Setup event listeners for footer cookie settings button
+   */
+  setupFooterListeners() {
+    const cookieSettingsLinks = document.querySelectorAll('#cookie-settings');
+    cookieSettingsLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.showSettings();
+      });
+    });
+  },
+
+  /**
+   * Show cookie settings banner on demand (from footer link)
+   * No auto-close since it's user-initiated
+   */
+  showSettings() {
+    // Remove existing banner if any
+    const existingBanner = document.getElementById('cookie-banner');
+    if (existingBanner) {
+      existingBanner.remove();
+    }
+
+    // Create fresh banner
+    this.createBannerSettings();
+    this.attachEventListenersSettings();
+  },
+
+  /**
+   * Create settings banner (no auto-close)
+   */
+  createBannerSettings() {
+    const banner = document.createElement('div');
+    banner.id = 'cookie-banner';
+    banner.className = 'cookie-banner';
+
+    // Build the cookie categories display
+    const categoriesHTML = this.buildCategoriesHTML();
+
+    banner.innerHTML = `
+      <div class="cookie-banner__content" role="region" aria-label="Cookie Settings">
+        <div class="cookie-banner__close-btn" id="cookie-close-manual" aria-label="Close cookie settings">
+          ${this.messages.close_button}
+        </div>
+        <div class="cookie-banner__message">
+          <h4 style="margin:0 0 12px; font-size:1.05rem; font-weight:700; color:var(--color-white, #fff)">🍪 Cookie Settings</h4>
+          <p style="margin:0 0 12px; line-height:1.5;">${this.messages.banner_text}</p>
+          
+          <div class="cookie-banner__categories" id="cookie-categories">
+            ${categoriesHTML}
+          </div>
+
+          <p style="margin:8px 0; font-size:0.85rem; color:rgba(255,255,255,0.8)">
+            <a href="privacy.html" style="color:var(--color-gold,#d4af37)">Privacy Policy</a> | 
+            <a href="terms.html" style="color:var(--color-gold,#d4af37)">Terms</a>
+          </p>
+        </div>
+        <div class="cookie-banner__actions">
+          <button class="cookie-banner__button" id="cookie-accept" style="background:var(--color-gold,#d4af37); color:#111; padding:10px 16px; border:none; border-radius:6px; font-weight:600; cursor:pointer">
+            Save Settings
+          </button>
+        </div>
+      </div>
+    `;
+
+    // High-visibility fixed-bottom styling
+    banner.style.position = 'fixed';
+    banner.style.bottom = '0';
+    banner.style.left = '0';
+    banner.style.right = '0';
+    banner.style.width = '100%';
+    banner.style.background = 'var(--color-primary, #0b1d3a)';
+    banner.style.color = 'var(--color-white, #fff)';
+    banner.style.borderTop = '3px solid var(--color-gold, #d4af37)';
+    banner.style.padding = 'var(--spacing-md, 16px)';
+    banner.style.zIndex = '99999';
+    banner.style.boxShadow = '0 -6px 20px rgba(0,0,0,0.25)';
+    banner.style.maxHeight = '60vh';
+    banner.style.overflowY = 'auto';
+
+    document.body.appendChild(banner);
+
+    setTimeout(() => {
+      banner.classList.add('cookie-banner--visible');
+    }, 100);
+  },
+
+  /**
+   * Attach event listeners for settings banner (no auto-close)
+   */
+  attachEventListenersSettings() {
+    const acceptButton = document.getElementById('cookie-accept');
+    const closeButton = document.getElementById('cookie-close-manual');
+    const banner = document.getElementById('cookie-banner');
+
+    if (acceptButton) {
+      acceptButton.addEventListener('click', () => {
+        this.acceptCookies(banner);
+      });
+    }
+
+    // Manual close button
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        this.acceptCookies(banner);
+      });
+    }
+
+    // Handle category toggles (only allow unchecking non-mandatory categories)
+    const checkboxes = document.querySelectorAll('.category__checkbox');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const category = e.target.dataset.category;
+        const categoryConfig = this.cookieCategories[category];
+        
+        if (categoryConfig.mandatory && !e.target.checked) {
+          // Prevent unchecking mandatory cookies
+          e.target.checked = true;
+          return;
+        }
+        
+        // Update category active status
+        categoryConfig.active = e.target.checked;
+        
+        // Update visual status
+        const categoryEl = document.querySelector(`[data-category="${category}"]`);
+        if (categoryEl) {
+          const statusEl = categoryEl.querySelector('.category__status');
+          categoryEl.classList.toggle('active', e.target.checked);
+          categoryEl.classList.toggle('inactive', !e.target.checked);
+          statusEl.textContent = e.target.checked ? '✓' : '○';
+          statusEl.className = `category__status ${e.target.checked ? 'active' : 'inactive'}`;
+        }
+      });
+    });
+
+    // Also allow closing via keyboard (Escape key)
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && banner && !banner.classList.contains('cookie-banner--hidden')) {
+        this.acceptCookies(banner);
+      }
+    });
   },
 
   /**

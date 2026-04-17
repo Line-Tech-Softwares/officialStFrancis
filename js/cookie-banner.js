@@ -16,13 +16,51 @@ const CookieBanner = {
     EXPIRY_DAYS: 183, // 6 months
     ANIMATION_DURATION: 300, // ms
     STORAGE_KEY: 'cookieConsent',
-    COOKIE_NAME: 'cookieConsent'
+    COOKIE_NAME: 'cookieConsent',
+    AUTO_CLOSE_DELAY: 30000, // 30 seconds in ms
+    UPDATE_INTERVAL: 1000 // 1 second for real-time updates
+  },
+
+  // Cookie categories and their activation status
+  cookieCategories: {
+    essential: {
+      name: 'Essential',
+      description: 'Required for website operation (cannot be disabled)',
+      active: true,
+      mandatory: true,
+      cookies: ['cookieConsent']
+    },
+    analytics: {
+      name: 'Analytics',
+      description: 'Google Analytics tracking',
+      active: true,
+      mandatory: false,
+      cookies: ['_ga', '_gat', '_gid', '_ga_*']
+    },
+    marketing: {
+      name: 'Marketing',
+      description: 'Third-party marketing cookies',
+      active: false,
+      mandatory: false,
+      cookies: []
+    },
+    performance: {
+      name: 'Performance',
+      description: 'Website performance optimization',
+      active: false,
+      mandatory: false,
+      cookies: ['performance_pref']
+    }
   },
 
   messages: {
-    banner_text: "This website uses only essential cookies for operation. By clicking 'OK,' you acknowledge this use.",
-    ok_button: 'OK'
+    banner_text: "This website uses essential cookies for operation and analytics to improve your experience. Review the cookie categories below.",
+    ok_button: 'Accept All',
+    close_button: '✕'
   },
+
+  autoCloseTimeout: null,
+  countdownInterval: null,
 
   /**
    * Initialize cookie banner on page load
@@ -101,12 +139,27 @@ const CookieBanner = {
     banner.id = 'cookie-banner';
     banner.className = 'cookie-banner';
 
+    // Build the cookie categories display
+    const categoriesHTML = this.buildCategoriesHTML();
+
     banner.innerHTML = `
       <div class="cookie-banner__content" role="region" aria-label="Cookie Consent">
+        <div class="cookie-banner__close-btn" id="cookie-close-manual" aria-label="Close cookie banner">
+          ${this.messages.close_button}
+        </div>
         <div class="cookie-banner__message">
-          <h4 style="margin:0 0 8px; font-size:1rem; font-weight:700; color:var(--color-white, #fff)">Cookie Notice</h4>
-          <p style="margin:0 0 8px;">${this.messages.banner_text}</p>
-          <p style="margin:0; font-size:0.9rem;">See our <a href="privacy.html" style="color:var(--color-gold,#d4af37)">Privacy Policy</a> and <a href="terms.html" style="color:var(--color-gold,#d4af37)">Terms of Use</a>.</p>
+          <h4 style="margin:0 0 12px; font-size:1.05rem; font-weight:700; color:var(--color-white, #fff)">🍪 Cookie Settings</h4>
+          <p style="margin:0 0 12px; line-height:1.5;">${this.messages.banner_text}</p>
+          
+          <div class="cookie-banner__categories" id="cookie-categories">
+            ${categoriesHTML}
+          </div>
+
+          <p style="margin:8px 0; font-size:0.85rem; color:rgba(255,255,255,0.8)">
+            <strong>Auto-closing in:</strong> <span id="cookie-countdown">30</span>s | 
+            <a href="privacy.html" style="color:var(--color-gold,#d4af37)">Privacy Policy</a> | 
+            <a href="terms.html" style="color:var(--color-gold,#d4af37)">Terms</a>
+          </p>
         </div>
         <div class="cookie-banner__actions">
           <button class="cookie-banner__button" id="cookie-accept" style="background:var(--color-gold,#d4af37); color:#111; padding:10px 16px; border:none; border-radius:6px; font-weight:600; cursor:pointer">
@@ -128,12 +181,82 @@ const CookieBanner = {
     banner.style.padding = 'var(--spacing-md, 16px)';
     banner.style.zIndex = '99999';
     banner.style.boxShadow = '0 -6px 20px rgba(0,0,0,0.25)';
+    banner.style.maxHeight = '60vh';
+    banner.style.overflowY = 'auto';
 
     document.body.appendChild(banner);
 
     setTimeout(() => {
       banner.classList.add('cookie-banner--visible');
     }, 100);
+
+    // Start auto-close countdown
+    this.startAutoClose(banner);
+  },
+
+  /**
+   * Build HTML for cookie categories with real-time status display
+   */
+  buildCategoriesHTML() {
+    let html = '<div class="cookie-categories__list">';
+    
+    for (const [key, category] of Object.entries(this.cookieCategories)) {
+      const statusClass = category.active ? 'active' : 'inactive';
+      const disabledAttr = category.mandatory ? 'disabled' : '';
+      const statusIcon = category.active ? '✓' : '○';
+      const mandatoryLabel = category.mandatory ? '<span class="category__badge">Required</span>' : '';
+
+      html += `
+        <div class="cookie-category ${statusClass}" data-category="${key}">
+          <div class="category__header">
+            <label class="category__toggle">
+              <input type="checkbox" class="category__checkbox" data-category="${key}" 
+                     ${category.active ? 'checked' : ''} ${disabledAttr} style="cursor: ${category.mandatory ? 'not-allowed' : 'pointer'}">
+              <span class="category__name">${category.name}</span>
+              ${mandatoryLabel}
+            </label>
+            <span class="category__status ${statusClass}">${statusIcon}</span>
+          </div>
+          <p class="category__description">${category.description}</p>
+          <div class="category__cookies">
+            <small>Cookies: ${category.cookies.length > 0 ? category.cookies.join(', ') : 'None'}</small>
+          </div>
+        </div>
+      `;
+    }
+    
+    html += '</div>';
+    return html;
+  },
+
+  /**
+   * Start auto-close countdown
+   */
+  startAutoClose(banner) {
+    let countdown = 30;
+    const countdownEl = document.getElementById('cookie-countdown');
+
+    // Update countdown display
+    this.countdownInterval = setInterval(() => {
+      countdown--;
+      if (countdownEl) {
+        countdownEl.textContent = countdown;
+      }
+    }, 1000);
+
+    // Auto-close after 30 seconds
+    this.autoCloseTimeout = setTimeout(() => {
+      if (this.countdownInterval) clearInterval(this.countdownInterval);
+      this.acceptCookies(banner);
+    }, this.config.AUTO_CLOSE_DELAY);
+  },
+
+  /**
+   * Clear countdown timers
+   */
+  clearAutoClose() {
+    if (this.autoCloseTimeout) clearTimeout(this.autoCloseTimeout);
+    if (this.countdownInterval) clearInterval(this.countdownInterval);
   },
 
   /**
@@ -141,17 +264,56 @@ const CookieBanner = {
    */
   attachEventListeners() {
     const acceptButton = document.getElementById('cookie-accept');
+    const closeButton = document.getElementById('cookie-close-manual');
     const banner = document.getElementById('cookie-banner');
 
     if (acceptButton) {
       acceptButton.addEventListener('click', () => {
+        this.clearAutoClose();
         this.acceptCookies(banner);
       });
     }
 
+    // Manual close button
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        this.clearAutoClose();
+        this.acceptCookies(banner);
+      });
+    }
+
+    // Handle category toggles (only allow unchecking non-mandatory categories)
+    const checkboxes = document.querySelectorAll('.category__checkbox');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const category = e.target.dataset.category;
+        const categoryConfig = this.cookieCategories[category];
+        
+        if (categoryConfig.mandatory && !e.target.checked) {
+          // Prevent unchecking mandatory cookies
+          e.target.checked = true;
+          return;
+        }
+        
+        // Update category active status
+        categoryConfig.active = e.target.checked;
+        
+        // Update visual status
+        const categoryEl = document.querySelector(`[data-category="${category}"]`);
+        if (categoryEl) {
+          const statusEl = categoryEl.querySelector('.category__status');
+          categoryEl.classList.toggle('active', e.target.checked);
+          categoryEl.classList.toggle('inactive', !e.target.checked);
+          statusEl.textContent = e.target.checked ? '✓' : '○';
+          statusEl.className = `category__status ${e.target.checked ? 'active' : 'inactive'}`;
+        }
+      });
+    });
+
     // Also allow closing via keyboard (Escape key)
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && banner && !banner.classList.contains('cookie-banner--hidden')) {
+        this.clearAutoClose();
         this.acceptCookies(banner);
       }
     });
@@ -161,6 +323,9 @@ const CookieBanner = {
    * Handle acceptance and dismiss banner
    */
   acceptCookies(banner) {
+    // Clear any pending auto-close timers
+    this.clearAutoClose();
+
     // Save consent locally and via cookie
     this.setConsentData(true);
     this.setCookie(this.config.COOKIE_NAME, 'accepted', this.config.EXPIRY_DAYS);
